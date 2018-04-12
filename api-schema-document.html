@@ -1,0 +1,146 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../polymer/lib/elements/dom-if.html">
+<link rel="import" href="../polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../prism-element/prism-highlighter.html">
+<link rel="import" href="../paper-tabs/paper-tabs.html">
+<link rel="import" href="../paper-tabs/paper-tab.html">
+<link rel="import" href="../iron-pages/iron-pages.html">
+<link rel="import" href="api-xml-schema-render.html">
+
+<dom-module id="api-schema-document">
+  <template>
+    <style>
+    :host {
+      display: block;
+      @apply --api-schema-document;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+    </style>
+    <prism-highlighter></prism-highlighter>
+
+    <template is="dom-if" if="[[schemaOnly]]">
+      <api-xml-schema-render code="[[_raw]]"></api-xml-schema-render>
+    </template>
+    <template is="dom-if" if="[[exampleOnly]]">
+      <template is="dom-repeat" items="[[_examples]]">
+        <api-xml-schema-render code="[[item]]"></api-xml-schema-render>
+      </template>
+    </template>
+    <template is="dom-if" if="[[schemaAndExample]]">
+      <paper-tabs class="schemas" selected="{{selectedPage}}">
+        <paper-tab>Schema</paper-tab>
+        <paper-tab>Examples</paper-tab>
+      </paper-tabs>
+      <iron-pages selected="[[selectedPage]]">
+        <api-xml-schema-render code="[[_raw]]"></api-xml-schema-render>
+        <div class="examples">
+          <template is="dom-repeat" items="[[_examples]]">
+            <api-xml-schema-render code="[[item]]"></api-xml-schema-render>
+          </template>
+        </div>
+      </iron-pages>
+    </template>
+  </template>
+  <script>
+  /**
+   * `api-schema-document`
+   *
+   * A component to render XML schema with examples.
+   *
+   * This component is not finished due to an issue with AMF that
+   * drops examples from XML types for no reason.
+   * When the issue is resolved this element will be finished.
+   *
+   * ## Styling
+   *
+   * `<api-schema-document>` provides the following custom properties and mixins for styling:
+   *
+   * Custom property | Description | Default
+   * ----------------|-------------|----------
+   * `--api-schema-document` | Mixin applied to this elment | `{}`
+   *
+   * @customElement
+   * @polymer
+   * @demo demo/index.html
+   * @memberof ApiElements
+   */
+  class ApiSchemaDocument extends Polymer.Element {
+    static get is() { return 'api-schema-document'; }
+    static get properties() {
+      return {
+        /**
+         * AMF's `http://raml.org/vocabularies/http#schema` object.
+         */
+        schemaModel: Object,
+        /**
+         * Computed `http://www.w3.org/ns/shacl#raw`
+         */
+        _raw: String,
+        /**
+         * Computed list of examples
+         */
+        _examples: Array,
+
+        // Computed value, true when data contains example only
+        exampleOnly: {
+          type: Boolean,
+          readOnly: true
+        },
+        // Computed value, true when data contains xml schema only
+        schemaOnly: {
+          type: Boolean,
+          readOnly: true
+        },
+        // Computed value, true when data contains example and schema information
+        schemaAndExample: {
+          type: Boolean,
+          readOnly: true
+        },
+        selectedPage: {
+          type: Number,
+          value: 0
+        }
+      };
+    }
+
+    static get observers() {
+      return [
+        '_schemaChanged(schemaModel.*)'
+      ];
+    }
+    /**
+     * Comnputes besic properties for the view.
+     * @param {Object} record `schemaModel` change record
+     * @return {[type]} [description]
+     */
+    _schemaChanged(record) {
+      const schema = record.base;
+      let exampleOnly = false;
+      let schemaOnly = false;
+      let schemaAndExample = false;
+      let raw;
+      let examples;
+      if (schema && schema['@type']) {
+        if (schema['@type'].indexOf('http://www.w3.org/ns/shacl#SchemaShape') !== -1) {
+          const rawData = schema['http://www.w3.org/ns/shacl#raw'];
+          raw = rawData ? rawData[0]['@value'] : undefined;
+          examples = schema['http://raml.org/vocabularies/document#examples'];
+        }
+      }
+      exampleOnly = !!(examples && examples.length && !raw);
+      schemaOnly = !!(!examples && raw);
+      schemaAndExample = !!(raw && examples && examples.length);
+      this._setExampleOnly(exampleOnly);
+      this._setSchemaOnly(schemaOnly);
+      this._setSchemaAndExample(schemaAndExample);
+      this._examples = examples;
+      this._raw = raw;
+    }
+
+  }
+  window.customElements.define(ApiSchemaDocument.is, ApiSchemaDocument);
+  </script>
+</dom-module>

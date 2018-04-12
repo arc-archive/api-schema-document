@@ -1,0 +1,31 @@
+{
+  "name": "@api-components/api-schema-document",
+  "description": "A component to render XML schema with examples",
+  "version": "2.0.0-preview",
+  "license": "Apache-2.0",
+  "main": "api-schema-document.html",
+  "authors": [
+    "Pawel Psztyc",
+    "The Advanced REST client authors <arc@mulesoft.com>"
+  ],
+  "devDependencies": {
+    "@polymer/gen-typescript-declarations": "^1.1.1",
+    "amf-client-js": "^1.4.0-5",
+    "bower": "^1.8.0"
+  },
+  "private": false,
+  "scripts": {
+    "lint": "polymer lint api-schema-document.html",
+    "test-sauce": "polymer test --plugin sauce --job-name \"api-schema-document:local-test\"",
+    "test": "polymer test --plugin local",
+    "update-types": "gen-typescript-declarations --deleteExisting --outDir ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/advanced-rest-client/api-schema-document.git"
+  },
+  "bugs": {
+    "url": "https://github.com/advanced-rest-client/api-schema-document/issues",
+    "email": "arc@mulesoft.com"
+  }
+}

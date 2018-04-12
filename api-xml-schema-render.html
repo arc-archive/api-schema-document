@@ -1,0 +1,69 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../polymer/lib/utils/render-status.html">
+<link rel="import" href="../prism-element/prism-theme-default.html">
+<dom-module id="api-xml-schema-render">
+  <template>
+    <style include="prism-theme-default"></style>
+    <style>
+    :host {
+      display: block;
+      background-color: var(--code-background-color, #f5f2f0);
+      @apply --api-xml-schema-render;
+    }
+
+    #output {
+      white-space: pre-wrap;
+      @apply --code-block;
+    }
+    </style>
+    <code id="output" class="markdown-html" language-xml></code>
+  </template>
+  <script>
+  class ApiXmlSchemaRender extends Polymer.Element {
+    static get is() { return 'api-xml-schema-render'; }
+    static get properties() {
+      return {
+        /**
+         * Data to render.
+         */
+        code: {
+          type: String,
+          observer: '_codeChanged'
+        }
+      };
+    }
+    /**
+     * Handles highlighting when code changed.
+     * Note that the operation is async.
+     * @param {String} code
+     */
+    _codeChanged(code) {
+      if (!code) {
+        this.$.output.innerHTML = '';
+        return;
+      }
+      Polymer.RenderStatus.afterNextRender(this, () => {
+        this.$.output.innerHTML = this.highlight(code);
+      });
+    }
+    /**
+     * Dispatches `syntax-highlight` custom event
+     * @param {String} code Code to highlight
+     * @return {String} Highlighted code.
+     */
+    highlight(code) {
+      const ev = new CustomEvent('syntax-highlight', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          code: code,
+          lang: 'xml'
+        }
+      });
+      this.dispatchEvent(ev);
+      return ev.detail.code;
+    }
+  }
+  window.customElements.define(ApiXmlSchemaRender.is, ApiXmlSchemaRender);
+  </script>
+</dom-module>
