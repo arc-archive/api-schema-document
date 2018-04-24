@@ -5,6 +5,8 @@
 <link rel="import" href="../paper-tabs/paper-tabs.html">
 <link rel="import" href="../paper-tabs/paper-tab.html">
 <link rel="import" href="../iron-pages/iron-pages.html">
+<link rel="import" href="../amf-helper-mixin/amf-helper-mixin.html">
+<link rel="import" href="../raml-aware/raml-aware.html">
 <link rel="import" href="api-xml-schema-render.html">
 
 <dom-module id="api-schema-document">
@@ -14,13 +16,11 @@
       display: block;
       @apply --api-schema-document;
     }
-
-    [hidden] {
-      display: none !important;
-    }
     </style>
     <prism-highlighter></prism-highlighter>
-
+    <template is="dom-if" if="[[aware]]">
+      <raml-aware raml="{{amfModel}}" scope="[[aware]]"></raml-aware>
+    </template>
     <template is="dom-if" if="[[schemaOnly]]">
       <api-xml-schema-render code="[[_raw]]"></api-xml-schema-render>
     </template>
@@ -38,7 +38,7 @@
         <api-xml-schema-render code="[[_raw]]"></api-xml-schema-render>
         <div class="examples">
           <template is="dom-repeat" items="[[_examples]]">
-            <api-xml-schema-render code="[[item]]"></api-xml-schema-render>
+            <api-xml-schema-render code="[[_computeExampleValue(item)]]"></api-xml-schema-render>
           </template>
         </div>
       </iron-pages>
@@ -50,9 +50,9 @@
    *
    * A component to render XML schema with examples.
    *
-   * This component is not finished due to an issue with AMF that
-   * drops examples from XML types for no reason.
-   * When the issue is resolved this element will be finished.
+   * Note, if AMF contains unresolved properties (reference-id without resolving
+   * the value) this element will resolve it. `amfModel` must be set on this
+   * element to resolve the references.
    *
    * ## Styling
    *
@@ -66,15 +66,21 @@
    * @polymer
    * @demo demo/index.html
    * @memberof ApiElements
+   * @appliesMixin ApiElements.AmfHelperMixin
    */
-  class ApiSchemaDocument extends Polymer.Element {
+  class ApiSchemaDocument extends ApiElements.AmfHelperMixin(Polymer.Element) {
     static get is() { return 'api-schema-document'; }
     static get properties() {
       return {
         /**
-         * AMF's `http://raml.org/vocabularies/http#schema` object.
+         * `raml-aware` scope property to use.
          */
-        schemaModel: Object,
+        aware: String,
+        /**
+         * AMF's shape object object.
+         * Values for sheba and examples are computed from this model.
+         */
+        shape: Object,
         /**
          * Computed `http://www.w3.org/ns/shacl#raw`
          */
@@ -108,27 +114,25 @@
 
     static get observers() {
       return [
-        '_schemaChanged(schemaModel.*)'
+        '_schemaChanged(shape.*)'
       ];
     }
     /**
      * Comnputes besic properties for the view.
-     * @param {Object} record `schemaModel` change record
+     * @param {Object} record `shape` change record
      * @return {[type]} [description]
      */
     _schemaChanged(record) {
-      const schema = record.base;
+      let schema = record.base;
       let exampleOnly = false;
       let schemaOnly = false;
       let schemaAndExample = false;
       let raw;
       let examples;
-      if (schema && schema['@type']) {
-        if (schema['@type'].indexOf('http://www.w3.org/ns/shacl#SchemaShape') !== -1) {
-          const rawData = schema['http://www.w3.org/ns/shacl#raw'];
-          raw = rawData ? rawData[0]['@value'] : undefined;
-          examples = schema['http://raml.org/vocabularies/document#examples'];
-        }
+      if (this._hasType(schema, 'http://www.w3.org/ns/shacl#SchemaShape')) {
+        schema = this._resolve(schema);
+        raw = this._getValue(schema, 'http://raml.org/vocabularies/document#raw');
+        examples = this._processExamples(schema['http://raml.org/vocabularies/document#examples']);
       }
       exampleOnly = !!(examples && examples.length && !raw);
       schemaOnly = !!(!examples && raw);
@@ -140,6 +144,16 @@
       this._raw = raw;
     }
 
+    _processExamples(examples) {
+      if (!examples || !examples.length) {
+        return;
+      }
+      return examples.map((item) => this._resolve(item));
+    }
+
+    _computeExampleValue(item) {
+      return this._getValue(item, 'http://raml.org/vocabularies/document#raw');
+    }
   }
   window.customElements.define(ApiSchemaDocument.is, ApiSchemaDocument);
   </script>

@@ -790,15 +790,10 @@
         ],
         "http://raml.org/vocabularies/document#examples": [
           {
-            "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/null",
+            "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example",
             "@type": [
               "http://raml.org/vocabularies/document#Example",
               "http://raml.org/vocabularies/document#DomainElement"
-            ],
-            "http://raml.org/vocabularies/document#value": [
-              {
-                "@value": "{\n  \"id\": \"R34fg663H9KW9MMSKISI\",\n  \"name\": \"Pawel Psztyc\",\n  \"birthday\": \"1983-10-20\",\n  \"gender\": \"male\",\n  \"url\": \"https://domain.com/profile/pawel.psztyc\",\n  \"image\": {\n    \"url\": \"https://domain.com/profile/pawel.psztyc/image\",\n    \"thumb\": \"https://domain.com/profile/pawel.psztyc/image/thumb\"\n  },\n  \"tagline\": \"Some text about me.\",\n  \"language\": \"en_GB\",\n  \"etag\": \"W\\\\244m4n5kj3gbn2nj4k4n4\"\n}"
-              }
             ],
             "http://raml.org/vocabularies/document#strict": [
               {
@@ -807,13 +802,13 @@
             ],
             "http://raml.org/vocabularies/document#structuredValue": [
               {
-                "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/null/object_1",
+                "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1",
                 "@type": [
                   "http://raml.org/vocabularies/data#Object"
                 ],
                 "http://raml.org/vocabularies/data#birthday": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/null/object_1/scalar_4",
+                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/scalar_4",
                     "@type": [
                       "http://raml.org/vocabularies/data#Scalar"
                     ],
@@ -827,7 +822,7 @@
                 ],
                 "http://raml.org/vocabularies/data#etag": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/null/object_1/scalar_12",
+                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/scalar_12",
                     "@type": [
                       "http://raml.org/vocabularies/data#Scalar"
                     ],
@@ -841,7 +836,7 @@
                 ],
                 "http://raml.org/vocabularies/data#gender": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/null/object_1/scalar_5",
+                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/scalar_5",
                     "@type": [
                       "http://raml.org/vocabularies/data#Scalar"
                     ],
@@ -855,7 +850,7 @@
                 ],
                 "http://raml.org/vocabularies/data#id": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/null/object_1/scalar_2",
+                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/scalar_2",
                     "@type": [
                       "http://raml.org/vocabularies/data#Scalar"
                     ],
@@ -869,13 +864,13 @@
                 ],
                 "http://raml.org/vocabularies/data#image": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/null/object_1/object_7",
+                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/object_7",
                     "@type": [
                       "http://raml.org/vocabularies/data#Object"
                     ],
                     "http://raml.org/vocabularies/data#thumb": [
                       {
-                        "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/null/object_1/object_7/scalar_9",
+                        "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/object_7/scalar_9",
                         "@type": [
                           "http://raml.org/vocabularies/data#Scalar"
                         ],
@@ -889,7 +884,7 @@
                     ],
                     "http://raml.org/vocabularies/data#url": [
                       {
-                        "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/null/object_1/object_7/scalar_8",
+                        "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/object_7/scalar_8",
                         "@type": [
                           "http://raml.org/vocabularies/data#Scalar"
                         ],
@@ -905,7 +900,7 @@
                 ],
                 "http://raml.org/vocabularies/data#language": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/null/object_1/scalar_11",
+                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/scalar_11",
                     "@type": [
                       "http://raml.org/vocabularies/data#Scalar"
                     ],
@@ -919,7 +914,7 @@
                 ],
                 "http://raml.org/vocabularies/data#name": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/null/object_1/scalar_3",
+                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/scalar_3",
                     "@type": [
                       "http://raml.org/vocabularies/data#Scalar"
                     ],
@@ -933,7 +928,7 @@
                 ],
                 "http://raml.org/vocabularies/data#tagline": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/null/object_1/scalar_10",
+                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/scalar_10",
                     "@type": [
                       "http://raml.org/vocabularies/data#Scalar"
                     ],
@@ -947,7 +942,7 @@
                 ],
                 "http://raml.org/vocabularies/data#url": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/null/object_1/scalar_6",
+                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/scalar_6",
                     "@type": [
                       "http://raml.org/vocabularies/data#Scalar"
                     ],
@@ -959,6 +954,11 @@
                     ]
                   }
                 ]
+              }
+            ],
+            "http://raml.org/vocabularies/document#reference-id": [
+              {
+                "@id": "file://demo/examples/person.json#/external"
               }
             ]
           }
@@ -977,14 +977,33 @@
             "@value": "application/xml"
           }
         ],
-        "http://www.w3.org/ns/shacl#raw": [
-          {
-            "@value": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" elementFormDefault=\"qualified\" attributeFormDefault=\"unqualified\">\n  <xs:element name=\"resource\">\n    <xs:complexType>\n      <xs:sequence>\n        <xs:element name=\"id\" type=\"xs:string\"></xs:element>\n        <xs:element name=\"name\" type=\"xs:string\"></xs:element>\n        <xs:element name=\"quantity\" type=\"xs:double\"></xs:element>\n        <xs:element name=\"unit\" type=\"xs:string\"></xs:element>\n        <xs:element name=\"upc\" type=\"xs:string\"></xs:element>\n        <xs:element name=\"available\" type=\"xs:string\"></xs:element>\n      </xs:sequence>\n      <xs:attribute name=\"error\" type=\"xs:string\"></xs:attribute>\n      <xs:attribute name=\"type\" type=\"xs:string\"></xs:attribute>\n    </xs:complexType>\n  </xs:element>\n</xs:schema>\n"
-          }
-        ],
         "http://www.w3.org/ns/shacl#name": [
           {
             "@value": "XmlTypeSchema"
+          }
+        ],
+        "http://raml.org/vocabularies/document#reference-id": [
+          {
+            "@id": "file://demo/schemas/product.xsd#/external"
+          }
+        ],
+        "http://raml.org/vocabularies/document#examples": [
+          {
+            "@id": "file://demo/api.raml#/declarations/schema/XmlTypeSchema/example/default-example",
+            "@type": [
+              "http://raml.org/vocabularies/document#Example",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/document#strict": [
+              {
+                "@value": true
+              }
+            ],
+            "http://raml.org/vocabularies/document#reference-id": [
+              {
+                "@id": "file://demo/examples/product.xml#/external"
+              }
+            ]
           }
         ]
       },

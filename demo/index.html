@@ -13,6 +13,7 @@
     <link rel="import" href="../../paper-styles/typography.html">
     <link rel="import" href="../../raml-aware/raml-aware.html">
     <link rel="import" href="../../api-navigation/api-navigation.html">
+    <link rel="import" href="../../raml-aware/raml-aware.html">
     <link rel="import" href="../api-schema-document.html">
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
@@ -50,9 +51,10 @@
   <body>
     <dom-bind id="demo">
       <template is="dom-bind">
+        <raml-aware raml="{{amfModel}}" scope="demo"></raml-aware>
         <div class="vertical-section-container centered" role="main">
-          <api-navigation amf-model="[[amfModel]]" types-opened></api-navigation>
-          <api-schema-document schema-model="[[schemaModel]]"></api-schema-document>
+          <api-navigation aware="demo" types-opened></api-navigation>
+          <api-schema-document aware="demo" shape="[[schemaModel]]"></api-schema-document>
         </div>
       </template>
     </dom-bind>
