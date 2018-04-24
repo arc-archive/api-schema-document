@@ -26,7 +26,7 @@
     </template>
     <template is="dom-if" if="[[exampleOnly]]">
       <template is="dom-repeat" items="[[_examples]]">
-        <api-xml-schema-render code="[[item]]"></api-xml-schema-render>
+        <api-xml-schema-render code="[[_computeExampleValue(item)]]"></api-xml-schema-render>
       </template>
     </template>
     <template is="dom-if" if="[[schemaAndExample]]">
@@ -152,7 +152,11 @@
     }
 
     _computeExampleValue(item) {
-      return this._getValue(item, 'http://raml.org/vocabularies/document#raw');
+      let raw = this._getValue(item, 'http://raml.org/vocabularies/document#raw');
+      if (!raw) {
+        raw = this._getValue(item, 'http://www.w3.org/ns/shacl#raw');
+      }
+      return raw;
     }
   }
   window.customElements.define(ApiSchemaDocument.is, ApiSchemaDocument);
