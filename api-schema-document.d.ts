@@ -17,7 +17,7 @@
 /// <reference path="../iron-pages/iron-pages.d.ts" />
 /// <reference path="../amf-helper-mixin/amf-helper-mixin.d.ts" />
 /// <reference path="../raml-aware/raml-aware.d.ts" />
-/// <reference path="api-xml-schema-render.d.ts" />
+/// <reference path="api-schema-render.d.ts" />
 
 declare namespace ApiElements {
 
@@ -37,6 +37,7 @@ declare namespace ApiElements {
    * Custom property | Description | Default
    * ----------------|-------------|----------
    * `--api-schema-document` | Mixin applied to this elment | `{}`
+   * `api-schema-render` | Mixin applied to schema renderer element | `{}`
    */
   class ApiSchemaDocument extends
     ApiElements.AmfHelperMixin(

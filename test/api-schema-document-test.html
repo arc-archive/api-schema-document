@@ -20,42 +20,83 @@
   <script>
   /* global AmfLoader */
   suite('api-schema-document', () => {
-    let element;
-    suiteSetup(() => {
-      return AmfLoader.load()
-      .then((model) => {
-        element = fixture('Basic');
-        element.amfModel = model;
-        element.shape = model[0]['http://raml.org/vocabularies/document#declares'][1];
+    suite('JSON schema', () => {
+      let element;
+      suiteSetup(() => {
+        return AmfLoader.load()
+        .then((model) => {
+          element = fixture('Basic');
+          element.amfModel = model;
+          element.shape = model[0]['http://raml.org/vocabularies/document#declares'][1];
+        });
+      });
+      test('exampleOnly is computed', () => {
+        assert.isTrue(element.exampleOnly);
+      });
+
+      test('schemaOnly is computed', () => {
+        assert.isFalse(element.schemaOnly);
+      });
+
+      test('schemaAndExample is computed', () => {
+        assert.isFalse(element.schemaAndExample);
+      });
+
+      test('_examples is computed', () => {
+        assert.typeOf(element._examples, 'array');
+        assert.lengthOf(element._examples, 1);
+      });
+
+      test('_raw is undefined', () => {
+        assert.isUndefined(element._raw);
+      });
+
+      test('Does not render tabs', (done) => {
+        flush(() => {
+          const node = element.shadowRoot.querySelector('paper-tabs');
+          assert.notOk(node);
+          done();
+        });
       });
     });
+    suite('XML schema', () => {
+      let element;
+      suiteSetup(() => {
+        return AmfLoader.load()
+        .then((model) => {
+          element = fixture('Basic');
+          element.amfModel = model;
+          element.shape = model[0]['http://raml.org/vocabularies/document#declares'][2];
+        });
+      });
 
-    test('exampleOnly is computed', () => {
-      assert.isFalse(element.exampleOnly);
-    });
+      test('exampleOnly is computed', () => {
+        assert.isFalse(element.exampleOnly);
+      });
 
-    test('schemaOnly is computed', () => {
-      assert.isFalse(element.schemaOnly);
-    });
+      test('schemaOnly is computed', () => {
+        assert.isFalse(element.schemaOnly);
+      });
 
-    test('schemaAndExample is computed', () => {
-      assert.isTrue(element.schemaAndExample);
-    });
+      test('schemaAndExample is computed', () => {
+        assert.isTrue(element.schemaAndExample);
+      });
 
-    test('_examples is computed', () => {
-      assert.typeOf(element._examples, 'array');
-      assert.lengthOf(element._examples, 1);
-    });
+      test('_examples is computed', () => {
+        assert.typeOf(element._examples, 'array');
+        assert.lengthOf(element._examples, 1);
+      });
 
-    test('_raw is computed', () => {
-      assert.typeOf(element._raw, 'string');
-    });
+      test('_raw is computed', () => {
+        assert.typeOf(element._raw, 'string');
+      });
 
-    test('Renders tabs', (done) => {
-      flush(() => {
-        const node = element.shadowRoot.querySelector('paper-tabs');
-        assert.ok(node);
-        done();
+      test('Renders tabs', (done) => {
+        flush(() => {
+          const node = element.shadowRoot.querySelector('paper-tabs');
+          assert.ok(node);
+          done();
+        });
       });
     });
   });

@@ -21,6 +21,11 @@ types:
         type: Address[]
         xml:
           wrapped: true # serialize it into its own <addresses>...</addresses> XML element
+  SimpleSchema:
+    example: |
+      {
+      "status":"success"
+      }
   Address:
     properties:
       street: string
