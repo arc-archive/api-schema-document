@@ -5,19 +5,20 @@
  *   https://github.com/Polymer/gen-typescript-declarations
  *
  * To modify these typings, edit the source file(s):
- *   api-xml-schema-render.html
+ *   api-schema-render.html
  */
 
 /// <reference path="../polymer/types/polymer-element.d.ts" />
 /// <reference path="../polymer/types/lib/utils/render-status.d.ts" />
 /// <reference path="../prism-element/prism-theme-default.d.ts" />
 
-declare class ApiXmlSchemaRender extends Polymer.Element {
+declare class ApiSchemaRender extends Polymer.Element {
 
   /**
    * Data to render.
    */
   code: string|null|undefined;
+  readonly type: string|null|undefined;
 
   /**
    * Handles highlighting when code changed.
@@ -32,8 +33,10 @@ declare class ApiXmlSchemaRender extends Polymer.Element {
    * @returns Highlighted code.
    */
   highlight(code: String|null): String|null;
+  _clearTypeAttribute(): void;
+  _typeChanged(type: any): void;
 }
 
 interface HTMLElementTagNameMap {
-  "api-xml-schema-render": ApiXmlSchemaRender;
+  "api-schema-render": ApiSchemaRender;
 }

@@ -7,7 +7,7 @@
 <link rel="import" href="../iron-pages/iron-pages.html">
 <link rel="import" href="../amf-helper-mixin/amf-helper-mixin.html">
 <link rel="import" href="../raml-aware/raml-aware.html">
-<link rel="import" href="api-xml-schema-render.html">
+<link rel="import" href="api-schema-render.html">
 
 <dom-module id="api-schema-document">
   <template>
@@ -22,11 +22,11 @@
       <raml-aware raml="{{amfModel}}" scope="[[aware]]"></raml-aware>
     </template>
     <template is="dom-if" if="[[schemaOnly]]">
-      <api-xml-schema-render code="[[_raw]]"></api-xml-schema-render>
+      <api-schema-render code="[[_raw]]"></api-schema-render>
     </template>
     <template is="dom-if" if="[[exampleOnly]]">
       <template is="dom-repeat" items="[[_examples]]">
-        <api-xml-schema-render code="[[_computeExampleValue(item)]]"></api-xml-schema-render>
+        <api-schema-render code="[[_computeExampleValue(item)]]"></api-schema-render>
       </template>
     </template>
     <template is="dom-if" if="[[schemaAndExample]]">
@@ -35,10 +35,10 @@
         <paper-tab>Examples</paper-tab>
       </paper-tabs>
       <iron-pages selected="[[selectedPage]]">
-        <api-xml-schema-render code="[[_raw]]"></api-xml-schema-render>
+        <api-schema-render code="[[_raw]]"></api-schema-render>
         <div class="examples">
           <template is="dom-repeat" items="[[_examples]]">
-            <api-xml-schema-render code="[[_computeExampleValue(item)]]"></api-xml-schema-render>
+            <api-schema-render code="[[_computeExampleValue(item)]]"></api-schema-render>
           </template>
         </div>
       </iron-pages>
@@ -61,6 +61,7 @@
    * Custom property | Description | Default
    * ----------------|-------------|----------
    * `--api-schema-document` | Mixin applied to this elment | `{}`
+   * `api-schema-render` | Mixin applied to schema renderer element | `{}`
    *
    * @customElement
    * @polymer
@@ -123,13 +124,19 @@
      * @return {[type]} [description]
      */
     _schemaChanged(record) {
+      this._examples = undefined;
+      this._raw = undefined;
+
       let schema = record.base;
       let exampleOnly = false;
       let schemaOnly = false;
       let schemaAndExample = false;
       let raw;
       let examples;
-      if (this._hasType(schema, 'http://www.w3.org/ns/shacl#SchemaShape')) {
+      if (this._hasType(schema, 'http://www.w3.org/ns/shacl#SchemaShape') ||
+        this._hasType(schema, 'http://raml.org/vocabularies/shapes#AnyShape') ||
+        this._hasType(schema, 'http://raml.org/vocabularies/shapes#ScalarShape') ||
+        this._hasType(schema, 'http://www.w3.org/ns/shacl#NodeShape')) {
         schema = this._resolve(schema);
         raw = this._getValue(schema, 'http://raml.org/vocabularies/document#raw');
         examples = this._processExamples(schema['http://raml.org/vocabularies/document#examples']);
