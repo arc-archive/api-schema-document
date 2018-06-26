@@ -133,13 +133,13 @@
       let schemaAndExample = false;
       let raw;
       let examples;
-      if (this._hasType(schema, 'http://www.w3.org/ns/shacl#SchemaShape') ||
-        this._hasType(schema, 'http://raml.org/vocabularies/shapes#AnyShape') ||
-        this._hasType(schema, 'http://raml.org/vocabularies/shapes#ScalarShape') ||
-        this._hasType(schema, 'http://www.w3.org/ns/shacl#NodeShape')) {
+      if (this._hasType(schema, this.ns.w3.shacl.name + 'SchemaShape') ||
+        this._hasType(schema, this.ns.raml.vocabularies.shapes + 'AnyShape') ||
+        this._hasType(schema, this.ns.raml.vocabularies.shapes + 'ScalarShape') ||
+        this._hasType(schema, this.ns.w3.shacl.name + 'NodeShape')) {
         schema = this._resolve(schema);
-        raw = this._getValue(schema, 'http://raml.org/vocabularies/document#raw');
-        examples = this._processExamples(schema['http://raml.org/vocabularies/document#examples']);
+        raw = this._getValue(schema, this.ns.raml.vocabularies.document + 'raw');
+        examples = this._processExamples(schema[this.ns.raml.vocabularies.document + 'examples']);
       }
       exampleOnly = !!(examples && examples.length && !raw);
       schemaOnly = !!(!examples && raw);
@@ -159,9 +159,9 @@
     }
 
     _computeExampleValue(item) {
-      let raw = this._getValue(item, 'http://raml.org/vocabularies/document#raw');
+      let raw = this._getValue(item, this.ns.raml.vocabularies.document + 'raw');
       if (!raw) {
-        raw = this._getValue(item, 'http://www.w3.org/ns/shacl#raw');
+        raw = this._getValue(item, this.ns.w3.shacl.name + 'raw');
       }
       return raw;
     }

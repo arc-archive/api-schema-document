@@ -2,32 +2,32 @@
   {
     "@id": "file://demo/api.raml",
     "@type": [
-      "http://raml.org/vocabularies/document#Document",
-      "http://raml.org/vocabularies/document#Fragment",
-      "http://raml.org/vocabularies/document#Module",
-      "http://raml.org/vocabularies/document#Unit"
+      "http://a.ml/vocabularies/document#Document",
+      "http://a.ml/vocabularies/document#Fragment",
+      "http://a.ml/vocabularies/document#Module",
+      "http://a.ml/vocabularies/document#Unit"
     ],
-    "http://raml.org/vocabularies/document#encodes": [
+    "http://a.ml/vocabularies/document#encodes": [
       {
         "@id": "file://demo/api.raml#/web-api",
         "@type": [
           "http://schema.org/WebAPI",
-          "http://raml.org/vocabularies/document#RootDomainElement",
-          "http://raml.org/vocabularies/document#DomainElement"
+          "http://a.ml/vocabularies/document#RootDomainElement",
+          "http://a.ml/vocabularies/document#DomainElement"
         ],
         "http://schema.org/name": [
           {
             "@value": "API body demo"
           }
         ],
-        "http://raml.org/vocabularies/http#server": [
+        "http://a.ml/vocabularies/http#server": [
           {
             "@id": "file://demo/api.raml#/web-api/http%3A%2F%2Fapi.domain.com%2F",
             "@type": [
-              "http://raml.org/vocabularies/http#Server",
-              "http://raml.org/vocabularies/document#DomainElement"
+              "http://a.ml/vocabularies/http#Server",
+              "http://a.ml/vocabularies/document#DomainElement"
             ],
-            "http://raml.org/vocabularies/http#url": [
+            "http://a.ml/vocabularies/http#url": [
               {
                 "@value": "http://api.domain.com/"
               }
@@ -41,14 +41,14 @@
         ]
       }
     ],
-    "http://raml.org/vocabularies/document#declares": [
+    "http://a.ml/vocabularies/document#declares": [
       {
-        "@id": "file://demo/api.raml#/declarations/Address",
+        "@id": "file://demo/api.raml#/declarations/types/Person/property/addresses/array/addresses/Address",
         "@type": [
           "http://www.w3.org/ns/shacl#NodeShape",
           "http://www.w3.org/ns/shacl#Shape",
-          "http://raml.org/vocabularies/shapes#Shape",
-          "http://raml.org/vocabularies/document#DomainElement"
+          "http://a.ml/vocabularies/shapes#Shape",
+          "http://a.ml/vocabularies/document#DomainElement"
         ],
         "http://www.w3.org/ns/shacl#closed": [
           {
@@ -57,25 +57,25 @@
         ],
         "http://www.w3.org/ns/shacl#property": [
           {
-            "@id": "file://demo/api.raml#/declarations/Address/property/street",
+            "@id": "file://demo/api.raml#/declarations/types/Person/property/addresses/array/addresses/Address/property/street",
             "@type": [
               "http://www.w3.org/ns/shacl#PropertyShape",
               "http://www.w3.org/ns/shacl#Shape",
-              "http://raml.org/vocabularies/shapes#Shape"
+              "http://a.ml/vocabularies/shapes#Shape"
             ],
             "http://www.w3.org/ns/shacl#path": [
               {
-                "@id": "http://raml.org/vocabularies/data#street"
+                "@id": "http://a.ml/vocabularies/data#street"
               }
             ],
-            "http://raml.org/vocabularies/shapes#range": [
+            "http://a.ml/vocabularies/shapes#range": [
               {
-                "@id": "file://demo/api.raml#/declarations/Address/property/street/scalar/street",
+                "@id": "file://demo/api.raml#/declarations/types/Person/property/addresses/array/addresses/Address/property/street/scalar/street",
                 "@type": [
-                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://a.ml/vocabularies/shapes#ScalarShape",
                   "http://www.w3.org/ns/shacl#Shape",
-                  "http://raml.org/vocabularies/shapes#Shape",
-                  "http://raml.org/vocabularies/document#DomainElement"
+                  "http://a.ml/vocabularies/shapes#Shape",
+                  "http://a.ml/vocabularies/document#DomainElement"
                 ],
                 "http://www.w3.org/ns/shacl#datatype": [
                   {
@@ -101,25 +101,25 @@
             ]
           },
           {
-            "@id": "file://demo/api.raml#/declarations/Address/property/city",
+            "@id": "file://demo/api.raml#/declarations/types/Person/property/addresses/array/addresses/Address/property/city",
             "@type": [
               "http://www.w3.org/ns/shacl#PropertyShape",
               "http://www.w3.org/ns/shacl#Shape",
-              "http://raml.org/vocabularies/shapes#Shape"
+              "http://a.ml/vocabularies/shapes#Shape"
             ],
             "http://www.w3.org/ns/shacl#path": [
               {
-                "@id": "http://raml.org/vocabularies/data#city"
+                "@id": "http://a.ml/vocabularies/data#city"
               }
             ],
-            "http://raml.org/vocabularies/shapes#range": [
+            "http://a.ml/vocabularies/shapes#range": [
               {
-                "@id": "file://demo/api.raml#/declarations/Address/property/city/scalar/city",
+                "@id": "file://demo/api.raml#/declarations/types/Person/property/addresses/array/addresses/Address/property/city/scalar/city",
                 "@type": [
-                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://a.ml/vocabularies/shapes#ScalarShape",
                   "http://www.w3.org/ns/shacl#Shape",
-                  "http://raml.org/vocabularies/shapes#Shape",
-                  "http://raml.org/vocabularies/document#DomainElement"
+                  "http://a.ml/vocabularies/shapes#Shape",
+                  "http://a.ml/vocabularies/document#DomainElement"
                 ],
                 "http://www.w3.org/ns/shacl#datatype": [
                   {
@@ -152,12 +152,12 @@
         ]
       },
       {
-        "@id": "file://demo/api.raml#/declarations/scalar/SimpleSchema",
+        "@id": "file://demo/api.raml#/declarations/types/scalar/SimpleSchema",
         "@type": [
-          "http://raml.org/vocabularies/shapes#ScalarShape",
+          "http://a.ml/vocabularies/shapes#ScalarShape",
           "http://www.w3.org/ns/shacl#Shape",
-          "http://raml.org/vocabularies/shapes#Shape",
-          "http://raml.org/vocabularies/document#DomainElement"
+          "http://a.ml/vocabularies/shapes#Shape",
+          "http://a.ml/vocabularies/document#DomainElement"
         ],
         "http://www.w3.org/ns/shacl#datatype": [
           {
@@ -169,31 +169,31 @@
             "@value": "SimpleSchema"
           }
         ],
-        "http://raml.org/vocabularies/document#examples": [
+        "http://a.ml/vocabularies/document#examples": [
           {
-            "@id": "file://demo/api.raml#/declarations/scalar/SimpleSchema/example/default-example",
+            "@id": "file://demo/api.raml#/declarations/types/scalar/SimpleSchema/example/default-example",
             "@type": [
-              "http://raml.org/vocabularies/document#Example",
-              "http://raml.org/vocabularies/document#DomainElement"
+              "http://a.ml/vocabularies/document#Example",
+              "http://a.ml/vocabularies/document#DomainElement"
             ],
-            "http://raml.org/vocabularies/document#strict": [
+            "http://a.ml/vocabularies/document#strict": [
               {
                 "@value": true
               }
             ],
-            "http://raml.org/vocabularies/document#structuredValue": [
+            "http://a.ml/vocabularies/document#structuredValue": [
               {
-                "@id": "file://demo/api.raml#/declarations/scalar/SimpleSchema/example/default-example/object_1",
+                "@id": "file://demo/api.raml#/declarations/types/scalar/SimpleSchema/example/default-example/object_1",
                 "@type": [
-                  "http://raml.org/vocabularies/data#Object"
+                  "http://a.ml/vocabularies/data#Object"
                 ],
-                "http://raml.org/vocabularies/data#status": [
+                "http://a.ml/vocabularies/data#status": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/scalar/SimpleSchema/example/default-example/object_1/scalar_2",
+                    "@id": "file://demo/api.raml#/declarations/types/scalar/SimpleSchema/example/default-example/object_1/scalar_2",
                     "@type": [
-                      "http://raml.org/vocabularies/data#Scalar"
+                      "http://a.ml/vocabularies/data#Scalar"
                     ],
-                    "http://raml.org/vocabularies/data#value": [
+                    "http://a.ml/vocabularies/data#value": [
                       {
                         "@value": "success",
                         "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -212,12 +212,12 @@
         ]
       },
       {
-        "@id": "file://demo/api.raml#/declarations/SchemaPerson",
+        "@id": "file://demo/api.raml#/declarations/types/SchemaPerson",
         "@type": [
           "http://www.w3.org/ns/shacl#NodeShape",
           "http://www.w3.org/ns/shacl#Shape",
-          "http://raml.org/vocabularies/shapes#Shape",
-          "http://raml.org/vocabularies/document#DomainElement"
+          "http://a.ml/vocabularies/shapes#Shape",
+          "http://a.ml/vocabularies/document#DomainElement"
         ],
         "http://www.w3.org/ns/shacl#closed": [
           {
@@ -226,25 +226,25 @@
         ],
         "http://www.w3.org/ns/shacl#property": [
           {
-            "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/id",
+            "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/id",
             "@type": [
               "http://www.w3.org/ns/shacl#PropertyShape",
               "http://www.w3.org/ns/shacl#Shape",
-              "http://raml.org/vocabularies/shapes#Shape"
+              "http://a.ml/vocabularies/shapes#Shape"
             ],
             "http://www.w3.org/ns/shacl#path": [
               {
-                "@id": "http://raml.org/vocabularies/data#id"
+                "@id": "http://a.ml/vocabularies/data#id"
               }
             ],
-            "http://raml.org/vocabularies/shapes#range": [
+            "http://a.ml/vocabularies/shapes#range": [
               {
-                "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/id/scalar/id",
+                "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/id/scalar/id",
                 "@type": [
-                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://a.ml/vocabularies/shapes#ScalarShape",
                   "http://www.w3.org/ns/shacl#Shape",
-                  "http://raml.org/vocabularies/shapes#Shape",
-                  "http://raml.org/vocabularies/document#DomainElement"
+                  "http://a.ml/vocabularies/shapes#Shape",
+                  "http://a.ml/vocabularies/document#DomainElement"
                 ],
                 "http://www.w3.org/ns/shacl#datatype": [
                   {
@@ -263,11 +263,11 @@
                 ],
                 "http://www.w3.org/ns/shacl#defaultValue": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/id/scalar/id/scalar_1",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/id/scalar/id/scalar_1",
                     "@type": [
-                      "http://raml.org/vocabularies/data#Scalar"
+                      "http://a.ml/vocabularies/data#Scalar"
                     ],
-                    "http://raml.org/vocabularies/data#value": [
+                    "http://a.ml/vocabularies/data#value": [
                       {
                         "@value": "",
                         "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -294,25 +294,25 @@
             ]
           },
           {
-            "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/name",
+            "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/name",
             "@type": [
               "http://www.w3.org/ns/shacl#PropertyShape",
               "http://www.w3.org/ns/shacl#Shape",
-              "http://raml.org/vocabularies/shapes#Shape"
+              "http://a.ml/vocabularies/shapes#Shape"
             ],
             "http://www.w3.org/ns/shacl#path": [
               {
-                "@id": "http://raml.org/vocabularies/data#name"
+                "@id": "http://a.ml/vocabularies/data#name"
               }
             ],
-            "http://raml.org/vocabularies/shapes#range": [
+            "http://a.ml/vocabularies/shapes#range": [
               {
-                "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/name/scalar/name",
+                "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/name/scalar/name",
                 "@type": [
-                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://a.ml/vocabularies/shapes#ScalarShape",
                   "http://www.w3.org/ns/shacl#Shape",
-                  "http://raml.org/vocabularies/shapes#Shape",
-                  "http://raml.org/vocabularies/document#DomainElement"
+                  "http://a.ml/vocabularies/shapes#Shape",
+                  "http://a.ml/vocabularies/document#DomainElement"
                 ],
                 "http://www.w3.org/ns/shacl#datatype": [
                   {
@@ -331,11 +331,11 @@
                 ],
                 "http://www.w3.org/ns/shacl#defaultValue": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/name/scalar/name/scalar_1",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/name/scalar/name/scalar_1",
                     "@type": [
-                      "http://raml.org/vocabularies/data#Scalar"
+                      "http://a.ml/vocabularies/data#Scalar"
                     ],
-                    "http://raml.org/vocabularies/data#value": [
+                    "http://a.ml/vocabularies/data#value": [
                       {
                         "@value": "",
                         "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -362,25 +362,25 @@
             ]
           },
           {
-            "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/birthday",
+            "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/birthday",
             "@type": [
               "http://www.w3.org/ns/shacl#PropertyShape",
               "http://www.w3.org/ns/shacl#Shape",
-              "http://raml.org/vocabularies/shapes#Shape"
+              "http://a.ml/vocabularies/shapes#Shape"
             ],
             "http://www.w3.org/ns/shacl#path": [
               {
-                "@id": "http://raml.org/vocabularies/data#birthday"
+                "@id": "http://a.ml/vocabularies/data#birthday"
               }
             ],
-            "http://raml.org/vocabularies/shapes#range": [
+            "http://a.ml/vocabularies/shapes#range": [
               {
-                "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/birthday/scalar/birthday",
+                "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/birthday/scalar/birthday",
                 "@type": [
-                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://a.ml/vocabularies/shapes#ScalarShape",
                   "http://www.w3.org/ns/shacl#Shape",
-                  "http://raml.org/vocabularies/shapes#Shape",
-                  "http://raml.org/vocabularies/document#DomainElement"
+                  "http://a.ml/vocabularies/shapes#Shape",
+                  "http://a.ml/vocabularies/document#DomainElement"
                 ],
                 "http://www.w3.org/ns/shacl#datatype": [
                   {
@@ -399,11 +399,11 @@
                 ],
                 "http://www.w3.org/ns/shacl#defaultValue": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/birthday/scalar/birthday/scalar_1",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/birthday/scalar/birthday/scalar_1",
                     "@type": [
-                      "http://raml.org/vocabularies/data#Scalar"
+                      "http://a.ml/vocabularies/data#Scalar"
                     ],
-                    "http://raml.org/vocabularies/data#value": [
+                    "http://a.ml/vocabularies/data#value": [
                       {
                         "@value": "",
                         "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -430,25 +430,25 @@
             ]
           },
           {
-            "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/gender",
+            "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/gender",
             "@type": [
               "http://www.w3.org/ns/shacl#PropertyShape",
               "http://www.w3.org/ns/shacl#Shape",
-              "http://raml.org/vocabularies/shapes#Shape"
+              "http://a.ml/vocabularies/shapes#Shape"
             ],
             "http://www.w3.org/ns/shacl#path": [
               {
-                "@id": "http://raml.org/vocabularies/data#gender"
+                "@id": "http://a.ml/vocabularies/data#gender"
               }
             ],
-            "http://raml.org/vocabularies/shapes#range": [
+            "http://a.ml/vocabularies/shapes#range": [
               {
-                "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/gender/scalar/gender",
+                "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/gender/scalar/gender",
                 "@type": [
-                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://a.ml/vocabularies/shapes#ScalarShape",
                   "http://www.w3.org/ns/shacl#Shape",
-                  "http://raml.org/vocabularies/shapes#Shape",
-                  "http://raml.org/vocabularies/document#DomainElement"
+                  "http://a.ml/vocabularies/shapes#Shape",
+                  "http://a.ml/vocabularies/document#DomainElement"
                 ],
                 "http://www.w3.org/ns/shacl#datatype": [
                   {
@@ -467,11 +467,11 @@
                 ],
                 "http://www.w3.org/ns/shacl#defaultValue": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/gender/scalar/gender/scalar_1",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/gender/scalar/gender/scalar_1",
                     "@type": [
-                      "http://raml.org/vocabularies/data#Scalar"
+                      "http://a.ml/vocabularies/data#Scalar"
                     ],
-                    "http://raml.org/vocabularies/data#value": [
+                    "http://a.ml/vocabularies/data#value": [
                       {
                         "@value": "",
                         "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -498,25 +498,25 @@
             ]
           },
           {
-            "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/url",
+            "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/url",
             "@type": [
               "http://www.w3.org/ns/shacl#PropertyShape",
               "http://www.w3.org/ns/shacl#Shape",
-              "http://raml.org/vocabularies/shapes#Shape"
+              "http://a.ml/vocabularies/shapes#Shape"
             ],
             "http://www.w3.org/ns/shacl#path": [
               {
-                "@id": "http://raml.org/vocabularies/data#url"
+                "@id": "http://a.ml/vocabularies/data#url"
               }
             ],
-            "http://raml.org/vocabularies/shapes#range": [
+            "http://a.ml/vocabularies/shapes#range": [
               {
-                "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/url/scalar/url",
+                "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/url/scalar/url",
                 "@type": [
-                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://a.ml/vocabularies/shapes#ScalarShape",
                   "http://www.w3.org/ns/shacl#Shape",
-                  "http://raml.org/vocabularies/shapes#Shape",
-                  "http://raml.org/vocabularies/document#DomainElement"
+                  "http://a.ml/vocabularies/shapes#Shape",
+                  "http://a.ml/vocabularies/document#DomainElement"
                 ],
                 "http://www.w3.org/ns/shacl#datatype": [
                   {
@@ -535,11 +535,11 @@
                 ],
                 "http://www.w3.org/ns/shacl#defaultValue": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/url/scalar/url/scalar_1",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/url/scalar/url/scalar_1",
                     "@type": [
-                      "http://raml.org/vocabularies/data#Scalar"
+                      "http://a.ml/vocabularies/data#Scalar"
                     ],
-                    "http://raml.org/vocabularies/data#value": [
+                    "http://a.ml/vocabularies/data#value": [
                       {
                         "@value": "",
                         "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -566,25 +566,25 @@
             ]
           },
           {
-            "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/image",
+            "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/image",
             "@type": [
               "http://www.w3.org/ns/shacl#PropertyShape",
               "http://www.w3.org/ns/shacl#Shape",
-              "http://raml.org/vocabularies/shapes#Shape"
+              "http://a.ml/vocabularies/shapes#Shape"
             ],
             "http://www.w3.org/ns/shacl#path": [
               {
-                "@id": "http://raml.org/vocabularies/data#image"
+                "@id": "http://a.ml/vocabularies/data#image"
               }
             ],
-            "http://raml.org/vocabularies/shapes#range": [
+            "http://a.ml/vocabularies/shapes#range": [
               {
-                "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/image/image",
+                "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/image/image",
                 "@type": [
                   "http://www.w3.org/ns/shacl#NodeShape",
                   "http://www.w3.org/ns/shacl#Shape",
-                  "http://raml.org/vocabularies/shapes#Shape",
-                  "http://raml.org/vocabularies/document#DomainElement"
+                  "http://a.ml/vocabularies/shapes#Shape",
+                  "http://a.ml/vocabularies/document#DomainElement"
                 ],
                 "http://www.w3.org/ns/shacl#closed": [
                   {
@@ -593,25 +593,25 @@
                 ],
                 "http://www.w3.org/ns/shacl#property": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/image/image/property/url",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/image/image/property/url",
                     "@type": [
                       "http://www.w3.org/ns/shacl#PropertyShape",
                       "http://www.w3.org/ns/shacl#Shape",
-                      "http://raml.org/vocabularies/shapes#Shape"
+                      "http://a.ml/vocabularies/shapes#Shape"
                     ],
                     "http://www.w3.org/ns/shacl#path": [
                       {
-                        "@id": "http://raml.org/vocabularies/data#url"
+                        "@id": "http://a.ml/vocabularies/data#url"
                       }
                     ],
-                    "http://raml.org/vocabularies/shapes#range": [
+                    "http://a.ml/vocabularies/shapes#range": [
                       {
-                        "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/image/image/property/url/scalar/url",
+                        "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/image/image/property/url/scalar/url",
                         "@type": [
-                          "http://raml.org/vocabularies/shapes#ScalarShape",
+                          "http://a.ml/vocabularies/shapes#ScalarShape",
                           "http://www.w3.org/ns/shacl#Shape",
-                          "http://raml.org/vocabularies/shapes#Shape",
-                          "http://raml.org/vocabularies/document#DomainElement"
+                          "http://a.ml/vocabularies/shapes#Shape",
+                          "http://a.ml/vocabularies/document#DomainElement"
                         ],
                         "http://www.w3.org/ns/shacl#datatype": [
                           {
@@ -630,11 +630,11 @@
                         ],
                         "http://www.w3.org/ns/shacl#defaultValue": [
                           {
-                            "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/image/image/property/url/scalar/url/scalar_1",
+                            "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/image/image/property/url/scalar/url/scalar_1",
                             "@type": [
-                              "http://raml.org/vocabularies/data#Scalar"
+                              "http://a.ml/vocabularies/data#Scalar"
                             ],
-                            "http://raml.org/vocabularies/data#value": [
+                            "http://a.ml/vocabularies/data#value": [
                               {
                                 "@value": "",
                                 "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -661,25 +661,25 @@
                     ]
                   },
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/image/image/property/thumb",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/image/image/property/thumb",
                     "@type": [
                       "http://www.w3.org/ns/shacl#PropertyShape",
                       "http://www.w3.org/ns/shacl#Shape",
-                      "http://raml.org/vocabularies/shapes#Shape"
+                      "http://a.ml/vocabularies/shapes#Shape"
                     ],
                     "http://www.w3.org/ns/shacl#path": [
                       {
-                        "@id": "http://raml.org/vocabularies/data#thumb"
+                        "@id": "http://a.ml/vocabularies/data#thumb"
                       }
                     ],
-                    "http://raml.org/vocabularies/shapes#range": [
+                    "http://a.ml/vocabularies/shapes#range": [
                       {
-                        "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/image/image/property/thumb/scalar/thumb",
+                        "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/image/image/property/thumb/scalar/thumb",
                         "@type": [
-                          "http://raml.org/vocabularies/shapes#ScalarShape",
+                          "http://a.ml/vocabularies/shapes#ScalarShape",
                           "http://www.w3.org/ns/shacl#Shape",
-                          "http://raml.org/vocabularies/shapes#Shape",
-                          "http://raml.org/vocabularies/document#DomainElement"
+                          "http://a.ml/vocabularies/shapes#Shape",
+                          "http://a.ml/vocabularies/document#DomainElement"
                         ],
                         "http://www.w3.org/ns/shacl#datatype": [
                           {
@@ -698,11 +698,11 @@
                         ],
                         "http://www.w3.org/ns/shacl#defaultValue": [
                           {
-                            "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/image/image/property/thumb/scalar/thumb/scalar_1",
+                            "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/image/image/property/thumb/scalar/thumb/scalar_1",
                             "@type": [
-                              "http://raml.org/vocabularies/data#Scalar"
+                              "http://a.ml/vocabularies/data#Scalar"
                             ],
-                            "http://raml.org/vocabularies/data#value": [
+                            "http://a.ml/vocabularies/data#value": [
                               {
                                 "@value": "",
                                 "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -748,25 +748,25 @@
             ]
           },
           {
-            "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/tagline",
+            "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/tagline",
             "@type": [
               "http://www.w3.org/ns/shacl#PropertyShape",
               "http://www.w3.org/ns/shacl#Shape",
-              "http://raml.org/vocabularies/shapes#Shape"
+              "http://a.ml/vocabularies/shapes#Shape"
             ],
             "http://www.w3.org/ns/shacl#path": [
               {
-                "@id": "http://raml.org/vocabularies/data#tagline"
+                "@id": "http://a.ml/vocabularies/data#tagline"
               }
             ],
-            "http://raml.org/vocabularies/shapes#range": [
+            "http://a.ml/vocabularies/shapes#range": [
               {
-                "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/tagline/scalar/tagline",
+                "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/tagline/scalar/tagline",
                 "@type": [
-                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://a.ml/vocabularies/shapes#ScalarShape",
                   "http://www.w3.org/ns/shacl#Shape",
-                  "http://raml.org/vocabularies/shapes#Shape",
-                  "http://raml.org/vocabularies/document#DomainElement"
+                  "http://a.ml/vocabularies/shapes#Shape",
+                  "http://a.ml/vocabularies/document#DomainElement"
                 ],
                 "http://www.w3.org/ns/shacl#datatype": [
                   {
@@ -785,11 +785,11 @@
                 ],
                 "http://www.w3.org/ns/shacl#defaultValue": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/tagline/scalar/tagline/scalar_1",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/tagline/scalar/tagline/scalar_1",
                     "@type": [
-                      "http://raml.org/vocabularies/data#Scalar"
+                      "http://a.ml/vocabularies/data#Scalar"
                     ],
-                    "http://raml.org/vocabularies/data#value": [
+                    "http://a.ml/vocabularies/data#value": [
                       {
                         "@value": "",
                         "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -816,25 +816,25 @@
             ]
           },
           {
-            "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/language",
+            "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/language",
             "@type": [
               "http://www.w3.org/ns/shacl#PropertyShape",
               "http://www.w3.org/ns/shacl#Shape",
-              "http://raml.org/vocabularies/shapes#Shape"
+              "http://a.ml/vocabularies/shapes#Shape"
             ],
             "http://www.w3.org/ns/shacl#path": [
               {
-                "@id": "http://raml.org/vocabularies/data#language"
+                "@id": "http://a.ml/vocabularies/data#language"
               }
             ],
-            "http://raml.org/vocabularies/shapes#range": [
+            "http://a.ml/vocabularies/shapes#range": [
               {
-                "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/language/scalar/language",
+                "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/language/scalar/language",
                 "@type": [
-                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://a.ml/vocabularies/shapes#ScalarShape",
                   "http://www.w3.org/ns/shacl#Shape",
-                  "http://raml.org/vocabularies/shapes#Shape",
-                  "http://raml.org/vocabularies/document#DomainElement"
+                  "http://a.ml/vocabularies/shapes#Shape",
+                  "http://a.ml/vocabularies/document#DomainElement"
                 ],
                 "http://www.w3.org/ns/shacl#datatype": [
                   {
@@ -853,11 +853,11 @@
                 ],
                 "http://www.w3.org/ns/shacl#defaultValue": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/language/scalar/language/scalar_1",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/language/scalar/language/scalar_1",
                     "@type": [
-                      "http://raml.org/vocabularies/data#Scalar"
+                      "http://a.ml/vocabularies/data#Scalar"
                     ],
-                    "http://raml.org/vocabularies/data#value": [
+                    "http://a.ml/vocabularies/data#value": [
                       {
                         "@value": "",
                         "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -884,25 +884,25 @@
             ]
           },
           {
-            "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/etag",
+            "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/etag",
             "@type": [
               "http://www.w3.org/ns/shacl#PropertyShape",
               "http://www.w3.org/ns/shacl#Shape",
-              "http://raml.org/vocabularies/shapes#Shape"
+              "http://a.ml/vocabularies/shapes#Shape"
             ],
             "http://www.w3.org/ns/shacl#path": [
               {
-                "@id": "http://raml.org/vocabularies/data#etag"
+                "@id": "http://a.ml/vocabularies/data#etag"
               }
             ],
-            "http://raml.org/vocabularies/shapes#range": [
+            "http://a.ml/vocabularies/shapes#range": [
               {
-                "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/etag/scalar/etag",
+                "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/etag/scalar/etag",
                 "@type": [
-                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://a.ml/vocabularies/shapes#ScalarShape",
                   "http://www.w3.org/ns/shacl#Shape",
-                  "http://raml.org/vocabularies/shapes#Shape",
-                  "http://raml.org/vocabularies/document#DomainElement"
+                  "http://a.ml/vocabularies/shapes#Shape",
+                  "http://a.ml/vocabularies/document#DomainElement"
                 ],
                 "http://www.w3.org/ns/shacl#datatype": [
                   {
@@ -921,11 +921,11 @@
                 ],
                 "http://www.w3.org/ns/shacl#defaultValue": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/property/etag/scalar/etag/scalar_1",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/property/etag/scalar/etag/scalar_1",
                     "@type": [
-                      "http://raml.org/vocabularies/data#Scalar"
+                      "http://a.ml/vocabularies/data#Scalar"
                     ],
-                    "http://raml.org/vocabularies/data#value": [
+                    "http://a.ml/vocabularies/data#value": [
                       {
                         "@value": "",
                         "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -957,50 +957,50 @@
             "@value": "SchemaPerson"
           }
         ],
-        "http://raml.org/vocabularies/document#reference-id": [
+        "http://a.ml/vocabularies/document#reference-id": [
           {
             "@id": "file://demo/schemas/person.json#/external"
           }
         ],
-        "http://raml.org/vocabularies/document#examples": [
+        "http://a.ml/vocabularies/document#examples": [
           {
-            "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example",
+            "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/example/default-example",
             "@type": [
-              "http://raml.org/vocabularies/document#Example",
-              "http://raml.org/vocabularies/document#DomainElement"
+              "http://a.ml/vocabularies/document#Example",
+              "http://a.ml/vocabularies/document#DomainElement"
             ],
-            "http://raml.org/vocabularies/document#strict": [
+            "http://a.ml/vocabularies/document#strict": [
               {
                 "@value": true
               }
             ],
-            "http://raml.org/vocabularies/document#structuredValue": [
+            "http://a.ml/vocabularies/document#structuredValue": [
               {
-                "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1",
+                "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/example/default-example/object_1",
                 "@type": [
-                  "http://raml.org/vocabularies/data#Object"
+                  "http://a.ml/vocabularies/data#Object"
                 ],
-                "http://raml.org/vocabularies/data#birthday": [
+                "http://a.ml/vocabularies/data#birthday": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/scalar_4",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/example/default-example/object_1/scalar_4",
                     "@type": [
-                      "http://raml.org/vocabularies/data#Scalar"
+                      "http://a.ml/vocabularies/data#Scalar"
                     ],
-                    "http://raml.org/vocabularies/data#value": [
+                    "http://a.ml/vocabularies/data#value": [
                       {
                         "@value": "1983-10-20",
-                        "@type": "http://www.w3.org/2001/XMLSchema#date"
+                        "@type": "http://www.w3.org/2001/XMLSchema#string"
                       }
                     ]
                   }
                 ],
-                "http://raml.org/vocabularies/data#etag": [
+                "http://a.ml/vocabularies/data#etag": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/scalar_12",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/example/default-example/object_1/scalar_12",
                     "@type": [
-                      "http://raml.org/vocabularies/data#Scalar"
+                      "http://a.ml/vocabularies/data#Scalar"
                     ],
-                    "http://raml.org/vocabularies/data#value": [
+                    "http://a.ml/vocabularies/data#value": [
                       {
                         "@value": "W\\244m4n5kj3gbn2nj4k4n4",
                         "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -1008,13 +1008,13 @@
                     ]
                   }
                 ],
-                "http://raml.org/vocabularies/data#gender": [
+                "http://a.ml/vocabularies/data#gender": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/scalar_5",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/example/default-example/object_1/scalar_5",
                     "@type": [
-                      "http://raml.org/vocabularies/data#Scalar"
+                      "http://a.ml/vocabularies/data#Scalar"
                     ],
-                    "http://raml.org/vocabularies/data#value": [
+                    "http://a.ml/vocabularies/data#value": [
                       {
                         "@value": "male",
                         "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -1022,13 +1022,13 @@
                     ]
                   }
                 ],
-                "http://raml.org/vocabularies/data#id": [
+                "http://a.ml/vocabularies/data#id": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/scalar_2",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/example/default-example/object_1/scalar_2",
                     "@type": [
-                      "http://raml.org/vocabularies/data#Scalar"
+                      "http://a.ml/vocabularies/data#Scalar"
                     ],
-                    "http://raml.org/vocabularies/data#value": [
+                    "http://a.ml/vocabularies/data#value": [
                       {
                         "@value": "R34fg663H9KW9MMSKISI",
                         "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -1036,19 +1036,19 @@
                     ]
                   }
                 ],
-                "http://raml.org/vocabularies/data#image": [
+                "http://a.ml/vocabularies/data#image": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/object_7",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/example/default-example/object_1/object_7",
                     "@type": [
-                      "http://raml.org/vocabularies/data#Object"
+                      "http://a.ml/vocabularies/data#Object"
                     ],
-                    "http://raml.org/vocabularies/data#thumb": [
+                    "http://a.ml/vocabularies/data#thumb": [
                       {
-                        "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/object_7/scalar_9",
+                        "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/example/default-example/object_1/object_7/scalar_9",
                         "@type": [
-                          "http://raml.org/vocabularies/data#Scalar"
+                          "http://a.ml/vocabularies/data#Scalar"
                         ],
-                        "http://raml.org/vocabularies/data#value": [
+                        "http://a.ml/vocabularies/data#value": [
                           {
                             "@value": "https://domain.com/profile/pawel.psztyc/image/thumb",
                             "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -1056,13 +1056,13 @@
                         ]
                       }
                     ],
-                    "http://raml.org/vocabularies/data#url": [
+                    "http://a.ml/vocabularies/data#url": [
                       {
-                        "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/object_7/scalar_8",
+                        "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/example/default-example/object_1/object_7/scalar_8",
                         "@type": [
-                          "http://raml.org/vocabularies/data#Scalar"
+                          "http://a.ml/vocabularies/data#Scalar"
                         ],
-                        "http://raml.org/vocabularies/data#value": [
+                        "http://a.ml/vocabularies/data#value": [
                           {
                             "@value": "https://domain.com/profile/pawel.psztyc/image",
                             "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -1072,13 +1072,13 @@
                     ]
                   }
                 ],
-                "http://raml.org/vocabularies/data#language": [
+                "http://a.ml/vocabularies/data#language": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/scalar_11",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/example/default-example/object_1/scalar_11",
                     "@type": [
-                      "http://raml.org/vocabularies/data#Scalar"
+                      "http://a.ml/vocabularies/data#Scalar"
                     ],
-                    "http://raml.org/vocabularies/data#value": [
+                    "http://a.ml/vocabularies/data#value": [
                       {
                         "@value": "en_GB",
                         "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -1086,13 +1086,13 @@
                     ]
                   }
                 ],
-                "http://raml.org/vocabularies/data#name": [
+                "http://a.ml/vocabularies/data#name": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/scalar_3",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/example/default-example/object_1/scalar_3",
                     "@type": [
-                      "http://raml.org/vocabularies/data#Scalar"
+                      "http://a.ml/vocabularies/data#Scalar"
                     ],
-                    "http://raml.org/vocabularies/data#value": [
+                    "http://a.ml/vocabularies/data#value": [
                       {
                         "@value": "Pawel Psztyc",
                         "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -1100,13 +1100,13 @@
                     ]
                   }
                 ],
-                "http://raml.org/vocabularies/data#tagline": [
+                "http://a.ml/vocabularies/data#tagline": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/scalar_10",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/example/default-example/object_1/scalar_10",
                     "@type": [
-                      "http://raml.org/vocabularies/data#Scalar"
+                      "http://a.ml/vocabularies/data#Scalar"
                     ],
-                    "http://raml.org/vocabularies/data#value": [
+                    "http://a.ml/vocabularies/data#value": [
                       {
                         "@value": "Some text about me.",
                         "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -1114,13 +1114,13 @@
                     ]
                   }
                 ],
-                "http://raml.org/vocabularies/data#url": [
+                "http://a.ml/vocabularies/data#url": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/SchemaPerson/example/default-example/object_1/scalar_6",
+                    "@id": "file://demo/api.raml#/declarations/types/SchemaPerson/example/default-example/object_1/scalar_6",
                     "@type": [
-                      "http://raml.org/vocabularies/data#Scalar"
+                      "http://a.ml/vocabularies/data#Scalar"
                     ],
-                    "http://raml.org/vocabularies/data#value": [
+                    "http://a.ml/vocabularies/data#value": [
                       {
                         "@value": "https://domain.com/profile/pawel.psztyc",
                         "@type": "http://www.w3.org/2001/XMLSchema#string"
@@ -1130,7 +1130,7 @@
                 ]
               }
             ],
-            "http://raml.org/vocabularies/document#reference-id": [
+            "http://a.ml/vocabularies/document#reference-id": [
               {
                 "@id": "file://demo/examples/person.json#/external"
               }
@@ -1139,12 +1139,12 @@
         ]
       },
       {
-        "@id": "file://demo/api.raml#/declarations/Person",
+        "@id": "file://demo/api.raml#/declarations/types/Person",
         "@type": [
           "http://www.w3.org/ns/shacl#NodeShape",
           "http://www.w3.org/ns/shacl#Shape",
-          "http://raml.org/vocabularies/shapes#Shape",
-          "http://raml.org/vocabularies/document#DomainElement"
+          "http://a.ml/vocabularies/shapes#Shape",
+          "http://a.ml/vocabularies/document#DomainElement"
         ],
         "http://www.w3.org/ns/shacl#closed": [
           {
@@ -1153,25 +1153,25 @@
         ],
         "http://www.w3.org/ns/shacl#property": [
           {
-            "@id": "file://demo/api.raml#/declarations/Person/property/name",
+            "@id": "file://demo/api.raml#/declarations/types/Person/property/name",
             "@type": [
               "http://www.w3.org/ns/shacl#PropertyShape",
               "http://www.w3.org/ns/shacl#Shape",
-              "http://raml.org/vocabularies/shapes#Shape"
+              "http://a.ml/vocabularies/shapes#Shape"
             ],
             "http://www.w3.org/ns/shacl#path": [
               {
-                "@id": "http://raml.org/vocabularies/data#name"
+                "@id": "http://a.ml/vocabularies/data#name"
               }
             ],
-            "http://raml.org/vocabularies/shapes#range": [
+            "http://a.ml/vocabularies/shapes#range": [
               {
-                "@id": "file://demo/api.raml#/declarations/Person/property/name/scalar/name",
+                "@id": "file://demo/api.raml#/declarations/types/Person/property/name/scalar/name",
                 "@type": [
-                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://a.ml/vocabularies/shapes#ScalarShape",
                   "http://www.w3.org/ns/shacl#Shape",
-                  "http://raml.org/vocabularies/shapes#Shape",
-                  "http://raml.org/vocabularies/document#DomainElement"
+                  "http://a.ml/vocabularies/shapes#Shape",
+                  "http://a.ml/vocabularies/document#DomainElement"
                 ],
                 "http://www.w3.org/ns/shacl#datatype": [
                   {
@@ -1183,24 +1183,24 @@
                     "@value": "name"
                   }
                 ],
-                "http://raml.org/vocabularies/shapes#xmlSerialization": [
+                "http://a.ml/vocabularies/shapes#xmlSerialization": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/Person/property/name/scalar/name/xml",
+                    "@id": "file://demo/api.raml#/declarations/types/Person/property/name/scalar/name/xml",
                     "@type": [
-                      "http://raml.org/vocabularies/shapes#XMLSerializer",
-                      "http://raml.org/vocabularies/document#DomainElement"
+                      "http://a.ml/vocabularies/shapes#XMLSerializer",
+                      "http://a.ml/vocabularies/document#DomainElement"
                     ],
-                    "http://raml.org/vocabularies/shapes#xmlAttribute": [
+                    "http://a.ml/vocabularies/shapes#xmlAttribute": [
                       {
                         "@value": true
                       }
                     ],
-                    "http://raml.org/vocabularies/shapes#xmlWrapped": [
+                    "http://a.ml/vocabularies/shapes#xmlWrapped": [
                       {
                         "@value": false
                       }
                     ],
-                    "http://raml.org/vocabularies/shapes#xmlName": [
+                    "http://a.ml/vocabularies/shapes#xmlName": [
                       {
                         "@value": "fullname"
                       }
@@ -1221,34 +1221,34 @@
             ]
           },
           {
-            "@id": "file://demo/api.raml#/declarations/Person/property/addresses",
+            "@id": "file://demo/api.raml#/declarations/types/Person/property/addresses",
             "@type": [
               "http://www.w3.org/ns/shacl#PropertyShape",
               "http://www.w3.org/ns/shacl#Shape",
-              "http://raml.org/vocabularies/shapes#Shape"
+              "http://a.ml/vocabularies/shapes#Shape"
             ],
             "http://www.w3.org/ns/shacl#path": [
               {
-                "@id": "http://raml.org/vocabularies/data#addresses"
+                "@id": "http://a.ml/vocabularies/data#addresses"
               }
             ],
-            "http://raml.org/vocabularies/shapes#range": [
+            "http://a.ml/vocabularies/shapes#range": [
               {
-                "@id": "file://demo/api.raml#/declarations/Person/property/addresses/array/addresses",
+                "@id": "file://demo/api.raml#/declarations/types/Person/property/addresses/array/addresses",
                 "@type": [
-                  "http://raml.org/vocabularies/shapes#ArrayShape",
+                  "http://a.ml/vocabularies/shapes#ArrayShape",
                   "http://www.w3.org/ns/shacl#Shape",
-                  "http://raml.org/vocabularies/shapes#Shape",
-                  "http://raml.org/vocabularies/document#DomainElement"
+                  "http://a.ml/vocabularies/shapes#Shape",
+                  "http://a.ml/vocabularies/document#DomainElement"
                 ],
-                "http://raml.org/vocabularies/shapes#items": [
+                "http://a.ml/vocabularies/shapes#items": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/Person/property/addresses/array/addresses/Address",
+                    "@id": "file://demo/api.raml#/declarations/types/Person/property/addresses/array/addresses/Address",
                     "@type": [
                       "http://www.w3.org/ns/shacl#NodeShape",
                       "http://www.w3.org/ns/shacl#Shape",
-                      "http://raml.org/vocabularies/shapes#Shape",
-                      "http://raml.org/vocabularies/document#DomainElement"
+                      "http://a.ml/vocabularies/shapes#Shape",
+                      "http://a.ml/vocabularies/document#DomainElement"
                     ],
                     "http://www.w3.org/ns/shacl#closed": [
                       {
@@ -1257,25 +1257,25 @@
                     ],
                     "http://www.w3.org/ns/shacl#property": [
                       {
-                        "@id": "file://demo/api.raml#/declarations/Person/property/addresses/array/addresses/Address/property/street",
+                        "@id": "file://demo/api.raml#/declarations/types/Person/property/addresses/array/addresses/Address/property/street",
                         "@type": [
                           "http://www.w3.org/ns/shacl#PropertyShape",
                           "http://www.w3.org/ns/shacl#Shape",
-                          "http://raml.org/vocabularies/shapes#Shape"
+                          "http://a.ml/vocabularies/shapes#Shape"
                         ],
                         "http://www.w3.org/ns/shacl#path": [
                           {
-                            "@id": "http://raml.org/vocabularies/data#street"
+                            "@id": "http://a.ml/vocabularies/data#street"
                           }
                         ],
-                        "http://raml.org/vocabularies/shapes#range": [
+                        "http://a.ml/vocabularies/shapes#range": [
                           {
-                            "@id": "file://demo/api.raml#/declarations/Person/property/addresses/array/addresses/Address/property/street/scalar/street",
+                            "@id": "file://demo/api.raml#/declarations/types/Person/property/addresses/array/addresses/Address/property/street/scalar/street",
                             "@type": [
-                              "http://raml.org/vocabularies/shapes#ScalarShape",
+                              "http://a.ml/vocabularies/shapes#ScalarShape",
                               "http://www.w3.org/ns/shacl#Shape",
-                              "http://raml.org/vocabularies/shapes#Shape",
-                              "http://raml.org/vocabularies/document#DomainElement"
+                              "http://a.ml/vocabularies/shapes#Shape",
+                              "http://a.ml/vocabularies/document#DomainElement"
                             ],
                             "http://www.w3.org/ns/shacl#datatype": [
                               {
@@ -1301,25 +1301,25 @@
                         ]
                       },
                       {
-                        "@id": "file://demo/api.raml#/declarations/Person/property/addresses/array/addresses/Address/property/city",
+                        "@id": "file://demo/api.raml#/declarations/types/Person/property/addresses/array/addresses/Address/property/city",
                         "@type": [
                           "http://www.w3.org/ns/shacl#PropertyShape",
                           "http://www.w3.org/ns/shacl#Shape",
-                          "http://raml.org/vocabularies/shapes#Shape"
+                          "http://a.ml/vocabularies/shapes#Shape"
                         ],
                         "http://www.w3.org/ns/shacl#path": [
                           {
-                            "@id": "http://raml.org/vocabularies/data#city"
+                            "@id": "http://a.ml/vocabularies/data#city"
                           }
                         ],
-                        "http://raml.org/vocabularies/shapes#range": [
+                        "http://a.ml/vocabularies/shapes#range": [
                           {
-                            "@id": "file://demo/api.raml#/declarations/Person/property/addresses/array/addresses/Address/property/city/scalar/city",
+                            "@id": "file://demo/api.raml#/declarations/types/Person/property/addresses/array/addresses/Address/property/city/scalar/city",
                             "@type": [
-                              "http://raml.org/vocabularies/shapes#ScalarShape",
+                              "http://a.ml/vocabularies/shapes#ScalarShape",
                               "http://www.w3.org/ns/shacl#Shape",
-                              "http://raml.org/vocabularies/shapes#Shape",
-                              "http://raml.org/vocabularies/document#DomainElement"
+                              "http://a.ml/vocabularies/shapes#Shape",
+                              "http://a.ml/vocabularies/document#DomainElement"
                             ],
                             "http://www.w3.org/ns/shacl#datatype": [
                               {
@@ -1357,24 +1357,24 @@
                     "@value": "addresses"
                   }
                 ],
-                "http://raml.org/vocabularies/shapes#xmlSerialization": [
+                "http://a.ml/vocabularies/shapes#xmlSerialization": [
                   {
-                    "@id": "file://demo/api.raml#/declarations/Person/property/addresses/array/addresses/xml",
+                    "@id": "file://demo/api.raml#/declarations/types/Person/property/addresses/array/addresses/xml",
                     "@type": [
-                      "http://raml.org/vocabularies/shapes#XMLSerializer",
-                      "http://raml.org/vocabularies/document#DomainElement"
+                      "http://a.ml/vocabularies/shapes#XMLSerializer",
+                      "http://a.ml/vocabularies/document#DomainElement"
                     ],
-                    "http://raml.org/vocabularies/shapes#xmlAttribute": [
+                    "http://a.ml/vocabularies/shapes#xmlAttribute": [
                       {
                         "@value": false
                       }
                     ],
-                    "http://raml.org/vocabularies/shapes#xmlWrapped": [
+                    "http://a.ml/vocabularies/shapes#xmlWrapped": [
                       {
                         "@value": true
                       }
                     ],
-                    "http://raml.org/vocabularies/shapes#xmlName": [
+                    "http://a.ml/vocabularies/shapes#xmlName": [
                       {
                         "@value": "addresses"
                       }
@@ -1402,12 +1402,12 @@
         ]
       },
       {
-        "@id": "file://demo/api.raml#/declarations/schema/XmlTypeSchema",
+        "@id": "file://demo/api.raml#/declarations/types/schema/XmlTypeSchema",
         "@type": [
           "http://www.w3.org/ns/shacl#SchemaShape",
           "http://www.w3.org/ns/shacl#Shape",
-          "http://raml.org/vocabularies/shapes#Shape",
-          "http://raml.org/vocabularies/document#DomainElement"
+          "http://a.ml/vocabularies/shapes#Shape",
+          "http://a.ml/vocabularies/document#DomainElement"
         ],
         "http://www.w3.org/ns/shacl#mediaType": [
           {
@@ -1419,24 +1419,24 @@
             "@value": "XmlTypeSchema"
           }
         ],
-        "http://raml.org/vocabularies/document#reference-id": [
+        "http://a.ml/vocabularies/document#reference-id": [
           {
             "@id": "file://demo/schemas/product.xsd#/external"
           }
         ],
-        "http://raml.org/vocabularies/document#examples": [
+        "http://a.ml/vocabularies/document#examples": [
           {
-            "@id": "file://demo/api.raml#/declarations/schema/XmlTypeSchema/example/default-example",
+            "@id": "file://demo/api.raml#/declarations/types/schema/XmlTypeSchema/example/default-example",
             "@type": [
-              "http://raml.org/vocabularies/document#Example",
-              "http://raml.org/vocabularies/document#DomainElement"
+              "http://a.ml/vocabularies/document#Example",
+              "http://a.ml/vocabularies/document#DomainElement"
             ],
-            "http://raml.org/vocabularies/document#strict": [
+            "http://a.ml/vocabularies/document#strict": [
               {
                 "@value": true
               }
             ],
-            "http://raml.org/vocabularies/document#reference-id": [
+            "http://a.ml/vocabularies/document#reference-id": [
               {
                 "@id": "file://demo/examples/product.xml#/external"
               }
@@ -1445,22 +1445,22 @@
         ]
       }
     ],
-    "http://raml.org/vocabularies/document#references": [
+    "http://a.ml/vocabularies/document#references": [
       {
         "@id": "file://demo/examples/product.xml",
         "@type": [
-          "http://raml.org/vocabularies/document#ExternalFragment",
-          "http://raml.org/vocabularies/document#Fragment",
-          "http://raml.org/vocabularies/document#Unit"
+          "http://a.ml/vocabularies/document#ExternalFragment",
+          "http://a.ml/vocabularies/document#Fragment",
+          "http://a.ml/vocabularies/document#Unit"
         ],
-        "http://raml.org/vocabularies/document#encodes": [
+        "http://a.ml/vocabularies/document#encodes": [
           {
             "@id": "file://demo/examples/product.xml#/external",
             "@type": [
-              "http://raml.org/vocabularies/document#ExternalDomainElement",
-              "http://raml.org/vocabularies/document#DomainElement"
+              "http://a.ml/vocabularies/document#ExternalDomainElement",
+              "http://a.ml/vocabularies/document#DomainElement"
             ],
-            "http://raml.org/vocabularies/document#raw": [
+            "http://a.ml/vocabularies/document#raw": [
               {
                 "@value": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<resource error=\"false\" type=\"Product\">\n  <id>f2f7933a-a9ce-11e6-80f5-76304dec7eb7</id>\n  <name>Acme product - mentol flavor, 500 ml.</name>\n  <quantity>500</quantity>\n  <unit>ml</unit>\n  <upc>042100005264</upc>\n  <available>true</available>\n</resource>\n"
               }
@@ -1471,23 +1471,23 @@
       {
         "@id": "file://demo/schemas/person.json",
         "@type": [
-          "http://raml.org/vocabularies/document#ExternalFragment",
-          "http://raml.org/vocabularies/document#Fragment",
-          "http://raml.org/vocabularies/document#Unit"
+          "http://a.ml/vocabularies/document#ExternalFragment",
+          "http://a.ml/vocabularies/document#Fragment",
+          "http://a.ml/vocabularies/document#Unit"
         ],
-        "http://raml.org/vocabularies/document#encodes": [
+        "http://a.ml/vocabularies/document#encodes": [
           {
             "@id": "file://demo/schemas/person.json#/external",
             "@type": [
-              "http://raml.org/vocabularies/document#ExternalDomainElement",
-              "http://raml.org/vocabularies/document#DomainElement"
+              "http://a.ml/vocabularies/document#ExternalDomainElement",
+              "http://a.ml/vocabularies/document#DomainElement"
             ],
-            "http://raml.org/vocabularies/document#raw": [
+            "http://a.ml/vocabularies/document#raw": [
               {
                 "@value": "{\n  \"$id\": \"http://example.com/example.json\",\n  \"type\": \"object\",\n  \"definitions\": {},\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"properties\": {\n    \"id\": {\n      \"$id\": \"/properties/id\",\n      \"type\": \"string\",\n      \"title\": \"The Id Schema \",\n      \"default\": \"\",\n      \"examples\": [\n        \"R34fg663H9KW9MMSKISI\"\n      ]\n    },\n    \"name\": {\n      \"$id\": \"/properties/name\",\n      \"type\": \"string\",\n      \"title\": \"The Name Schema \",\n      \"default\": \"\",\n      \"examples\": [\n        \"Pawel Psztyc\"\n      ]\n    },\n    \"birthday\": {\n      \"$id\": \"/properties/birthday\",\n      \"type\": \"string\",\n      \"title\": \"The Birthday Schema \",\n      \"default\": \"\",\n      \"examples\": [\n        \"1983-10-20\"\n      ]\n    },\n    \"gender\": {\n      \"$id\": \"/properties/gender\",\n      \"type\": \"string\",\n      \"title\": \"The Gender Schema \",\n      \"default\": \"\",\n      \"examples\": [\n        \"male\"\n      ]\n    },\n    \"url\": {\n      \"$id\": \"/properties/url\",\n      \"type\": \"string\",\n      \"title\": \"The Url Schema \",\n      \"default\": \"\",\n      \"examples\": [\n        \"https://domain.com/profile/pawel.psztyc\"\n      ]\n    },\n    \"image\": {\n      \"$id\": \"/properties/image\",\n      \"type\": \"object\",\n      \"properties\": {\n        \"url\": {\n          \"$id\": \"/properties/image/properties/url\",\n          \"type\": \"string\",\n          \"title\": \"The Url Schema \",\n          \"default\": \"\",\n          \"examples\": [\n            \"https://domain.com/profile/pawel.psztyc/image\"\n          ]\n        },\n        \"thumb\": {\n          \"$id\": \"/properties/image/properties/thumb\",\n          \"type\": \"string\",\n          \"title\": \"The Thumb Schema \",\n          \"default\": \"\",\n          \"examples\": [\n            \"https://domain.com/profile/pawel.psztyc/image/thumb\"\n          ]\n        }\n      }\n    },\n    \"tagline\": {\n      \"$id\": \"/properties/tagline\",\n      \"type\": \"string\",\n      \"title\": \"The Tagline Schema \",\n      \"default\": \"\",\n      \"examples\": [\n        \"Some text about me.\"\n      ]\n    },\n    \"language\": {\n      \"$id\": \"/properties/language\",\n      \"type\": \"string\",\n      \"title\": \"The Language Schema \",\n      \"default\": \"\",\n      \"examples\": [\n        \"en_GB\"\n      ]\n    },\n    \"etag\": {\n      \"$id\": \"/properties/etag\",\n      \"type\": \"string\",\n      \"title\": \"The Etag Schema \",\n      \"default\": \"\",\n      \"examples\": [\n        \"W\\\\244m4n5kj3gbn2nj4k4n4\"\n      ]\n    }\n  }\n}\n"
               }
             ],
-            "http://raml.org/vocabularies/http#mediaType": [
+            "http://a.ml/vocabularies/http#mediaType": [
               {
                 "@value": "application/json"
               }
@@ -1498,18 +1498,18 @@
       {
         "@id": "file://demo/schemas/product.xsd",
         "@type": [
-          "http://raml.org/vocabularies/document#ExternalFragment",
-          "http://raml.org/vocabularies/document#Fragment",
-          "http://raml.org/vocabularies/document#Unit"
+          "http://a.ml/vocabularies/document#ExternalFragment",
+          "http://a.ml/vocabularies/document#Fragment",
+          "http://a.ml/vocabularies/document#Unit"
         ],
-        "http://raml.org/vocabularies/document#encodes": [
+        "http://a.ml/vocabularies/document#encodes": [
           {
             "@id": "file://demo/schemas/product.xsd#/external",
             "@type": [
-              "http://raml.org/vocabularies/document#ExternalDomainElement",
-              "http://raml.org/vocabularies/document#DomainElement"
+              "http://a.ml/vocabularies/document#ExternalDomainElement",
+              "http://a.ml/vocabularies/document#DomainElement"
             ],
-            "http://raml.org/vocabularies/document#raw": [
+            "http://a.ml/vocabularies/document#raw": [
               {
                 "@value": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" elementFormDefault=\"qualified\" attributeFormDefault=\"unqualified\">\n  <xs:element name=\"resource\">\n    <xs:complexType>\n      <xs:sequence>\n        <xs:element name=\"id\" type=\"xs:string\"></xs:element>\n        <xs:element name=\"name\" type=\"xs:string\"></xs:element>\n        <xs:element name=\"quantity\" type=\"xs:double\"></xs:element>\n        <xs:element name=\"unit\" type=\"xs:string\"></xs:element>\n        <xs:element name=\"upc\" type=\"xs:string\"></xs:element>\n        <xs:element name=\"available\" type=\"xs:string\"></xs:element>\n      </xs:sequence>\n      <xs:attribute name=\"error\" type=\"xs:string\"></xs:attribute>\n      <xs:attribute name=\"type\" type=\"xs:string\"></xs:attribute>\n    </xs:complexType>\n  </xs:element>\n</xs:schema>\n"
               }
@@ -1520,23 +1520,23 @@
       {
         "@id": "file://demo/examples/person.json",
         "@type": [
-          "http://raml.org/vocabularies/document#ExternalFragment",
-          "http://raml.org/vocabularies/document#Fragment",
-          "http://raml.org/vocabularies/document#Unit"
+          "http://a.ml/vocabularies/document#ExternalFragment",
+          "http://a.ml/vocabularies/document#Fragment",
+          "http://a.ml/vocabularies/document#Unit"
         ],
-        "http://raml.org/vocabularies/document#encodes": [
+        "http://a.ml/vocabularies/document#encodes": [
           {
             "@id": "file://demo/examples/person.json#/external",
             "@type": [
-              "http://raml.org/vocabularies/document#ExternalDomainElement",
-              "http://raml.org/vocabularies/document#DomainElement"
+              "http://a.ml/vocabularies/document#ExternalDomainElement",
+              "http://a.ml/vocabularies/document#DomainElement"
             ],
-            "http://raml.org/vocabularies/document#raw": [
+            "http://a.ml/vocabularies/document#raw": [
               {
                 "@value": "{\n  \"id\": \"R34fg663H9KW9MMSKISI\",\n  \"name\": \"Pawel Psztyc\",\n  \"birthday\": \"1983-10-20\",\n  \"gender\": \"male\",\n  \"url\": \"https://domain.com/profile/pawel.psztyc\",\n  \"image\": {\n    \"url\": \"https://domain.com/profile/pawel.psztyc/image\",\n    \"thumb\": \"https://domain.com/profile/pawel.psztyc/image/thumb\"\n  },\n  \"tagline\": \"Some text about me.\",\n  \"language\": \"en_GB\",\n  \"etag\": \"W\\\\244m4n5kj3gbn2nj4k4n4\"\n}\n"
               }
             ],
-            "http://raml.org/vocabularies/http#mediaType": [
+            "http://a.ml/vocabularies/http#mediaType": [
               {
                 "@value": "application/json"
               }
