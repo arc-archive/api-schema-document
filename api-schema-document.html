@@ -159,6 +159,7 @@
     }
 
     _computeExampleValue(item) {
+      item = this._resolve(item);
       let raw = this._getValue(item, this.ns.raml.vocabularies.document + 'raw');
       if (!raw) {
         raw = this._getValue(item, this.ns.w3.shacl.name + 'raw');
