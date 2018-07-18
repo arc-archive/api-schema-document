@@ -133,13 +133,15 @@
       let schemaAndExample = false;
       let raw;
       let examples;
-      if (this._hasType(schema, this.ns.w3.shacl.name + 'SchemaShape') ||
-        this._hasType(schema, this.ns.raml.vocabularies.shapes + 'AnyShape') ||
-        this._hasType(schema, this.ns.raml.vocabularies.shapes + 'ScalarShape') ||
-        this._hasType(schema, this.ns.w3.shacl.name + 'NodeShape')) {
+      if (schema) {
         schema = this._resolve(schema);
-        raw = this._getValue(schema, this.ns.raml.vocabularies.document + 'raw');
-        examples = this._processExamples(schema[this.ns.raml.vocabularies.document + 'examples']);
+        if (this._hasType(schema, this.ns.w3.shacl.name + 'SchemaShape') ||
+          this._hasType(schema, this.ns.raml.vocabularies.shapes + 'AnyShape') ||
+          this._hasType(schema, this.ns.raml.vocabularies.shapes + 'ScalarShape') ||
+          this._hasType(schema, this.ns.w3.shacl.name + 'NodeShape')) {
+          raw = this._getValue(schema, this.ns.raml.vocabularies.document + 'raw');
+          examples = this._processExamples(schema[this.ns.raml.vocabularies.document + 'examples']);
+        }
       }
       exampleOnly = !!(examples && examples.length && !raw);
       schemaOnly = !!(!examples && raw);
