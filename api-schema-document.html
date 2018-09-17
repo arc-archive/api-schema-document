@@ -133,6 +133,7 @@
       let schemaAndExample = false;
       let raw;
       let examples;
+
       if (schema) {
         schema = this._resolve(schema);
         if (this._hasType(schema, this.ns.w3.shacl.name + 'SchemaShape') ||
@@ -140,7 +141,9 @@
           this._hasType(schema, this.ns.raml.vocabularies.shapes + 'ScalarShape') ||
           this._hasType(schema, this.ns.w3.shacl.name + 'NodeShape')) {
           raw = this._getValue(schema, this.ns.raml.vocabularies.document + 'raw');
-          examples = this._processExamples(schema[this.ns.raml.vocabularies.document + 'examples']);
+          const key = this._getAmfKey(this.ns.raml.vocabularies.document + 'examples');
+          const exs = this._ensureArray(schema[key]);
+          examples = this._processExamples(exs);
         }
       }
       exampleOnly = !!(examples && examples.length && !raw);
