@@ -121,7 +121,6 @@
     /**
      * Comnputes besic properties for the view.
      * @param {Object} record `shape` change record
-     * @return {[type]} [description]
      */
     _schemaChanged(record) {
       this._examples = undefined;
@@ -141,6 +140,9 @@
           this._hasType(schema, this.ns.raml.vocabularies.shapes + 'ScalarShape') ||
           this._hasType(schema, this.ns.w3.shacl.name + 'NodeShape')) {
           raw = this._getValue(schema, this.ns.raml.vocabularies.document + 'raw');
+          if (!raw) {
+            raw = this._getValue(schema, this.ns.w3.shacl.name + 'raw');
+          }
           const key = this._getAmfKey(this.ns.raml.vocabularies.document + 'examples');
           const exs = this._ensureArray(schema[key]);
           examples = this._processExamples(exs);

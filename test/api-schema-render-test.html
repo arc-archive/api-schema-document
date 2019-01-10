@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+  <title>api-schema-document test</title>
+  <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <link rel="import" href="../../arc-polyfills/arc-polyfills.html">
+  <link rel="import" href="../api-schema-render.html">
+</head>
+<body>
+  <test-fixture id="Basic">
+    <template>
+      <api-schema-render></api-schema-render>
+    </template>
+  </test-fixture>
+
+  <script>
+  suite('_codeChanged()', () => {
+    let element;
+    let out;
+    setup((done) => {
+      element = fixture('Basic');
+      flush(() => {
+        out = element.$.output;
+        done();
+      });
+    });
+
+    test('Clears the output when no code', () => {
+      out.innerHTML = 'test';
+      element._codeChanged();
+      assert.equal(out.innerText.trim(), '');
+    });
+
+    test('Sets type to json', () => {
+      element._codeChanged('{}');
+      assert.equal(element.type, 'json');
+    });
+
+    test('Sets type to xml', () => {
+      element._codeChanged('<?XML>');
+      assert.equal(element.type, 'xml');
+    });
+  });
+
+  suite('_clearTypeAttribute()', () => {
+    let element;
+    let out;
+    setup((done) => {
+      element = fixture('Basic');
+      flush(() => {
+        out = element.$.output;
+        done();
+      });
+    });
+
+    test('Does nothing when no type', () => {
+      element._clearTypeAttribute();
+    });
+
+    test('Removes the attribute', () => {
+      out.dataset.type = 'json';
+      out.setAttribute('language-json', 'true');
+      element._clearTypeAttribute();
+      assert.isFalse(out.hasAttribute('language-json'));
+    });
+  });
+
+  suite('_typeChanged()', () => {
+    let element;
+    let out;
+    setup((done) => {
+      element = fixture('Basic');
+      flush(() => {
+        out = element.$.output;
+        done();
+      });
+    });
+
+    test('Does nothing when no type', () => {
+      element._typeChanged();
+      assert.isUndefined(out.dataset.type);
+    });
+
+    test('Sets data-type attribute', () => {
+      element._typeChanged('xml');
+      assert.equal(out.dataset.type, 'xml');
+    });
+
+    test('Sets language-* attribute', () => {
+      element._typeChanged('xml');
+      assert.isTrue(out.hasAttribute('language-xml'));
+    });
+  });
+  </script>
+</body>
+</html>

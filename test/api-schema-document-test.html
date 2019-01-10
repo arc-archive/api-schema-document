@@ -17,87 +17,177 @@
     </template>
   </test-fixture>
 
+  <test-fixture id="Render">
+    <template>
+      <api-schema-render></api-schema-render>
+    </template>
+  </test-fixture>
+
   <script>
   /* global AmfLoader */
-  suite('api-schema-document', () => {
-    suite('JSON schema', () => {
-      let element;
+  [
+    ['Full model', false],
+    ['Compact model', true]
+  ].forEach((item) => {
+    suite(item[0], () => {
+      let amfModel;
       suiteSetup(() => {
-        return AmfLoader.load()
-        .then((model) => {
-          element = fixture('Basic');
-          element.amfModel = model;
-          element.shape = model[0]['http://a.ml/vocabularies/document#declares'][1];
+        return AmfLoader.load(item[1])
+        .then((data) => {
+          amfModel = data;
         });
       });
-      test('exampleOnly is computed', () => {
-        assert.isTrue(element.exampleOnly);
+
+      suite('JSON schema', () => {
+        let element;
+        setup((done) => {
+          element = fixture('Basic');
+          element.amfModel = amfModel;
+          const decl = element._computeDeclares(amfModel);
+          element.shape = decl[1];
+          flush(() => done());
+        });
+
+        test('exampleOnly is computed', () => {
+          assert.isTrue(element.exampleOnly);
+        });
+
+        test('schemaOnly is computed', () => {
+          assert.isFalse(element.schemaOnly);
+        });
+
+        test('schemaAndExample is computed', () => {
+          assert.isFalse(element.schemaAndExample);
+        });
+
+        test('_examples is computed', () => {
+          assert.typeOf(element._examples, 'array');
+          assert.lengthOf(element._examples, 1);
+        });
+
+        test('_raw is undefined', () => {
+          assert.isUndefined(element._raw);
+        });
+
+        test('Does not render tabs', (done) => {
+          flush(() => {
+            const node = element.shadowRoot.querySelector('paper-tabs');
+            assert.notOk(node);
+            done();
+          });
+        });
       });
 
-      test('schemaOnly is computed', () => {
-        assert.isFalse(element.schemaOnly);
+      suite('XML schema', () => {
+        let element;
+        setup((done) => {
+          element = fixture('Basic');
+          element.amfModel = amfModel;
+          const decl = element._computeDeclares(amfModel);
+          element.shape = decl[4];
+          flush(() => done());
+        });
+
+        test('exampleOnly is computed', () => {
+          assert.isFalse(element.exampleOnly);
+        });
+
+        test('schemaOnly is computed', () => {
+          assert.isFalse(element.schemaOnly);
+        });
+
+        test('schemaAndExample is computed', () => {
+          assert.isTrue(element.schemaAndExample);
+        });
+
+        test('_examples is computed', () => {
+          assert.typeOf(element._examples, 'array');
+          assert.lengthOf(element._examples, 1);
+        });
+
+        test('_raw is computed', () => {
+          assert.typeOf(element._raw, 'string');
+        });
+
+        test('Renders tabs', (done) => {
+          flush(() => {
+            const node = element.shadowRoot.querySelector('paper-tabs');
+            assert.ok(node);
+            done();
+          });
+        });
       });
 
-      test('schemaAndExample is computed', () => {
-        assert.isFalse(element.schemaAndExample);
-      });
+      suite('_schemaChanged()', () => {
+        let element;
+        let declares;
+        setup(() => {
+          element = fixture('Basic');
+          element.amfModel = amfModel;
+          declares = element._computeDeclares(amfModel);
+        });
 
-      test('_examples is computed', () => {
-        assert.typeOf(element._examples, 'array');
-        assert.lengthOf(element._examples, 1);
-      });
+        test('Sets exampleOnly to false when no shape', () => {
+          element._setExampleOnly(true);
+          element._schemaChanged({});
+          assert.isFalse(element.exampleOnly);
+        });
 
-      test('_raw is undefined', () => {
-        assert.isUndefined(element._raw);
-      });
+        test('Sets schemaOnly to false when no shape', () => {
+          element._setSchemaOnly(true);
+          element._schemaChanged({});
+          assert.isFalse(element.schemaOnly);
+        });
 
-      test('Does not render tabs', (done) => {
-        flush(() => {
-          const node = element.shadowRoot.querySelector('paper-tabs');
-          assert.notOk(node);
-          done();
+        test('Sets schemaAndExample to false when no shape', () => {
+          element._setSchemaAndExample(true);
+          element._schemaChanged({});
+          assert.isFalse(element.schemaAndExample);
+        });
+
+        test('Clears _examples', () => {
+          element._examples = [];
+          element._schemaChanged({});
+          assert.isUndefined(element._examples);
+        });
+
+        test('Clears _raw', () => {
+          element._raw = [];
+          element._schemaChanged({});
+          assert.isUndefined(element._raw);
+        });
+
+        test('Clears state when @type not supported', () => {
+          element._examples = [];
+          const shape = declares[1];
+          shape['@type'] = [];
+          element._schemaChanged(shape);
+          assert.isUndefined(element._examples);
         });
       });
     });
-    suite('XML schema', () => {
-      let element;
-      suiteSetup(() => {
-        return AmfLoader.load()
-        .then((model) => {
-          element = fixture('Basic');
-          element.amfModel = model;
-          element.shape = model[0]['http://a.ml/vocabularies/document#declares'][2];
-        });
-      });
+  });
 
-      test('exampleOnly is computed', () => {
-        assert.isFalse(element.exampleOnly);
-      });
+  suite('_processExamples()', () => {
+    let element;
+    setup(() => {
+      element = fixture('Basic');
+    });
 
-      test('schemaOnly is computed', () => {
-        assert.isFalse(element.schemaOnly);
-      });
+    test('Returns undefined when no argument', () => {
+      const result = element._processExamples();
+      assert.isUndefined(result);
+    });
 
-      test('schemaAndExample is computed', () => {
-        assert.isTrue(element.schemaAndExample);
-      });
+    test('Returns undefined when argument is empty array', () => {
+      const result = element._processExamples([]);
+      assert.isUndefined(result);
+    });
 
-      test('_examples is computed', () => {
-        assert.typeOf(element._examples, 'array');
-        assert.lengthOf(element._examples, 1);
-      });
-
-      test('_raw is computed', () => {
-        assert.typeOf(element._raw, 'string');
-      });
-
-      test('Renders tabs', (done) => {
-        flush(() => {
-          const node = element.shadowRoot.querySelector('paper-tabs');
-          assert.ok(node);
-          done();
-        });
-      });
+    test('Calls _resolve() for each item in array', () => {
+      const spy = sinon.spy(element, '_resolve');
+      element._processExamples([{}, {}]);
+      assert.equal(spy.callCount, 2);
     });
   });
   </script>
