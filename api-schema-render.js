@@ -1,7 +1,7 @@
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import '@polymer/prism-element/prism-theme-default.js';
+import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
+import {afterNextRender} from '../../@polymer/polymer/lib/utils/render-status.js';
+import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
+import '../../@polymer/prism-element/prism-theme-default.js';
 
 class ApiSchemaRender extends PolymerElement {
   static get template() {

@@ -1,13 +1,11 @@
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {AmfHelperMixin} from '@api-components/amf-helper-mixin/amf-helper-mixin.js';
-import '@polymer/polymer/lib/elements/dom-if.js';
-import '@polymer/polymer/lib/elements/dom-repeat.js';
-import '@polymer/prism-element/prism-highlighter.js';
-import '@polymer/paper-tabs/paper-tabs.js';
-import '@polymer/paper-tabs/paper-tab.js';
-import '@polymer/iron-pages/iron-pages.js';
-import '@api-components/raml-aware/raml-aware.js';
+import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
+import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
+import {AmfHelperMixin} from '../../@api-components/amf-helper-mixin/amf-helper-mixin.js';
+import '../../@polymer/prism-element/prism-highlighter.js';
+import '../../@polymer/paper-tabs/paper-tabs.js';
+import '../../@polymer/paper-tabs/paper-tab.js';
+import '../../@polymer/iron-pages/iron-pages.js';
+import '../../@api-components/raml-aware/raml-aware.js';
 import './api-schema-render.js';
 
 /**
