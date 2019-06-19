@@ -12,19 +12,28 @@
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 // tslint:disable:no-any describes the API as best we are able today
 
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {LitElement, html, css, unsafeCSS} from 'lit-element';
 
-import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
-
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-
-declare class ApiSchemaRender extends PolymerElement {
+declare class ApiSchemaRender extends LitElement {
 
   /**
    * Data to render.
    */
   code: string|null|undefined;
   readonly type: string|null|undefined;
+  _type: any;
+  readonly output: any;
+  constructor();
+
+  /**
+   * This is rather dirty hack to import Polymer's `prism-theme-default`.
+   * The theme inserts `dom-module` with styles to the head section upon import.
+   * This method reads the content of the theme and creates CSSResult instance
+   * of it.
+   */
+  static getPrismTheme(): CSSResult|null;
+  firstUpdated(): void;
+  render(): any;
 
   /**
    * Handles highlighting when code changed.

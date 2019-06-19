@@ -12,9 +12,7 @@
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 // tslint:disable:no-any describes the API as best we are able today
 
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {LitElement, html, css} from 'lit-element';
 
 import {AmfHelperMixin} from '@api-components/amf-helper-mixin/amf-helper-mixin.js';
 
@@ -26,7 +24,7 @@ declare namespace ApiElements {
    * A component to render XML schema with examples.
    *
    * Note, if AMF contains unresolved properties (reference-id without resolving
-   * the value) this element will resolve it. `amfModel` must be set on this
+   * the value) this element will resolve it. `amf` must be set on this
    * element to resolve the references.
    *
    * ## Styling
@@ -43,15 +41,15 @@ declare namespace ApiElements {
     Object) {
 
     /**
-     * `raml-aware` scope property to use.
-     */
-    aware: string|null|undefined;
-
-    /**
      * AMF's shape object object.
      * Values for sheba and examples are computed from this model.
      */
     shape: object|null|undefined;
+
+    /**
+     * `raml-aware` scope property to use.
+     */
+    aware: string|null|undefined;
 
     /**
      * Computed `http://www.w3.org/ns/shacl#raw`
@@ -66,25 +64,36 @@ declare namespace ApiElements {
     /**
      * Computed value, true when data contains example only
      */
-    readonly exampleOnly: boolean|null|undefined;
+    _exampleOnly: boolean|null|undefined;
 
     /**
      * Computed value, true when data contains xml schema only
      */
-    readonly schemaOnly: boolean|null|undefined;
+    _schemaOnly: boolean|null|undefined;
 
     /**
      * Computed value, true when data contains example and schema information
      */
-    readonly schemaAndExample: boolean|null|undefined;
+    _schemaAndExample: boolean|null|undefined;
+
+    /**
+     * Currently selected tab.
+     * Relevant when the example contains both example and schema.
+     */
     selectedPage: number|null|undefined;
+    render(): any;
+    _exampleOnlyTemplate(): any;
+    _schemaAndExampleTemplate(): any;
+    _schemaOnlyTemplate(): any;
+    _apiChanged(e: any): void;
+    _selectedPageChanged(e: any): void;
 
     /**
      * Comnputes besic properties for the view.
      *
-     * @param record `shape` change record
+     * @param schema `shape` value
      */
-    _schemaChanged(record: object|null): void;
+    _schemaChanged(schema: object|null): void;
     _processExamples(examples: any): any;
     _computeExampleValue(item: any): any;
   }

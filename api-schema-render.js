@@ -1,47 +1,98 @@
-import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
-import {afterNextRender} from '../../@polymer/polymer/lib/utils/render-status.js';
-import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
-import '../../@polymer/prism-element/prism-theme-default.js';
+import { LitElement, html, css, unsafeCSS } from 'lit-element';
+import '@polymer/prism-element/prism-theme-default.js';
 
-class ApiSchemaRender extends PolymerElement {
-  static get template() {
-    return html`
-    <style include="prism-theme-default"></style>
-    <style>
-    :host {
+class ApiSchemaRender extends LitElement {
+  /**
+   * This is rather dirty hack to import Polymer's `prism-theme-default`.
+   * The theme inserts `dom-module` with styles to the head section upon import.
+   * This method reads the content of the theme and creates CSSResult instance
+   * of it.
+   * @return {CSSResult}
+   */
+  static getPrismTheme() {
+    const theme = document.head.querySelector('dom-module#prism-theme-default');
+    if (!theme) {
+      return;
+    }
+    const tpl = theme.querySelector('template');
+    if (!tpl) {
+      return;
+    }
+    const clone = tpl.content.cloneNode(true);
+    const style = clone.querySelector('style');
+    return unsafeCSS(style.innerText);
+  }
+
+  static get styles() {
+    const styles = css`:host {
       display: block;
       background-color: var(--code-background-color, #f5f2f0);
-      @apply --api-schema-render;
     }
 
     #output {
       white-space: pre-wrap;
-      @apply --code-block;
+      font-family: var(--arc-font-code-family, initial);
+    }`;
+    const prism = ApiSchemaRender.getPrismTheme();
+    const result = [styles];
+    if (prism) {
+      result[result.length] = prism;
     }
-    </style>
-    <code id="output" class="markdown-html"></code>
-`;
+    return result;
   }
 
-  static get is() {
-    return 'api-schema-render';
+  render() {
+    return html`<code id="output" part="markdown-html" class="markdown-html"></code>`;
   }
+
   static get properties() {
     return {
       /**
        * Data to render.
        */
-      code: {
-        type: String,
-        observer: '_codeChanged'
-      },
+      code: { type: String },
 
-      type: {
-        type: String,
-        readOnly: true,
-        observer: '_typeChanged'
-      }
+      type: { type: String }
     };
+  }
+
+  get code() {
+    return this._code;
+  }
+
+  set code(value) {
+    const old = this._code;
+    this._code = value;
+    this.requestUpdate('code', old);
+    this._codeChanged(value);
+  }
+
+  get type() {
+    return this.__type;
+  }
+
+  get _type() {
+    return this.__type;
+  }
+
+  set _type(value) {
+    const old = this.__type;
+    this.__type = value;
+    this.requestUpdate('type', old);
+    this._typeChanged(value);
+  }
+
+  get output() {
+    return this.shadowRoot.querySelector('#output');
+  }
+
+  firstUpdated() {
+    if (this.code) {
+      this._codeChanged(this.code);
+    }
+    if (this.type) {
+      this._typeChanged(this.type);
+    }
   }
   /**
    * Handles highlighting when code changed.
@@ -49,8 +100,12 @@ class ApiSchemaRender extends PolymerElement {
    * @param {String} code
    */
   _codeChanged(code) {
+    const output = this.output;
+    if (!output) {
+      return;
+    }
     if (!code) {
-      this.$.output.innerHTML = '';
+      output.innerHTML = '';
       return;
     }
     let isJson = false;
@@ -58,9 +113,9 @@ class ApiSchemaRender extends PolymerElement {
       JSON.parse(code);
       isJson = true;
     } catch (_) {}
-    this._setType(isJson ? 'json' : 'xml');
-    afterNextRender(this, () => {
-      this.$.output.innerHTML = this.highlight(code);
+    this._type = isJson ? 'json' : 'xml';
+    setTimeout(() => {
+      this.output.innerHTML = this.highlight(code);
     });
   }
   /**
@@ -73,7 +128,7 @@ class ApiSchemaRender extends PolymerElement {
       bubbles: true,
       composed: true,
       detail: {
-        code: code,
+        code,
         lang: this.type || 'xml'
       }
     });
@@ -82,22 +137,27 @@ class ApiSchemaRender extends PolymerElement {
   }
 
   _clearTypeAttribute() {
-    const type = this.$.output.dataset.type;
+    const output = this.output;
+    const type = output.dataset.type;
     if (!type) {
       return;
     }
     const attr = 'language-' + type;
-    this.$.output.removeAttribute(attr);
+    output.removeAttribute(attr);
   }
 
   _typeChanged(type) {
+    const output = this.output;
+    if (!output) {
+      return;
+    }
     this._clearTypeAttribute();
     if (!type) {
       return;
     }
     const attr = 'language-' + type;
-    this.$.output.setAttribute(attr, 'true');
-    this.$.output.dataset.type = type;
+    output.setAttribute(attr, 'true');
+    output.dataset.type = type;
   }
 }
-window.customElements.define(ApiSchemaRender.is, ApiSchemaRender);
+window.customElements.define('api-schema-render', ApiSchemaRender);

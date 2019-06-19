@@ -5,29 +5,13 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
     <title>api-schema-document demo</title>
 
-    <script src="../../../@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="../../../web-animations-js/web-animations-next.min.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/web-animations-js/web-animations-next.min.js"></script>
+    <script type="module" src="../node_modules/@advanced-rest-client/arc-demo-helper/arc-demo-helper.js"></script>
 
-    <script type="module">
-      import '../../../@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
-      import '../../../@polymer/polymer/lib/elements/dom-bind.js';
-      import '../../../@polymer/paper-toast/paper-toast.js';
-      import '../../../@polymer/paper-styles/typography.js';
-      import '../../../@api-components/raml-aware/raml-aware.js';
-      import '../../../@api-components/api-navigation/api-navigation.js';
-      import '../../../@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
-      import '../../../@polymer/paper-item/paper-item.js';
-      import '../../../@polymer/paper-listbox/paper-listbox.js';
-      import '../../../@api-components/api-console-default-theme/api-console-default-theme.js';
-      import '../api-schema-document.js';
-    </script>
-
-    <custom-style>
-      <style is="custom-style" include="demo-pages-shared-styles">
-      [role="main"] {
+    <style>
+      [role="main"].centered {
         max-width: 1100px;
-        @apply --layout-horizontal;
-        @apply --layout-start;
       }
 
       api-navigation {
@@ -38,87 +22,38 @@
 
       api-schema-document {
         margin-left: 40px;
-        @apply --layout-flex;
+        flex: 1;
+        flex-basis: 0.000000001px;
       }
 
       html,
       body {
-        margin: 0;
-        padding: 0;
+        margin: 0 !important;
+        padding: 0 !important;
+
+        --arc-font-body1-font-size: 14px;
+        --arc-font-body1-font-weight: 400;
+        --arc-font-body1-line-height: 20px;
+        --arc-font-code-family: 'Roboto Mono', 'Consolas', 'Menlo', monospace;
+        --code-background-color: #f5f2f0;
       }
 
       header {
         padding: 12px 24px;
         background-color: #C5E1A5;
-        @apply --layout-horizontal;
-        @apply --layout-center;
+        display: flex;
+        align-items: center;
         --iron-icon-fill-color: #3E2723;
         --paper-input-container-focus-color: #33691E;
         --paper-input-container-label: {
           color: #3E2723;
         };
       }
-      </style>
-    </custom-style>
+    </style>
   </head>
   <body>
-    <dom-bind id="demo">
-      <template>
-        <raml-aware raml="{{amfModel}}" scope="demo"></raml-aware>
-        <header>
-          <paper-dropdown-menu label="Select demo endpoint">
-            <paper-listbox slot="dropdown-content" id="enpointsList" on-selected-changed="_apiChanged">
-              <paper-item data-src="demo-api.json">Demo api</paper-item>
-              <paper-item data-src="demo-api-compact.json">Demo api - compact version</paper-item>
-            </paper-listbox>
-          </paper-dropdown-menu>
-        </header>
-        <div class="vertical-section-container centered" role="main">
-          <api-navigation aware="demo" types-opened=""></api-navigation>
-          <api-schema-document aware="demo" shape="[[schemaModel]]"></api-schema-document>
-        </div>
-        <demo-element id="helper" amf-model="{{amfModel}}"></demo-element>
-      </template>
-    </dom-bind>
-    <script type="module">
-    import {PolymerElement} from '../../../@polymer/polymer/polymer-element.js';
-    import {AmfHelperMixin} from '../../../@api-components/amf-helper-mixin/amf-helper-mixin.js';
-    (function(app) {
-      app.hasData = false;
-      app._load = function() {
-        class DemoElement extends AmfHelperMixin(PolymerElement) {}
-        window.customElements.define('demo-element', DemoElement);
-        document.getElementById('enpointsList').selected = 0;
-      };
-      app._loadFile = function(file) {
-        fetch('./' + file)
-        .then((response) => response.json())
-        .then((data) => {
-          app.amfModel = data;
-        });
-      };
-      app._apiChanged = function(e) {
-        const file = e.target.selectedItem.dataset.src;
-        app._loadFile(file);
-      };
+    <div id="demo"></div>
 
-      app._navChanged = function(e) {
-        const type = e.detail.type;
-        if (type === 'type') {
-          app.setData(e.detail.selected);
-          app.hasData = true;
-        } else {
-          app.hasData = false;
-        }
-      };
-      app.setData = function(id) {
-        const declares = app.$.helper._computeDeclares(app.amfModel);
-        const type = declares.find((item) => item['@id'] === id);
-        app.schemaModel = type;
-      };
-      window.addEventListener('WebComponentsReady', () => app._load());
-      window.addEventListener('api-navigation-selection-changed', app._navChanged);
-    })(document.getElementById('demo'));
-    </script>
+    <script type="module" src="index.js"></script>
   </body>
 </html>

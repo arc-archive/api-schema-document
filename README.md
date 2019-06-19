@@ -1,16 +1,12 @@
 [![Published on NPM](https://img.shields.io/npm/v/@api-components/api-schema-document.svg)](https://www.npmjs.com/package/@api-components/api-schema-document)
 
-[![Build Status](https://travis-ci.org/api-components/api-schema-document.svg?branch=stage)](https://travis-ci.org/api-components/api-schema-document)
+[![Build Status](https://travis-ci.org/advanced-rest-client/api-schema-document.svg?branch=stage)](https://travis-ci.org/advanced-rest-client/api-schema-document)
 
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/api-components/api-schema-document)
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/advanced-rest-client/api-schema-document)
 
-## &lt;authorization-panel&gt;
+## &lt;api-schema-document&gt;
 
 A component to render XML/JSON schema with examples.
-
-```html
-<authorization-panel></authorization-panel>
-```
 
 ### API components
 
@@ -29,25 +25,25 @@ npm install --save @api-components/api-schema-document
 <html>
   <head>
     <script type="module">
-      import '@api-components/api-schema-document/authorization-panel.js';
+      import '@api-components/api-schema-document/api-schema-document.js';
     </script>
   </head>
   <body>
-    <authorization-panel></authorization-panel>
+    <api-schema-document></api-schema-document>
   </body>
 </html>
 ```
 
-### In a Polymer 3 element
+### In a LitElement
 
 ```js
-import {PolymerElement, html} from '@polymer/polymer';
-import '@api-components/api-schema-document/authorization-panel.js';
+import { LitElement, html } from 'lit-element';
+import '@api-components/api-schema-document/api-schema-document.js';
 
 class SampleElement extends PolymerElement {
-  static get template() {
+  render() {
     return html`
-    <authorization-panel></authorization-panel>
+    <api-schema-document .amf="${this.amf}"></api-schema-document>
     `;
   }
 }
@@ -57,20 +53,18 @@ customElements.define('sample-element', SampleElement);
 ### Installation
 
 ```sh
-git clone https://github.com/api-components/api-schema-document
-cd api-url-editor
+git clone https://github.com/advanced-rest-client/api-schema-document
+cd api-schema-document
 npm install
-npm install -g polymer-cli
 ```
 
 ### Running the demo locally
 
 ```sh
-polymer serve --npm
-open http://127.0.0.1:<port>/demo/
+npm start
 ```
 
 ### Running the tests
 ```sh
-polymer test --npm
+npm test
 ```

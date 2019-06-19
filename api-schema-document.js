@@ -1,11 +1,10 @@
-import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
-import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
-import {AmfHelperMixin} from '../../@api-components/amf-helper-mixin/amf-helper-mixin.js';
-import '../../@polymer/prism-element/prism-highlighter.js';
-import '../../@polymer/paper-tabs/paper-tabs.js';
-import '../../@polymer/paper-tabs/paper-tab.js';
-import '../../@polymer/iron-pages/iron-pages.js';
-import '../../@api-components/raml-aware/raml-aware.js';
+import { LitElement, html, css } from 'lit-element';
+import { AmfHelperMixin } from '@api-components/amf-helper-mixin/amf-helper-mixin.js';
+import '@polymer/prism-element/prism-highlighter.js';
+import '@polymer/paper-tabs/paper-tabs.js';
+import '@polymer/paper-tabs/paper-tab.js';
+import '@polymer/iron-pages/iron-pages.js';
+import '@api-components/raml-aware/raml-aware.js';
 import './api-schema-render.js';
 
 /**
@@ -14,7 +13,7 @@ import './api-schema-render.js';
  * A component to render XML schema with examples.
  *
  * Note, if AMF contains unresolved properties (reference-id without resolving
- * the value) this element will resolve it. `amfModel` must be set on this
+ * the value) this element will resolve it. `amf` must be set on this
  * element to resolve the references.
  *
  * ## Styling
@@ -32,47 +31,50 @@ import './api-schema-render.js';
  * @memberof ApiElements
  * @appliesMixin AmfHelperMixin
  */
-class ApiSchemaDocument extends AmfHelperMixin(PolymerElement) {
-  static get template() {
-    return html`
-    <style>
-    :host {
+class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
+  static get styles() {
+    return css`:host {
       display: block;
-      @apply --api-schema-document;
-    }
-    </style>
-    <prism-highlighter></prism-highlighter>
-    <template is="dom-if" if="[[aware]]">
-      <raml-aware raml="{{amfModel}}" scope="[[aware]]"></raml-aware>
-    </template>
-    <template is="dom-if" if="[[schemaOnly]]">
-      <api-schema-render code="[[_raw]]"></api-schema-render>
-    </template>
-    <template is="dom-if" if="[[exampleOnly]]">
-      <template is="dom-repeat" items="[[_examples]]">
-        <api-schema-render code="[[_computeExampleValue(item)]]"></api-schema-render>
-      </template>
-    </template>
-    <template is="dom-if" if="[[schemaAndExample]]">
-      <paper-tabs class="schemas" selected="{{selectedPage}}">
-        <paper-tab>Schema</paper-tab>
-        <paper-tab>Examples</paper-tab>
-      </paper-tabs>
-      <iron-pages selected="[[selectedPage]]">
-        <api-schema-render code="[[_raw]]"></api-schema-render>
-        <div class="examples">
-          <template is="dom-repeat" items="[[_examples]]">
-            <api-schema-render code="[[_computeExampleValue(item)]]"></api-schema-render>
-          </template>
-        </div>
-      </iron-pages>
-    </template>
-`;
+    }`;
   }
 
-  static get is() {
-    return 'api-schema-document';
+  render() {
+    return html`<prism-highlighter></prism-highlighter>
+    ${this.aware ?
+      html`<raml-aware @api-changed="${this._apiChanged}" .scope="${this.aware}"></raml-aware>` : undefined}
+
+    ${this._schemaOnly ? this._schemaOnlyTemplate() : undefined}
+    ${this._exampleOnly ? this._exampleOnlyTemplate() : undefined}
+    ${this._schemaAndExample ? this._schemaAndExampleTemplate() : undefined}`;
   }
+
+  _exampleOnlyTemplate() {
+    const items = this._examples;
+    if (!items || !items.length) {
+      return;
+    }
+    return items.map((item) => html`<api-schema-render
+      .code="${this._computeExampleValue(item)}"></api-schema-render>`);
+  }
+
+  _schemaAndExampleTemplate() {
+    return html`<paper-tabs class="schemas" .selected="${this.selectedPage}"
+      @selected-changed="${this._selectedPageChanged}">
+      <paper-tab>Schema</paper-tab>
+      <paper-tab>Examples</paper-tab>
+    </paper-tabs>
+    <iron-pages .selected="${this.selectedPage}">
+      ${this._schemaOnlyTemplate()}
+      <div class="examples">
+        ${this._exampleOnlyTemplate()}
+      </div>
+    </iron-pages>`;
+  }
+
+  _schemaOnlyTemplate() {
+    return html`<api-schema-render .code="${this._raw}"></api-schema-render>`;
+  }
+
   static get properties() {
     return {
       /**
@@ -93,42 +95,56 @@ class ApiSchemaDocument extends AmfHelperMixin(PolymerElement) {
        */
       _examples: Array,
 
-      // Computed value, true when data contains example only
-      exampleOnly: {
-        type: Boolean,
-        readOnly: true
-      },
-      // Computed value, true when data contains xml schema only
-      schemaOnly: {
-        type: Boolean,
-        readOnly: true
-      },
-      // Computed value, true when data contains example and schema information
-      schemaAndExample: {
-        type: Boolean,
-        readOnly: true
-      },
-      selectedPage: {
-        type: Number,
-        value: 0
-      }
+      /**
+       * Computed value, true when data contains example only
+       */
+      _exampleOnly: { type: Boolean },
+      /**
+       * Computed value, true when data contains xml schema only
+       */
+      _schemaOnly: { type: Boolean },
+      /**
+       * Computed value, true when data contains example and schema information
+       */
+      _schemaAndExample: { type: Boolean },
+      /**
+       * Currently selected tab.
+       * Relevant when the example contains both example and schema.
+       */
+      selectedPage: { type: Number }
     };
   }
 
-  static get observers() {
-    return [
-      '_schemaChanged(shape.*)'
-    ];
+  get shape() {
+    return this._shape;
+  }
+
+  set shape(value) {
+    const old = this._shape;
+    this._shape = value;
+    this.requestUpdate('shape', old);
+    this._schemaChanged(value);
+  }
+
+  constructor() {
+    super();
+    this.selectedPage = 0;
+  }
+
+  _apiChanged(e) {
+    this.amf = e.detail.value;
+  }
+
+  _selectedPageChanged(e) {
+    this.selectedPage = e.detail.value;
   }
   /**
    * Comnputes besic properties for the view.
-   * @param {Object} record `shape` change record
+   * @param {Object} schema `shape` value
    */
-  _schemaChanged(record) {
+  _schemaChanged(schema) {
     this._examples = undefined;
     this._raw = undefined;
-
-    let schema = record.base;
     let exampleOnly = false;
     let schemaOnly = false;
     let schemaAndExample = false;
@@ -153,9 +169,9 @@ class ApiSchemaDocument extends AmfHelperMixin(PolymerElement) {
     exampleOnly = !!(examples && examples.length && !raw);
     schemaOnly = !!(!examples && raw);
     schemaAndExample = !!(raw && examples && examples.length);
-    this._setExampleOnly(exampleOnly);
-    this._setSchemaOnly(schemaOnly);
-    this._setSchemaAndExample(schemaAndExample);
+    this._exampleOnly = exampleOnly;
+    this._schemaOnly = schemaOnly;
+    this._schemaAndExample = schemaAndExample;
     this._examples = examples;
     this._raw = raw;
   }
@@ -176,4 +192,4 @@ class ApiSchemaDocument extends AmfHelperMixin(PolymerElement) {
     return raw;
   }
 }
-window.customElements.define(ApiSchemaDocument.is, ApiSchemaDocument);
+window.customElements.define('api-schema-document', ApiSchemaDocument);
