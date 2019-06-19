@@ -1,0 +1,11 @@
+coverage/
+test/
+gen-tsd.json
+wct.conf.json
+CONTRIBUTING.md
+analysis.json
+demo/
+.travis.yml
+index.html
+polymer.json
+karma.*
