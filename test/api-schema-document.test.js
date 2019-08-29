@@ -92,6 +92,20 @@ describe('<api-schema-document>', function() {
           const node = element.shadowRoot.querySelector('anypoint-tabs');
           assert.ok(node);
         });
+
+        it('renders api-schema-render for default page selection', async () => {
+          await aTimeout();
+          const node = element.shadowRoot.querySelector('api-schema-render');
+          assert.ok(node);
+        });
+
+        it('renders api-schema-render', async () => {
+          await aTimeout();
+          element.selectedPage = 1;
+          await aTimeout();
+          const node = element.shadowRoot.querySelector('api-schema-render');
+          assert.ok(node);
+        });
       });
 
       describe('_schemaChanged()', () => {

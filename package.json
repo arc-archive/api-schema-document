@@ -28,7 +28,6 @@
     "@api-components/amf-helper-mixin": "^3.1.4",
     "@anypoint-web-components/anypoint-tabs": "^0.1.0",
     "@api-components/raml-aware": "^3.0.0",
-    "@polymer/iron-pages": "^3.0.0",
     "@polymer/prism-element": "^3.0.0",
     "lit-element": "^2.2.1"
   },

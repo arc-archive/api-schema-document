@@ -3,7 +3,6 @@ import { AmfHelperMixin } from '@api-components/amf-helper-mixin/amf-helper-mixi
 import '@polymer/prism-element/prism-highlighter.js';
 import '@anypoint-web-components/anypoint-tabs/anypoint-tabs.js';
 import '@anypoint-web-components/anypoint-tabs/anypoint-tab.js';
-import '@polymer/iron-pages/iron-pages.js';
 import '@api-components/raml-aware/raml-aware.js';
 import './api-schema-render.js';
 
@@ -67,12 +66,15 @@ class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
       <anypoint-tab>Schema</anypoint-tab>
       <anypoint-tab>Examples</anypoint-tab>
     </anypoint-tabs>
-    <iron-pages .selected="${this.selectedPage}">
-      ${this._schemaOnlyTemplate()}
-      <div class="examples">
-        ${this._exampleOnlyTemplate()}
-      </div>
-    </iron-pages>`;
+    ${this._renderSelectedPage()}`;
+  }
+
+  _renderSelectedPage() {
+    switch (this.selectedPage) {
+      case 0: return this._schemaOnlyTemplate();
+      case 1: return this._exampleOnlyTemplate();
+      default: return '';
+    }
   }
 
   _schemaOnlyTemplate() {
