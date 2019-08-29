@@ -1,8 +1,8 @@
 import { LitElement, html, css } from 'lit-element';
 import { AmfHelperMixin } from '@api-components/amf-helper-mixin/amf-helper-mixin.js';
 import '@polymer/prism-element/prism-highlighter.js';
-import '@polymer/paper-tabs/paper-tabs.js';
-import '@polymer/paper-tabs/paper-tab.js';
+import '@anypoint-web-components/anypoint-tabs/anypoint-tabs.js';
+import '@anypoint-web-components/anypoint-tabs/anypoint-tab.js';
 import '@polymer/iron-pages/iron-pages.js';
 import '@api-components/raml-aware/raml-aware.js';
 import './api-schema-render.js';
@@ -58,11 +58,15 @@ class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
   }
 
   _schemaAndExampleTemplate() {
-    return html`<paper-tabs class="schemas" .selected="${this.selectedPage}"
+    return html`
+    <anypoint-tabs
+      class="schemas"
+      .selected="${this.selectedPage}"
+      ?compatibility="${this.compatibility}"
       @selected-changed="${this._selectedPageChanged}">
-      <paper-tab>Schema</paper-tab>
-      <paper-tab>Examples</paper-tab>
-    </paper-tabs>
+      <anypoint-tab>Schema</anypoint-tab>
+      <anypoint-tab>Examples</anypoint-tab>
+    </anypoint-tabs>
     <iron-pages .selected="${this.selectedPage}">
       ${this._schemaOnlyTemplate()}
       <div class="examples">
@@ -111,7 +115,15 @@ class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
        * Currently selected tab.
        * Relevant when the example contains both example and schema.
        */
-      selectedPage: { type: Number }
+      selectedPage: { type: Number },
+      /**
+       * @deprecated Use `compatibility` instead
+       */
+      legacy: { type: Boolean },
+      /**
+       * Enables compatibility with Anypoint components.
+       */
+      compatibility: { type: Boolean }
     };
   }
 

@@ -1,6 +1,6 @@
 import { fixture, assert, nextFrame, aTimeout } from '@open-wc/testing';
 import { AmfLoader } from './amf-loader.js';
-import sinon from 'sinon/pkg/sinon-esm.js';
+import * as sinon from 'sinon/pkg/sinon-esm.js';
 import '../api-schema-document.js';
 
 describe('<api-schema-document>', function() {
@@ -51,7 +51,7 @@ describe('<api-schema-document>', function() {
 
         it('Does not render tabs', async () => {
           await aTimeout();
-          const node = element.shadowRoot.querySelector('paper-tabs');
+          const node = element.shadowRoot.querySelector('anypoint-tabs');
           assert.notOk(node);
         });
       });
@@ -89,7 +89,7 @@ describe('<api-schema-document>', function() {
 
         it('Renders tabs', async () => {
           await aTimeout();
-          const node = element.shadowRoot.querySelector('paper-tabs');
+          const node = element.shadowRoot.querySelector('anypoint-tabs');
           assert.ok(node);
         });
       });

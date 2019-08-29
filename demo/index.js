@@ -52,6 +52,7 @@ class ApiDemo extends ApiDemoPageBase {
     const helper = this.helper;
     const declares = helper._computeDeclares(this.amf);
     const type = declares.find((item) => item['@id'] === id);
+    console.log(type);
     this.schemaModel = type;
     this.hasData = true;
   }
