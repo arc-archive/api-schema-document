@@ -108,11 +108,13 @@ class ApiSchemaRender extends LitElement {
       output.innerHTML = '';
       return;
     }
-    let isJson = false;
+    let isJson;
     try {
       JSON.parse(code);
       isJson = true;
-    } catch (_) {}
+    } catch (_) {
+      isJson = false;
+    }
     this._type = isJson ? 'json' : 'xml';
     setTimeout(() => {
       this.output.innerHTML = this.highlight(code);
