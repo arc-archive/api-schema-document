@@ -81,9 +81,16 @@ declare namespace ApiElements {
      * Relevant when the example contains both example and schema.
      */
     selectedPage: number|null|undefined;
+    legacy: boolean|null|undefined;
+
+    /**
+     * Enables compatibility with Anypoint components.
+     */
+    compatibility: boolean|null|undefined;
     render(): any;
     _exampleOnlyTemplate(): any;
     _schemaAndExampleTemplate(): any;
+    _renderSelectedPage(): any;
     _schemaOnlyTemplate(): any;
     _apiChanged(e: any): void;
     _selectedPageChanged(e: any): void;

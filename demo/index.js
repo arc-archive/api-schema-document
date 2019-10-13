@@ -52,7 +52,6 @@ class ApiDemo extends ApiDemoPageBase {
     const helper = this.helper;
     const declares = helper._computeDeclares(this.amf);
     const type = declares.find((item) => item['@id'] === id);
-    console.log(type);
     this.schemaModel = type;
     this.hasData = true;
   }
@@ -61,7 +60,7 @@ class ApiDemo extends ApiDemoPageBase {
     return html`
     <demo-element id="helper" .amf="${this.amf}"></demo-element>
     ${this.hasData ?
-      html`<api-schema-document aware="demo" .shape="${this.schemaModel}"></api-schema-document>` :
+      html`<api-schema-document .amf="${this.amf}" .shape="${this.schemaModel}"></api-schema-document>` :
       html`<p>Select type in the navigation to see the demo.</p>`}
     `;
   }

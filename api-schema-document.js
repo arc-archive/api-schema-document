@@ -25,7 +25,6 @@ import './api-schema-render.js';
  * `api-schema-render` | Mixin applied to schema renderer element | `{}`
  *
  * @customElement
- * @polymer
  * @demo demo/index.html
  * @memberof ApiElements
  * @appliesMixin AmfHelperMixin
@@ -167,15 +166,15 @@ class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
 
     if (schema) {
       schema = this._resolve(schema);
-      if (this._hasType(schema, this.ns.w3.shacl.name + 'SchemaShape') ||
-        this._hasType(schema, this.ns.raml.vocabularies.shapes + 'AnyShape') ||
-        this._hasType(schema, this.ns.raml.vocabularies.shapes + 'ScalarShape') ||
-        this._hasType(schema, this.ns.w3.shacl.name + 'NodeShape')) {
-        raw = this._getValue(schema, this.ns.raml.vocabularies.document + 'raw');
+      if (this._hasType(schema, this.ns.w3.shacl.SchemaShape) ||
+        this._hasType(schema, this.ns.aml.vocabularies.shapes.AnyShape) ||
+        this._hasType(schema, this.ns.aml.vocabularies.shapes.ScalarShape) ||
+        this._hasType(schema, this.ns.w3.shacl.NodeShape)) {
+        raw = this._getValue(schema, this.ns.aml.vocabularies.document.raw);
         if (!raw) {
-          raw = this._getValue(schema, this.ns.w3.shacl.name + 'raw');
+          raw = this._getValue(schema, this.ns.w3.shacl.raw);
         }
-        const key = this._getAmfKey(this.ns.raml.vocabularies.document + 'examples');
+        const key = this._getAmfKey(this.ns.aml.vocabularies.apiContract.examples);
         const exs = this._ensureArray(schema[key]);
         examples = this._processExamples(exs);
       }
@@ -199,9 +198,9 @@ class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
 
   _computeExampleValue(item) {
     item = this._resolve(item);
-    let raw = this._getValue(item, this.ns.raml.vocabularies.document + 'raw');
+    let raw = this._getValue(item, this.ns.raml.vocabularies.document.raw);
     if (!raw) {
-      raw = this._getValue(item, this.ns.w3.shacl.name + 'raw');
+      raw = this._getValue(item, this.ns.w3.shacl.raw);
     }
     return raw;
   }
