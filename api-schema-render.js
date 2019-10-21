@@ -23,7 +23,7 @@ class ApiSchemaRender extends LitElement {
     return unsafeCSS(style.innerText);
   }
 
-  static get styles() {
+  get styles() {
     const styles = css`:host {
       display: block;
       background-color: var(--code-background-color, #f5f2f0);
@@ -42,7 +42,8 @@ class ApiSchemaRender extends LitElement {
   }
 
   render() {
-    return html`<code id="output" part="markdown-html" class="markdown-html"></code>`;
+    return html`<style>${this.styles}</style>
+<code id="output" part="markdown-html" class="markdown-html"></code>`;
   }
 
   static get properties() {
