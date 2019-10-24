@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:pil:bespoke.response">
+    <ResponseHdr>  
+        <Status>OK</Status> 	
+        <OrgnlMsgId>ORGNLMSGID001</OrgnlMsgId> <!--Mapped from received  payment instruction request. Xpath :  Document/CstmrCdtTrfInitn/GrpHdr/MsgId --> 
+        <Code>200</Code> 
+    </ResponseHdr>
+    <ResponseBody>  
+        <ResponseInfAndSts>
+            <RsnInf> 
+                <Status>PaymentInstrSubmitted</Status>
+                <RsnCd>PI001</RsnCd>   
+                <RsnCdDesc>Payment Instruction successfully Submitted</RsnCdDesc>
+                <AddtlInf>Additional Details</AddtlInf>
+            </RsnInf>
+            <ProcessorRsnInf>  
+                <ProcessorStatus>BIWAITQ</ProcessorStatus> <!--Mapped from <P_MSG_STS> -->
+            </ProcessorRsnInf>
+        </ResponseInfAndSts>
+    </ResponseBody>
+</Document>

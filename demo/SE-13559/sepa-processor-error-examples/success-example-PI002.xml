@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:pil:bespoke.response">
+	<ResponseHdr>  
+		<Status>OK</Status> 	
+		<OrgnlMsgId>MsgIdPain001935901</OrgnlMsgId> 
+		<Code>200</Code>
+	</ResponseHdr>
+	<ResponseBody>  
+	<ResponseInfAndSts>
+		<RsnInf> 
+			<Status>PaymentAccepted</Status>
+			<RsnCd>PI002</RsnCd>   
+			<RsnCdDesc>Payment Instruction successfully submitted and status is Accepted</RsnCdDesc> 
+		</RsnInf>
+		<ProcessorRsnInf>  
+			<ProcessorStatus>ACSC</ProcessorStatus> 
+			<Pain2Document>
+			<c:CstmrPmtStsRpt xmlns:c="urn:iso:std:iso:20022:tech:xsd:pain.002.001.03">
+               <c:GrpHdr>
+                  <c:MsgId>01bb3f809e6b4aaba8edc7292498a9d2</c:MsgId>
+                  <c:CreDtTm>2018-07-23T10:00:18.035-04:00</c:CreDtTm>
+                  <c:InitgPty>
+                     <c:Id>
+                        <c:OrgId>
+                           <c:BICOrBEI>CCFRFRP0</c:BICOrBEI>
+                        </c:OrgId>
+                     </c:Id>
+                  </c:InitgPty>
+               </c:GrpHdr>
+               <c:OrgnlGrpInfAndSts>
+                  <c:OrgnlMsgId>MsgIdPain001935901</c:OrgnlMsgId>
+                  <c:OrgnlMsgNmId>pain.001.001.03</c:OrgnlMsgNmId>
+                  <c:OrgnlCreDtTm>2018-07-23T09:18:00</c:OrgnlCreDtTm>
+                  <c:OrgnlNbOfTxs>1</c:OrgnlNbOfTxs>
+                  <c:OrgnlCtrlSum>359.01</c:OrgnlCtrlSum>
+               </c:OrgnlGrpInfAndSts>
+               <c:OrgnlPmtInfAndSts>
+                  <c:OrgnlPmtInfId>PmtInfIdPain001935901</c:OrgnlPmtInfId>
+                  <c:TxInfAndSts>
+                     <c:OrgnlInstrId>InstrIdPain001935901</c:OrgnlInstrId>
+                     <c:OrgnlEndToEndId>EndToEndIdPain001935901</c:OrgnlEndToEndId>
+                     <c:TxSts>ACSC</c:TxSts>
+                     <c:AcctSvcrRef>FR18072300800063</c:AcctSvcrRef>
+                     <c:OrgnlTxRef>
+                        <c:IntrBkSttlmAmt Ccy="EUR">359.01</c:IntrBkSttlmAmt>
+                        <c:Amt>
+                           <c:EqvtAmt>
+                              <c:Amt Ccy="EUR">359.01</c:Amt>
+                              <c:CcyOfTrf>EUR</c:CcyOfTrf>
+                           </c:EqvtAmt>
+                        </c:Amt>
+                        <c:IntrBkSttlmDt>2018-07-23</c:IntrBkSttlmDt>
+                        <c:ReqdColltnDt>2018-07-23</c:ReqdColltnDt>
+                        <c:ReqdExctnDt>2018-07-23</c:ReqdExctnDt>
+                        <c:PmtTpInf>
+                           <c:LclInstrm>
+                              <c:Prtry>IPSCT</c:Prtry>
+                           </c:LclInstrm>
+                           <c:CtgyPurp>
+                              <c:Cd>CASH</c:Cd>
+                           </c:CtgyPurp>
+                        </c:PmtTpInf>
+                        <c:RmtInf>
+                           <c:Ustrd>Remittance Info 9359</c:Ustrd>
+                        </c:RmtInf>
+                        <c:UltmtDbtr>
+                           <c:Nm>Ultimate Debtor Name 1</c:Nm>
+                        </c:UltmtDbtr>
+                        <c:Dbtr>
+                           <c:Nm>TEST Name1</c:Nm>
+                           <c:PstlAdr>
+                              <c:AdrLine>Address Line 1</c:AdrLine>
+                              <c:AdrLine>Address Line 2</c:AdrLine>
+                           </c:PstlAdr>
+                           <c:CtryOfRes>FR</c:CtryOfRes>
+                        </c:Dbtr>
+                        <c:DbtrAcct>
+                           <c:Id>
+                              <c:IBAN>FR5361742550116846431607602</c:IBAN>
+                           </c:Id>
+                        </c:DbtrAcct>
+                        <c:CdtrAgt>
+                           <c:FinInstnId>
+                              <c:BIC>WIBADE5WXXX</c:BIC>
+                           </c:FinInstnId>
+                        </c:CdtrAgt>
+                        <c:Cdtr>
+                           <c:Nm>BENEFICIARY NAME 1</c:Nm>
+                           <c:PstlAdr>
+                              <c:AdrLine>Beneficiary Address Line 1</c:AdrLine>
+                              <c:AdrLine>Beneficiary Address Line 2</c:AdrLine>
+                           </c:PstlAdr>
+                           <c:CtryOfRes>DE</c:CtryOfRes>
+                        </c:Cdtr>
+                        <c:CdtrAcct>
+                           <c:Id>
+                              <c:IBAN>DE76510900007999706309</c:IBAN>
+                           </c:Id>
+                        </c:CdtrAcct>
+                     </c:OrgnlTxRef>
+                  </c:TxInfAndSts>
+               </c:OrgnlPmtInfAndSts>
+            </c:CstmrPmtStsRpt>
+			</Pain2Document>
+		</ProcessorRsnInf>
+	</ResponseInfAndSts>
+	</ResponseBody>
+</Document>

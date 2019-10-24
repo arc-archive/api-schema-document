@@ -56,6 +56,16 @@ class ApiDemo extends ApiDemoPageBase {
     this.hasData = true;
   }
 
+  _apiListTemplate() {
+    return [
+      ['demo-api', 'ARC demo api'],
+      ['payments-initiation', 'SE-13559'],
+    ].map(([file, label]) => html`
+    <paper-item data-src="${file}-compact.json">${label} - compact model</paper-item>
+    <paper-item data-src="${file}.json">${label}</paper-item>
+    `);
+  }
+
   contentTemplate() {
     return html`
     <demo-element id="helper" .amf="${this.amf}"></demo-element>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="urn:pil:bespoke.response" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="urn:pil:bespoke.response">
+    <xs:element name="Document" type="DocumentType"/>
+    <xs:complexType name="ResponseHdrType">
+        <xs:sequence>
+	      	<xs:element name="Status" type="StatusType"/>
+	      	<xs:element maxOccurs="1" minOccurs="0" name="OrgnlMsgId" type="xs:string"/>  <!--29/01/019 - Changed type as "string" and removed the Min and Max Length -->
+	      	<xs:element name="Code" type="CodeType"/>
+	      	<xs:element maxOccurs="1" minOccurs="0" name="CodeDescription" type="xs:string"/> <!--29/01/019 - Changed type as "string" and removed the Min and Max Length -->
+		  	<xs:element maxOccurs="1" minOccurs="0" name="AddtlInf" type="xs:string"/> <!--29/01/019 - Changed type as "string" and removed the Min and Max Length -->
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="RsnInfType">
+        <xs:sequence>
+	      	<xs:element maxOccurs="1" minOccurs="0" name="Status" type="xs:string"/> <!--29/01/019 - Changed type as "string" and removed the Min and Max Length -->
+	      	<xs:element maxOccurs="1" minOccurs="0" name="RsnCd" type="RsnCdType"/>
+	      	<xs:element maxOccurs="1" minOccurs="0" name="RsnCdDesc" type="xs:string"/> <!--29/01/019 - Changed type as "string" and removed the Min and Max Length -->
+	      	<xs:element maxOccurs="1" minOccurs="0" name="AddtlInf" type="xs:string"/>     <!--29/01/019 - Changed type as "string" and removed the Min and Max Length. Also changed the maxOccurs="1" from "10" -->
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ProcessorRsnInfType">
+        <xs:sequence>
+	      	<xs:element maxOccurs="1" minOccurs="0" name="ProcessorStatus" type="xs:string"/> <!--29/01/019 - Changed type as "string" and removed the Min and Max Length -->
+	      	<xs:element maxOccurs="1" minOccurs="0" name="ProcessorRsnCd" type="xs:string"/> <!--29/01/019 - Changed type as "string" and removed the Min and Max Length -->
+	      	<xs:element maxOccurs="1" minOccurs="0" name="ProcessorRsnCdDesc" type="xs:string"/> <!--29/01/019 - Changed type as "string" and removed the Min and Max Length -->
+	      	<xs:element maxOccurs="1" minOccurs="0" name="Pain2Document" type="Pain2type"/> <!--06/02/019 - Created New Tag-->
+	      	<xs:element maxOccurs="1" minOccurs="0" name="ProcessorAddtlInf" type="xs:string"/> <!--29/01/019 - Changed type as "string" and removed the Min and Max Length -->
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ResponseInfAndStsType">
+        <xs:sequence>
+      		<xs:element name="RsnInf" type="RsnInfType"/>   <!--19/11/2018 - Marked as Mandatory. removed maxOccurs="1" minOccurs="0"  -->
+      		<xs:element maxOccurs="10" minOccurs="0" name="ProcessorRsnInf" type="ProcessorRsnInfType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ResponseBodyType">
+        <xs:sequence>
+      		<xs:element maxOccurs="200" minOccurs="1" name="ResponseInfAndSts" type="ResponseInfAndStsType"/> <!--19/11/2018 - Marked as Mandatory. Changed minOccurs="1" from "0" -->
+        </xs:sequence>
+     </xs:complexType>   
+    <xs:simpleType name="RsnCdType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Z]{2}[0-9]{3}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="StatusType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="OK"/>
+            <xs:enumeration value="NOTOK"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CodeType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{3}"/>
+        </xs:restriction>
+    </xs:simpleType>
+	<xs:complexType name="Pain2type"> <!--13/02/019 - Created New Tag-->
+		<xs:sequence>
+			<xs:any maxOccurs="1" minOccurs="0" namespace="##any" processContents="lax"/>  
+		</xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DocumentType">
+        <xs:sequence>
+	      	<xs:element name="ResponseHdr" type="ResponseHdrType"/>
+	      	<xs:element maxOccurs="1" minOccurs="0" name="ResponseBody" type="ResponseBodyType"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:pil:bespoke.response">
+	<ResponseHdr>  
+		<Status>NOTOK</Status> 	
+		<OrgnlMsgId>ORGNLMSGID001</OrgnlMsgId> <!--Mapped from received  payment instruction request. Xpath :  Document/CstmrCdtTrfInitn/GrpHdr/MsgId --> 
+		<Code>400</Code> 
+	</ResponseHdr>
+	<ResponseBody>  
+	<ResponseInfAndSts>
+		<RsnInf> 
+			<Status>ReqNotCreated</Status>
+			<RsnCd>MS002</RsnCd>   
+			<RsnCdDesc>Request not created due to technical failure</RsnCdDesc>
+		</RsnInf>
+		<ProcessorRsnInf>  
+			<ProcessorRsnCd>40207</ProcessorRsnCd>  <!--Mapped from <F_MSGERR_CODE> -->          
+			<ProcessorRsnCdDesc>ABCD</ProcessorRsnCdDesc> <!--Mapped from <F_MSGERR_DESC> -->
+		</ProcessorRsnInf>
+	</ResponseInfAndSts>
+	</ResponseBody>
+</Document>

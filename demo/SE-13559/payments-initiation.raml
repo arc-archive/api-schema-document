@@ -1,0 +1,97 @@
+#%RAML 0.8
+title: Payments Initiation API
+baseUri: https://anypoint-if-dev.hk.hsbc/payments-glcm/initiation/{version}
+version: 1.0.0
+  
+traits: 
+- common-header: !include traits/internal-technical-traits.raml 
+- security-header: !include traits/e2e-trust-traits.raml 
+  
+schemas: 
+- pain00100103-schema: !include schemas/pain00100103.xsd
+- response-schema: !include schemas/bespoke-response.xsd
+  
+/payments:
+  displayName: payments-initiation
+  description: This API is used to initiate payment in pain00100103 format.
+           
+  post:
+   is: [common-header, security-header]
+   description: This API is used to initiate payment in pain00100103 format.
+   
+   body:
+      application/xml:
+        schema: pain00100103-schema
+        example: !include examples/pain00100103-example.xml 
+                    
+   responses: 
+       200: 
+         body: 
+           application/xml: 
+            schema: response-schema
+            example: !include examples/success-example.xml 
+       
+       202: 
+         description: Accepted / Received by Bank
+         body: 
+           application/xml: 
+            schema: response-schema
+            example: !include sepa-processor-error-examples/success-example-PI001.xml 
+       
+       400: 
+        description: Bad request - Client error indicating that the request was not properly formatted.
+        body: 
+          application/xml:
+            schema: response-schema
+            example: !include examples/error-example-400.xml
+       
+       401: 
+        description: Unable to invoke a https webservice with a valid certificate.
+        body: 
+          application/xml:
+            schema: response-schema
+            example: !include examples/error-example-401.xml
+            
+       403: 
+        description: Forbidden
+        body: 
+          application/xml:
+            schema: response-schema
+            example: !include examples/error-example-403.xml
+       
+       405: 
+        description:  Method Not Allowed
+        body: 
+          application/xml:
+            schema: response-schema
+            example: !include examples/error-example-405.xml
+                          
+       
+       406: 
+        description: not Acceptable - Failed to determine Payment Engine Route
+        body: 
+          application/xml:
+            schema: response-schema
+            example: !include examples/error-example-406.xml
+       
+       415: 
+        description:  Unsupported Media Type
+        body: 
+          application/xml:
+            schema: response-schema
+            example: !include examples/error-example-415.xml
+       
+       422: 
+        description:  Missing Mandatory Fields received from Channel
+        body: 
+          application/xml:
+            schema: response-schema
+            example: !include usrtp-processor-error-examples/error-example-422.xml
+       
+       500: 
+        description:  Internal Server Error
+        body: 
+          application/xml:
+            schema: response-schema
+            example: !include examples/error-example-500.xml
+       

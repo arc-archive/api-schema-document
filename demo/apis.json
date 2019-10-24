@@ -1,3 +1,4 @@
 {
-  "demo-api/demo-api.raml": "RAML 1.0"
+  "demo-api/demo-api.raml": "RAML 1.0",
+  "SE-13559/payments-initiation.raml": "RAML 0.8"
 }

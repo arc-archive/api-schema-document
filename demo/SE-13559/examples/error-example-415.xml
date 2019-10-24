@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:pil:bespoke.response">
+    <ResponseHdr>  
+        <Status>NOTOK</Status> 	
+        <OrgnlMsgId>ORGNLMSGID001</OrgnlMsgId> 
+        <Code>415</Code> 
+        <CodeDescription>Unsupported Media Type</CodeDescription>
+        <AddtlInf>Actual Error Message</AddtlInf>
+    </ResponseHdr>
+</Document>

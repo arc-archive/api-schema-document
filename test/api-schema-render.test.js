@@ -1,4 +1,4 @@
-import { fixture, assert, nextFrame } from '@open-wc/testing';
+import { fixture, assert, nextFrame, aTimeout } from '@open-wc/testing';
 import '../api-schema-render.js';
 
 describe('<api-schema-render>', function() {
@@ -75,6 +75,33 @@ describe('<api-schema-render>', function() {
     it('Sets language-* attribute', () => {
       element._typeChanged('xml');
       assert.isTrue(out.hasAttribute('language-xml'));
+    });
+  });
+
+  describe('Huge schema rendering', () => {
+    let element;
+    let out;
+    beforeEach(async () => {
+      element = await basicFixture();
+      await nextFrame();
+      out = element.shadowRoot.querySelector('#output');
+    });
+
+    function getString(size) {
+      size = size || 10001;
+      let result = '<element>';
+      for (let i = 0; i < size; i++) {
+        result += 'a';
+      }
+      result += '</result>';
+      return result;
+    }
+
+    it('renders sanitized code', async () => {
+      element._codeChanged(getString());
+      await aTimeout();
+      const result = out.innerHTML;
+      assert.equal(result.substr(0, 16), '&lt;element&gt;a');
     });
   });
 });
