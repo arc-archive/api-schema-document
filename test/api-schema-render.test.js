@@ -1,5 +1,5 @@
 import { fixture, assert, nextFrame, aTimeout } from '@open-wc/testing';
-import '../api-schema-render.js';
+import { SafeHtmlUtils } from '../api-schema-render.js';
 
 describe('<api-schema-render>', function() {
   async function basicFixture() {
@@ -78,6 +78,40 @@ describe('<api-schema-render>', function() {
     });
   });
 
+  describe('SafeHtmlUtils', () => {
+    describe('htmlEscape()', () => {
+      it('returns the same input when no string', () => {
+        const result = SafeHtmlUtils.htmlEscape(22);
+        assert.equal(result, 22);
+      });
+
+      it('replaces "&" characters', () => {
+        const result = SafeHtmlUtils.htmlEscape('&a&');
+        assert.equal(result, '&amp;a&amp;');
+      });
+
+      it('replaces "<" characters', () => {
+        const result = SafeHtmlUtils.htmlEscape('<a<');
+        assert.equal(result, '&lt;a&lt;');
+      });
+
+      it('replaces ">" characters', () => {
+        const result = SafeHtmlUtils.htmlEscape('>a>');
+        assert.equal(result, '&gt;a&gt;');
+      });
+
+      it('replaces quote characters', () => {
+        const result = SafeHtmlUtils.htmlEscape('"a"');
+        assert.equal(result, '&quot;a&quot;');
+      });
+
+      it('replaces single quote characters', () => {
+        const result = SafeHtmlUtils.htmlEscape("'a'");
+        assert.equal(result, '&#39;a&#39;');
+      });
+    });
+  });
+
   describe('Huge schema rendering', () => {
     let element;
     let out;
@@ -89,7 +123,7 @@ describe('<api-schema-render>', function() {
 
     function getString(size) {
       size = size || 10001;
-      let result = '<element>';
+      let result = '<element>&"\'';
       for (let i = 0; i < size; i++) {
         result += 'a';
       }
@@ -101,7 +135,9 @@ describe('<api-schema-render>', function() {
       element._codeChanged(getString());
       await aTimeout();
       const result = out.innerHTML;
-      assert.equal(result.substr(0, 16), '&lt;element&gt;a');
+      // even though the " and ' characters are replaced when reading them back
+      // from the output element they are converted to " and '
+      assert.equal(result.substr(0, 20), '&lt;element&gt;&amp;');
     });
   });
 });

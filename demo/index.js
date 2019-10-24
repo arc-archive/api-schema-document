@@ -14,25 +14,12 @@ window.customElements.define('demo-element', DemoElement);
 class ApiDemo extends ApiDemoPageBase {
   constructor() {
     super();
+    this.initObservableProperties([
+      'hasData', 'schemaModel', 'mediaType', 'partentTypeId'
+    ]);
     this.endpointsOpened = false;
     this.typesOpened = true;
     this.hasData = false;
-  }
-
-  get hasData() {
-    return this._hasData;
-  }
-
-  set hasData(value) {
-    this._setObservableProperty('hasData', value);
-  }
-
-  get schemaModel() {
-    return this._schemaModel;
-  }
-
-  set schemaModel(value) {
-    this._setObservableProperty('schemaModel', value);
   }
 
   get helper() {
@@ -41,8 +28,11 @@ class ApiDemo extends ApiDemoPageBase {
 
   _navChanged(e) {
     const { selected, type } = e.detail;
+    this.mediaType = undefined;
     if (type === 'type') {
       this.setData(selected);
+    } else if (type === 'method') {
+      this.setMethodData(selected);
     } else {
       this.hasData = false;
     }
@@ -53,6 +43,19 @@ class ApiDemo extends ApiDemoPageBase {
     const declares = helper._computeDeclares(this.amf);
     const type = declares.find((item) => item['@id'] === id);
     this.schemaModel = type;
+    this.hasData = true;
+  }
+
+  setMethodData(id) {
+    const helper = this.helper;
+    const webApi = helper._computeWebApi(this.amf);
+    const method = helper._computeMethodModel(webApi, id);
+    const expects = helper._computeExpects(method);
+    const payload = helper._computePayload(expects)[0];
+    this.partentTypeId = payload['@id'];
+    this.mediaType = helper._getValue(payload, helper.ns.aml.vocabularies.core.mediaType);
+    const schemaKey = helper._getAmfKey(helper.ns.aml.vocabularies.shapes.schema);
+    this.schemaModel = helper._ensureArray(payload[schemaKey])[0];
     this.hasData = true;
   }
 
@@ -67,10 +70,11 @@ class ApiDemo extends ApiDemoPageBase {
   }
 
   contentTemplate() {
+    const { amf, schemaModel, mediaType, partentTypeId } = this;
     return html`
-    <demo-element id="helper" .amf="${this.amf}"></demo-element>
+    <demo-element id="helper" .amf="${amf}"></demo-element>
     ${this.hasData ?
-      html`<api-schema-document .amf="${this.amf}" .shape="${this.schemaModel}"></api-schema-document>` :
+      html`<api-schema-document .amf="${amf}" .mediaType="${mediaType}" .partentTypeId="${partentTypeId}" .shape="${schemaModel}"></api-schema-document>` :
       html`<p>Select type in the navigation to see the demo.</p>`}
     `;
   }

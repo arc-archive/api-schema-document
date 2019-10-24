@@ -28,6 +28,7 @@
     "@advanced-rest-client/prism-highlight": "^4.0.1",
     "@anypoint-web-components/anypoint-tabs": "^0.1.7",
     "@api-components/amf-helper-mixin": "^4.0.10",
+    "@api-components/api-example-generator": "^4.0.3",
     "@api-components/raml-aware": "^3.0.0",
     "@polymer/prism-element": "^3.0.0",
     "lit-element": "^2.2.1"

@@ -56,7 +56,9 @@ class ApiSchemaRender extends LitElement {
        * Data to render.
        */
       code: { type: String },
-
+      /**
+       * A syntax highlighter type. One of PrismJs types.
+       */
       type: { type: String }
     };
   }
@@ -73,16 +75,12 @@ class ApiSchemaRender extends LitElement {
   }
 
   get type() {
-    return this.__type;
+    return this._type;
   }
 
-  get _type() {
-    return this.__type;
-  }
-
-  set _type(value) {
-    const old = this.__type;
-    this.__type = value;
+  set type(value) {
+    const old = this._type;
+    this._type = value;
     this.requestUpdate('type', old);
     this._typeChanged(value);
   }
@@ -99,6 +97,17 @@ class ApiSchemaRender extends LitElement {
       this._typeChanged(this.type);
     }
   }
+
+  _detectType(code) {
+    let isJson;
+    try {
+      JSON.parse(code);
+      isJson = true;
+    } catch (_) {
+      isJson = false;
+    }
+    this.type = isJson ? 'json' : 'xml';
+  }
   /**
    * Handles highlighting when code changed.
    * Note that the operation is async.
@@ -114,14 +123,9 @@ class ApiSchemaRender extends LitElement {
       return;
     }
     code = String(code);
-    let isJson;
-    try {
-      JSON.parse(code);
-      isJson = true;
-    } catch (_) {
-      isJson = false;
+    if (!this.type) {
+      this._detectType(code);;
     }
-    this._type = isJson ? 'json' : 'xml';
     setTimeout(() => {
       this.output.innerHTML = this.highlight(code);
     });
