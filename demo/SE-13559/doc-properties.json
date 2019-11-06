@@ -1,0 +1,45 @@
+ {
+  "docPropertyVersion": "1.0.1",
+    "main": {
+        "title": "Payments Request Service (PRS) Initiation",
+        "media": {
+			"alt_text": "Cards Image",
+            "url": "https://www.hsbc.co.uk/1/PA_esf-ca-app-content/content/pws/theme/personal_general/footer/images/online-banking_299x202.jpg"
+        }
+    },
+    "purpose": {
+        "section_text": "Payments Request Service (via the PRS API) enables HSBC Digital channels to initiate single credit payments transfers to HSBC payment processing engines and to external schemes for clearing and faster payments.  
+The PRS will provide:
+•	A secure real time infrastructure to send messages from the customer channel to the payment processing engine or external payment scheme provider.
+•	Fully ISO compliant message structures and enriched ISO data set (ISO Pain message set).
+•	Fully compliant with Payment Transparency (PT) requirements.
+•	Enables access to other value add services such as Sanctions checking, Validation and FundsCheck.
+•	Enable the capture of client data for reporting and analysis via new analytics tools and google data cloud solutions.
+•	Global infrastructure covering all channels and countries (planned in 2020/21)
+    -  Digital Connect, HSBCnet, BIB and Swift GPi
+    -  All GPS and HUB countries
+	
+	Note: This API does NOT validate payments. Please use payments-membership-validation API to validate members before initiating any payments.
+	"
+    },
+    "documentation": {
+        "section_text": "All supporting documents can be found in HSBC confluence.",
+        "doc_links": [
+        {
+            "alt_text": "PRS End to End Architecture",
+            "url": "https://alm-confluence.systems.uk.hsbc/confluence/display/EP/02+End+to+End+Architecture"
+        },
+		{
+            "alt_text": "Payments and GLCM APIs Security Strategy",
+            "url": "https://alm-confluence.systems.uk.hsbc/confluence/display/PaymentsGLCM/API+Security+Strategy"
+        },
+		{
+            "alt_text": "Consumer Onboarding Guide (API Entitlements and Active Directory Structure)",
+            "url": "https://alm-confluence.systems.uk.hsbc/confluence/display/PaymentsGLCM/API+Entitlements+and+Active+Directory+Structure"
+        }]
+    },
+    "security": {
+        "section_text": "All NPIP APIs uses B2B Security Pattern. NPIP consumers should always use an AD account to authenticate with the Identity Provider. 
+		The IdP will issue a Session ID that the consumer can use to invoke Payments API calls until the session expires. Please refer to Documentation section for NPIP security guide and Consumer Onboarding Guide to consumer any NPIP APIs."
+    }
+}

@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<Document xmlns="urn:pil:bespoke.response">
+    <ResponseHdr>
+        <Status>NOTOK</Status>
+        <OrgnlMsgId>ABC/090928/CCT002</OrgnlMsgId>
+        <Code>500</Code>
+    </ResponseHdr>
+    <ResponseBody>
+        <ResponseInfAndSts>
+            <RsnInf>
+                <Status>TechnicalErrorReceived</Status>
+                <RsnCd>TR001</RsnCd>
+                <RsnCdDesc>Payment Instruction is not successfully submitted due to technical error received from payment processor</RsnCdDesc>
+            </RsnInf>
+            <ProcessorRsnInf>
+                <ProcessorRsnCd>Soap Error</ProcessorRsnCd>
+                <ProcessorRsnCdDesc>Required field: MsgId is missing in the request.</ProcessorRsnCdDesc>
+                <ProcessorAddtlInf>{detail={serviceExceptionInfo={ExceptionDtTm=2018-08-29T11:54:59.306+01:00, Error={Code=MISSING_FIELD, Description=Required field: MsgId is missing in the request}}}}</ProcessorAddtlInf>
+            </ProcessorRsnInf>
+        </ResponseInfAndSts>
+    </ResponseBody>
+</Document>

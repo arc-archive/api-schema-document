@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:pil:bespoke.response">
+	<ResponseHdr>  
+		<Status>NOTOK</Status> 	
+		<OrgnlMsgId>ORGNLMSGID001</OrgnlMsgId> 
+		<Code>422</Code>
+	</ResponseHdr>
+	<ResponseBody>
+	<ResponseInfAndSts>
+		<RsnInf> 
+			<Status>Rejected</Status>
+			<RsnCd>PL002</RsnCd>   
+			<RsnCdDesc>Required mandatory field is missing</RsnCdDesc>
+			<AddtlInf>Error: Field Cdtr/Nm is not present in received payment instruction</AddtlInf> <!-- This is a sample error in AddtlInf -->
+		</RsnInf>
+	</ResponseInfAndSts>
+	</ResponseBody>
+</Document>

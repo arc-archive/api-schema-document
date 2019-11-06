@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:pil:bespoke.response">
+	<ResponseHdr>  
+		<Status>OK</Status> 	
+		<OrgnlMsgId>ORGNLMSGID001</OrgnlMsgId>
+		<Code>202</Code>
+	</ResponseHdr>
+	<ResponseBody>  
+	<ResponseInfAndSts>
+		<RsnInf> 
+			<Status>PaymentReceived</Status>
+			<RsnCd>PI001</RsnCd>   
+			<RsnCdDesc>Payment Instruction successfully submitted and status is Received</RsnCdDesc>
+		</RsnInf>
+	</ResponseInfAndSts>
+	</ResponseBody>
+</Document>

@@ -1,28 +1,38 @@
-import { LitElement, html, css, unsafeCSS } from 'lit-element';
-import '@polymer/prism-element/prism-theme-default.js';
+import { LitElement, html, css } from 'lit-element';
+import prismStyles from '@advanced-rest-client/prism-highlight/prism-styles.js';
+/**
+ * Transforms input into a content to be rendered in the code view.
+ */
+export const SafeHtmlUtils = {
+  AMP_RE: new RegExp(/&/g),
+  GT_RE: new RegExp(/>/g),
+  LT_RE: new RegExp(/</g),
+  SQUOT_RE: new RegExp(/'/g),
+  QUOT_RE: new RegExp(/"/g),
+  htmlEscape: function(s) {
+    if (typeof s !== 'string') {
+      return s;
+    }
+    if (s.indexOf('&') !== -1) {
+      s = s.replace(SafeHtmlUtils.AMP_RE, '&amp;');
+    }
+    if (s.indexOf('<') !== -1) {
+      s = s.replace(SafeHtmlUtils.LT_RE, '&lt;');
+    }
+    if (s.indexOf('>') !== -1) {
+      s = s.replace(SafeHtmlUtils.GT_RE, '&gt;');
+    }
+    if (s.indexOf('"') !== -1) {
+      s = s.replace(SafeHtmlUtils.QUOT_RE, '&quot;');
+    }
+    if (s.indexOf("'") !== -1) {
+      s = s.replace(SafeHtmlUtils.SQUOT_RE, '&#39;');
+    }
+    return s;
+  }
+};
 
 class ApiSchemaRender extends LitElement {
-  /**
-   * This is rather dirty hack to import Polymer's `prism-theme-default`.
-   * The theme inserts `dom-module` with styles to the head section upon import.
-   * This method reads the content of the theme and creates CSSResult instance
-   * of it.
-   * @return {CSSResult}
-   */
-  static getPrismTheme() {
-    const theme = document.head.querySelector('dom-module#prism-theme-default');
-    if (!theme) {
-      return;
-    }
-    const tpl = theme.querySelector('template');
-    if (!tpl) {
-      return;
-    }
-    const clone = tpl.content.cloneNode(true);
-    const style = clone.querySelector('style');
-    return unsafeCSS(style.innerText);
-  }
-
   get styles() {
     const styles = css`:host {
       display: block;
@@ -33,12 +43,7 @@ class ApiSchemaRender extends LitElement {
       white-space: pre-wrap;
       font-family: var(--arc-font-code-family, initial);
     }`;
-    const prism = ApiSchemaRender.getPrismTheme();
-    const result = [styles];
-    if (prism) {
-      result[result.length] = prism;
-    }
-    return result;
+    return [styles, prismStyles];
   }
 
   render() {
@@ -52,7 +57,9 @@ class ApiSchemaRender extends LitElement {
        * Data to render.
        */
       code: { type: String },
-
+      /**
+       * A syntax highlighter type. One of PrismJs types.
+       */
       type: { type: String }
     };
   }
@@ -69,16 +76,12 @@ class ApiSchemaRender extends LitElement {
   }
 
   get type() {
-    return this.__type;
+    return this._type;
   }
 
-  get _type() {
-    return this.__type;
-  }
-
-  set _type(value) {
-    const old = this.__type;
-    this.__type = value;
+  set type(value) {
+    const old = this._type;
+    this._type = value;
     this.requestUpdate('type', old);
     this._typeChanged(value);
   }
@@ -95,6 +98,17 @@ class ApiSchemaRender extends LitElement {
       this._typeChanged(this.type);
     }
   }
+
+  _detectType(code) {
+    let isJson;
+    try {
+      JSON.parse(code);
+      isJson = true;
+    } catch (_) {
+      isJson = false;
+    }
+    this.type = isJson ? 'json' : 'xml';
+  }
   /**
    * Handles highlighting when code changed.
    * Note that the operation is async.
@@ -109,14 +123,10 @@ class ApiSchemaRender extends LitElement {
       output.innerHTML = '';
       return;
     }
-    let isJson;
-    try {
-      JSON.parse(code);
-      isJson = true;
-    } catch (_) {
-      isJson = false;
+    code = String(code);
+    if (!this.type) {
+      this._detectType(code);;
     }
-    this._type = isJson ? 'json' : 'xml';
     setTimeout(() => {
       this.output.innerHTML = this.highlight(code);
     });
@@ -127,6 +137,11 @@ class ApiSchemaRender extends LitElement {
    * @return {String} Highlighted code.
    */
   highlight(code) {
+    if (code.length > 10000) {
+      // schemas that are huge causes browser to choke or hang.
+      // This just sanitizes the schema and renders unprocessed data.
+      return SafeHtmlUtils.htmlEscape(code);
+    }
     const ev = new CustomEvent('syntax-highlight', {
       bubbles: true,
       composed: true,

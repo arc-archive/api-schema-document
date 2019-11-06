@@ -30,8 +30,28 @@ types:
     properties:
       street: string
       city: string
-/post:
+/json-schema:
   post:
     body:
       application/json:
         type: SchemaPerson
+/xml-schema:
+  post:
+    body:
+      application/xml:
+        type: XmlTypeSchema
+/raml-xml-schema:
+  post:
+    body:
+      application/xml:
+        type: Person
+/raml-json-simple-schema:
+  post:
+    body:
+      application/json:
+        type: SimpleSchema
+/raml-json-no-example-schema:
+  post:
+    body:
+      application/json:
+        type: Address

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="PaymentsInitiationServiceAPI"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tns="http://group.hsbc.com/paymentsglcm/pil/"
+	xmlns:ns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03"
+	xmlns:ns1="urn:pil:bespoke.response"
+    targetNamespace="http://group.hsbc.com/paymentsglcm/pil/">
+
+    <wsdl:types>
+        <xs:schema targetNamespace="http://group.hsbc.com/paymentsglcm/pil/"> 
+			<xs:import namespace="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03" schemaLocation ="./schemas/pain00100103.xsd"/>
+			<xs:import namespace="urn:pil:bespoke.response" schemaLocation="./schemas/bespoke-response.xsd"/>
+	elementFormDefault="qualified"/> 
+		</xs:schema> 
+    </wsdl:types>
+
+    <wsdl:message name="PaymentsInitiationRequest">
+        <wsdl:part name="requestMessage" element="ns:Document" ></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="PaymentsInitiationResponse">
+        <wsdl:part name="responseMessage" element="ns1:Document" ></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="SOAPFaultMessage">
+        <wsdl:part name="faultCode" type="xs:string" />
+		<wsdl:part name="faultString" type="xs:string" />
+    </wsdl:message>
+    
+    <wsdl:portType name="PaymentsInitiationPortType">
+        <wsdl:operation name="PaymentsInitiationOperation">
+            <wsdl:input message="tns:PaymentsInitiationRequest" />
+            <wsdl:output message="tns:PaymentsInitiationResponse" />
+            <wsdl:fault name="SOAPFault" message="tns:SOAPFaultMessage" />
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="PaymentsInitiationBinding" type="tns:PaymentsInitiationPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+        <wsdl:operation name="PaymentsInitiationOperation">
+            <soap:operation soapAction="http://group.hsbc.com/paymentsglcm/pil/" style="document" />
+            <wsdl:input>
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="SOAPFault" />
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="PaymentsInitiationService">
+        <wsdl:port name="PaymentsInitiationPort" binding="tns:PaymentsInitiationBinding">
+            <soap:address location="http://hkl20061366.hc.cloud.hk.hsbc:8085/PaymentsInitiationService/PaymentsInitiationPort" />
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
+

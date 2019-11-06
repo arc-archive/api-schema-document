@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:pil:bespoke.response">
+	<ResponseHdr>  
+		<Status>NOTOK</Status> 	
+		<OrgnlMsgId>ORGNLMSGID001</OrgnlMsgId> <!--Mapped from received  payment instruction request. Xpath :  Document/CstmrCdtTrfInitn/GrpHdr/MsgId --> 
+		<Code>422</Code> 
+	</ResponseHdr>
+	<ResponseBody>  
+	<ResponseInfAndSts>
+		<RsnInf> 
+			<Status>Rejected</Status>
+			<RsnCd>PL002</RsnCd>   
+			<RsnCdDesc>Required mandatory field is missing </RsnCdDesc>
+			<AddtlInf>Actual Error Message</AddtlInf>
+		</RsnInf>
+	</ResponseInfAndSts>
+	</ResponseBody>
+</Document>

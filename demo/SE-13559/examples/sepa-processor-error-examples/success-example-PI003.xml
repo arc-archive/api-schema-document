@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:pil:bespoke.response">
+	<ResponseHdr>  
+		<Status>OK</Status> 	
+		<OrgnlMsgId>MsgIdPain001934402</OrgnlMsgId> 
+		<Code>200</Code>
+	</ResponseHdr>
+	<ResponseBody>  
+	<ResponseInfAndSts>
+		<RsnInf> 
+			<Status>PaymentRejected</Status>
+			<RsnCd>PI003</RsnCd>
+			<RsnCdDesc>Payment Instruction successfully submitted and status is Rejected</RsnCdDesc> 
+		</RsnInf>
+		<ProcessorRsnInf>  
+			<ProcessorStatus>RJCT</ProcessorStatus> 
+			<Pain2Document>
+			<c:CstmrPmtStsRpt xmlns:c="urn:iso:std:iso:20022:tech:xsd:pain.002.001.03">
+               <c:GrpHdr>
+                  <c:MsgId>7b5e4fbd33b64186b6f672f2f10e6f6f</c:MsgId>
+                  <c:CreDtTm>2018-07-20T11:40:44.022-04:00</c:CreDtTm>
+                  <c:InitgPty>
+                     <c:Id>
+                        <c:OrgId>
+                           <c:BICOrBEI>CCFRFRP0</c:BICOrBEI>
+                        </c:OrgId>
+                     </c:Id>
+                  </c:InitgPty>
+               </c:GrpHdr>
+               <c:OrgnlGrpInfAndSts>
+                  <c:OrgnlMsgId>MsgIdPain001934402</c:OrgnlMsgId>
+                  <c:OrgnlMsgNmId>pain.001.001.03</c:OrgnlMsgNmId>
+                  <c:OrgnlCreDtTm>2018-07-19T09:18:00</c:OrgnlCreDtTm>
+                  <c:OrgnlNbOfTxs>1</c:OrgnlNbOfTxs>
+                  <c:OrgnlCtrlSum>344.02</c:OrgnlCtrlSum>
+               </c:OrgnlGrpInfAndSts>
+               <c:OrgnlPmtInfAndSts>
+                  <c:OrgnlPmtInfId>PmtInfIdPain001934402</c:OrgnlPmtInfId>
+                  <c:TxInfAndSts>
+                     <c:OrgnlInstrId>InstrIdPain001934402</c:OrgnlInstrId>
+                     <c:OrgnlEndToEndId>EndToEndIdPain001934402</c:OrgnlEndToEndId>
+                     <c:TxSts>RJCT</c:TxSts>
+                     <c:StsRsnInf>
+                        <c:Rsn>
+                           <c:Prtry>GQ004</c:Prtry>
+                        </c:Rsn>
+                        <c:AddtlInf>(GQ004) Unable to determine a debit account.</c:AddtlInf>
+                     </c:StsRsnInf>
+                     <c:AcctSvcrRef>FR18072000800002</c:AcctSvcrRef>
+                     <c:OrgnlTxRef>
+                        <c:IntrBkSttlmAmt Ccy="EUR">344.02</c:IntrBkSttlmAmt>
+                        <c:Amt>
+                           <c:EqvtAmt>
+                              <c:Amt Ccy="EUR">344.02</c:Amt>
+                              <c:CcyOfTrf>EUR</c:CcyOfTrf>
+                           </c:EqvtAmt>
+                        </c:Amt>
+                        <c:IntrBkSttlmDt>2018-07-20</c:IntrBkSttlmDt>
+                        <c:ReqdColltnDt>2018-07-19</c:ReqdColltnDt>
+                        <c:ReqdExctnDt>2018-07-19</c:ReqdExctnDt>
+                        <c:PmtTpInf>
+                           <c:CtgyPurp>
+                              <c:Cd>CASH</c:Cd>
+                           </c:CtgyPurp>
+                        </c:PmtTpInf>
+                        <c:RmtInf>
+                           <c:Ustrd>Remittance Info 9344</c:Ustrd>
+                        </c:RmtInf>
+                        <c:UltmtDbtr>
+                           <c:Nm>Ultimate Debtor Name 1</c:Nm>
+                        </c:UltmtDbtr>
+                        <c:Dbtr>
+                           <c:Nm>ORIGINATOR NAME 1</c:Nm>
+                           <c:PstlAdr>
+                              <c:AdrLine>Originator Address Line 1</c:AdrLine>
+                              <c:AdrLine>Originator Address Line 2</c:AdrLine>
+                           </c:PstlAdr>
+                           <c:CtryOfRes>FR</c:CtryOfRes>
+                        </c:Dbtr>
+                        <c:DbtrAcct>
+                           <c:Id>
+                              <c:Othr>
+                                 <c:Id>FR7634079485479151316050426</c:Id>
+                              </c:Othr>
+                           </c:Id>
+                        </c:DbtrAcct>
+                        <c:CdtrAgt>
+                           <c:FinInstnId>
+                              <c:BIC>WIBADE5WXXX</c:BIC>
+                           </c:FinInstnId>
+                        </c:CdtrAgt>
+                        <c:Cdtr>
+                           <c:Nm>BENEFICIARY NAME 1</c:Nm>
+                           <c:PstlAdr>
+                              <c:AdrLine>Beneficiary Address Line 1</c:AdrLine>
+                              <c:AdrLine>Beneficiary Address Line 2</c:AdrLine>
+                           </c:PstlAdr>
+                           <c:CtryOfRes>DE</c:CtryOfRes>
+                        </c:Cdtr>
+                        <c:CdtrAcct>
+                           <c:Id>
+                              <c:Othr>
+                                 <c:Id>DE76510900007999706309</c:Id>
+                              </c:Othr>
+                           </c:Id>
+                        </c:CdtrAcct>
+                     </c:OrgnlTxRef>
+                  </c:TxInfAndSts>
+               </c:OrgnlPmtInfAndSts>
+            </c:CstmrPmtStsRpt>
+			</Pain2Document>
+		</ProcessorRsnInf>
+	</ResponseInfAndSts>
+	</ResponseBody>
+</Document>

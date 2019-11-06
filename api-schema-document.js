@@ -4,6 +4,7 @@ import '@polymer/prism-element/prism-highlighter.js';
 import '@anypoint-web-components/anypoint-tabs/anypoint-tabs.js';
 import '@anypoint-web-components/anypoint-tabs/anypoint-tab.js';
 import '@api-components/raml-aware/raml-aware.js';
+import '@api-components/api-example-generator/api-example-generator.js';
 import './api-schema-render.js';
 
 /**
@@ -52,8 +53,10 @@ class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
     if (!items || !items.length) {
       return;
     }
+    const type = this._mediaType;
     return items.map((item) => html`<api-schema-render
-      .code="${this._computeExampleValue(item)}"></api-schema-render>`);
+      .code="${item.value}"
+      .type="${type}"></api-schema-render>`);
   }
 
   _schemaAndExampleTemplate() {
@@ -78,7 +81,9 @@ class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
   }
 
   _schemaOnlyTemplate() {
-    return html`<api-schema-render .code="${this._raw}"></api-schema-render>`;
+    return html`<api-schema-render
+      .code="${this._raw}"
+      .type="${this._mediaType}"></api-schema-render>`;
   }
 
   static get properties() {
@@ -86,20 +91,31 @@ class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
       /**
        * `raml-aware` scope property to use.
        */
-      aware: String,
+      aware: { type: String },
       /**
        * AMF's shape object object.
        * Values for sheba and examples are computed from this model.
        */
-      shape: Object,
+      shape: { type: Object },
+      /**
+       * A media type of the schema. Currently only `application/json` and
+       * `application/xml` is supported.
+       */
+      mediaType: { type: String },
+      /**
+       * A parent AMF schape ID, if available.
+       * This is to be used when the view renders examples for method documentation
+       * and partent type is Payload definition.
+       */
+      partentTypeId: { type: String },
       /**
        * Computed `http://www.w3.org/ns/shacl#raw`
        */
-      _raw: String,
+      _raw: { type: String },
       /**
        * Computed list of examples
        */
-      _examples: Array,
+      _examples: { type: Array },
 
       /**
        * Computed value, true when data contains example only
@@ -140,9 +156,42 @@ class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
     this._schemaChanged(value);
   }
 
+  /**
+   * @return {Element} Instance of `api-example-generator` element.
+   */
+  get _exampleGenerator() {
+    if (!this.__exampleGenerator) {
+      this.__exampleGenerator = document.createElement('api-example-generator');
+    }
+    return this.__exampleGenerator;
+  }
+
+  get _mediaType() {
+    const { mediaType } = this;
+    if (typeof mediaType !== 'string') {
+      return null;
+    }
+    if (mediaType.indexOf('xml') !== -1) {
+      return 'xml';
+    }
+    if (mediaType.indexOf('json') !== -1) {
+      return 'json';
+    }
+    return null
+  }
+
   constructor() {
     super();
     this.selectedPage = 0;
+  }
+
+  disconnectedCallback() {
+    if (super.disconnectedCallback) {
+      super.disconnectedCallback();
+    }
+    if (this.__exampleGenerator) {
+      delete this.__exampleGenerator;
+    }
   }
 
   _apiChanged(e) {
@@ -164,20 +213,14 @@ class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
     let schemaAndExample = false;
     let raw;
     let examples;
-
     if (schema) {
       schema = this._resolve(schema);
       if (this._hasType(schema, this.ns.w3.shacl.SchemaShape) ||
         this._hasType(schema, this.ns.aml.vocabularies.shapes.AnyShape) ||
         this._hasType(schema, this.ns.aml.vocabularies.shapes.ScalarShape) ||
         this._hasType(schema, this.ns.w3.shacl.NodeShape)) {
-        raw = this._getValue(schema, this.ns.aml.vocabularies.document.raw);
-        if (!raw) {
-          raw = this._getValue(schema, this.ns.w3.shacl.raw);
-        }
-        const key = this._getAmfKey(this.ns.aml.vocabularies.apiContract.examples);
-        const exs = this._ensureArray(schema[key]);
-        examples = this._processExamples(exs);
+        raw = this._computeRawValue(schema);
+        examples = this._computeModelExamples(schema);
       }
     }
     exampleOnly = !!(examples && examples.length && !raw);
@@ -190,20 +233,53 @@ class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
     this._raw = raw;
   }
 
-  _processExamples(examples) {
-    if (!examples || !examples.length) {
-      return;
-    }
-    return examples.map((item) => this._resolve(item));
-  }
-
-  _computeExampleValue(item) {
-    item = this._resolve(item);
-    let raw = this._getValue(item, this.ns.raml.vocabularies.document.raw);
+  _computeRawValue(schema) {
+    let raw = this._getValue(schema, this.ns.aml.vocabularies.document.raw);
     if (!raw) {
-      raw = this._getValue(item, this.ns.w3.shacl.raw);
+      raw = this._getValue(schema, this.ns.w3.shacl.raw);
+    }
+    if (!raw) {
+      raw = this._computeSourceMapsSchema(schema);
     }
     return raw;
+  }
+
+  _computeSourceMapsSchema(schema) {
+    const sKey = this._getAmfKey(this.ns.aml.vocabularies.docSourceMaps.sources);
+    let sources = this._ensureArray(schema[sKey]);
+    if (!sources) {
+      return;
+    }
+    sources = sources[0];
+    const jKey = this._getAmfKey(this.ns.aml.vocabularies.docSourceMaps.parsedJsonSchema);
+    let jSchema = this._ensureArray(sources[jKey]);
+    if (!jSchema) {
+      return;
+    }
+    jSchema = jSchema[0];
+    const vKey = this._getAmfKey(this.ns.aml.vocabularies.docSourceMaps.value);
+    let result = this._ensureArray(jSchema[vKey]);
+    if (Array.isArray(result)) {
+      result = result[0]['@value'];
+    }
+    return result;
+  }
+
+  /**
+   * Computes list of examples for the Property model.
+   *
+   * @param {Object} model AMF property model
+   * @return {Array<Object>|undefined} List of examples or `undefined` if not
+   * defined.
+   */
+  _computeModelExamples(model) {
+    const gen = this._exampleGenerator;
+    gen.amf = this.amf;
+    const mt = this.mediaType || 'application/xml';
+    return gen.computeExamples(model, mt, {
+      // noAuto: true,
+      typeId: this.partentTypeId
+    });
   }
 }
 window.customElements.define('api-schema-document', ApiSchemaDocument);

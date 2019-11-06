@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:pil:bespoke.response">
+	<ResponseHdr>  
+		<Status>NOTOK</Status> 	
+		<OrgnlMsgId>ORGNLMSGID001</OrgnlMsgId> 
+		<Code>500</Code> 
+		<CodeDescription>Server is currently unresponsive</CodeDescription>
+    <AddtlInf>Actual Error Message</AddtlInf>
+	</ResponseHdr>
+</Document>

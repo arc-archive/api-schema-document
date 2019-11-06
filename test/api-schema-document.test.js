@@ -1,21 +1,28 @@
-import { fixture, assert, nextFrame, aTimeout } from '@open-wc/testing';
+import { fixture, assert, html, nextFrame, aTimeout } from '@open-wc/testing';
 import { AmfLoader } from './amf-loader.js';
-import * as sinon from 'sinon/pkg/sinon-esm.js';
 import '../api-schema-document.js';
 
 describe('<api-schema-document>', function() {
-  async function basicFixture() {
-    return (await fixture(`<api-schema-document></api-schema-document>`));
+  async function basicFixture(amf) {
+    return (await fixture(html`<api-schema-document .amf="${amf}"></api-schema-document>`));
+  }
+
+  async function payloadFixture(amf, partentTypeId, mediaType, shape) {
+    return (await fixture(html`<api-schema-document
+      .amf="${amf}"
+      .mediaType="${mediaType}"
+      .partentTypeId="${partentTypeId}"
+      .shape="${shape}"></api-schema-document>`));
   }
 
   [
-    ['Full model', false],
+    // ['Full model', false],
     ['Compact model', true]
-  ].forEach((item) => {
-    describe(item[0], () => {
+  ].forEach(([label, compact]) => {
+    describe(label, () => {
       let amfModel;
       before(async () => {
-        amfModel = await AmfLoader.load(item[1]);
+        amfModel = await AmfLoader.load(compact);
       });
 
       describe('JSON schema', () => {
@@ -155,29 +162,53 @@ describe('<api-schema-document>', function() {
           assert.isUndefined(element._examples);
         });
       });
-    });
-  });
 
-  describe('_processExamples()', () => {
-    let element;
-    beforeEach(async () => {
-      element = await basicFixture();
-    });
+      describe('Schema and examples processing', () => {
+        it('renders json schema + example', async () => {
+          const [id, mediaType, model] = AmfLoader.lookupPayloadSchema(amfModel, '/json-schema', 'post');
+          const element = await payloadFixture(amfModel, id, mediaType, model);
+          await aTimeout();
+          assert.isTrue(element._schemaAndExample, '_schemaAndExample is set');
+          assert.include(element._raw, '{\n  "$id": "http://example.com/example.json",', '_raw is set');
+          assert.lengthOf(element._examples, 1, '_examples is set');
+        });
 
-    it('Returns undefined when no argument', () => {
-      const result = element._processExamples();
-      assert.isUndefined(result);
-    });
+        it('renders XML schema + example', async () => {
+          const [id, mediaType, model] = AmfLoader.lookupPayloadSchema(amfModel, '/xml-schema', 'post');
+          const element = await payloadFixture(amfModel, id, mediaType, model);
+          await aTimeout();
+          assert.isTrue(element._schemaAndExample, '_schemaAndExample is set');
+          assert.include(element._raw, '<?xml version="1.0" encoding="UTF-8"?>', '_raw is set');
+          assert.lengthOf(element._examples, 1, '_examples is set');
+        });
 
-    it('Returns undefined when argument is empty array', () => {
-      const result = element._processExamples([]);
-      assert.isUndefined(result);
-    });
+        it('renders XML example only for RAML type', async () => {
+          const [id, mediaType, model] = AmfLoader.lookupPayloadSchema(amfModel, '/raml-xml-schema', 'post');
+          const element = await payloadFixture(amfModel, id, mediaType, model);
+          await aTimeout();
+          assert.isTrue(element._exampleOnly, '_exampleOnly is set');
+          assert.isUndefined(element._raw, '_raw is not set');
+          assert.lengthOf(element._examples, 1, '_examples is set');
+        });
 
-    it('Calls _resolve() for each item in array', () => {
-      const spy = sinon.spy(element, '_resolve');
-      element._processExamples([{}, {}]);
-      assert.equal(spy.callCount, 2);
+        it('renders JSON example only', async () => {
+          const [id, mediaType, model] = AmfLoader.lookupPayloadSchema(amfModel, '/raml-json-simple-schema', 'post');
+          const element = await payloadFixture(amfModel, id, mediaType, model);
+          await aTimeout();
+          assert.isTrue(element._exampleOnly, '_schemaOnly is set');
+          assert.isUndefined(element._raw, '_raw is not set');
+          assert.lengthOf(element._examples, 1, '_examples is set');
+        });
+
+        it('generates JSON example', async () => {
+          const [id, mediaType, model] = AmfLoader.lookupPayloadSchema(amfModel, '/raml-json-no-example-schema', 'post');
+          const element = await payloadFixture(amfModel, id, mediaType, model);
+          await aTimeout();
+          assert.isTrue(element._exampleOnly, '_schemaOnly is set');
+          assert.isUndefined(element._raw, '_raw is not set');
+          assert.lengthOf(element._examples, 1, '_examples is set');
+        });
+      });
     });
   });
 });

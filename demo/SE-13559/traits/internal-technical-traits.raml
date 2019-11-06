@@ -1,0 +1,47 @@
+headers: 
+  X-HSBC-Source-System-Id:
+    description: Uniquely identifies the Source system instance as registered in the EIM Application
+    example: "8428866"
+    type: string
+    minLength: 1
+    required: true
+  X-HSBC-SoR-CountryCode:
+    description: The country of the System of Record (SoR) that the data being accessed resides in as defined by ISO 3166-1 alpha-2 codes. This is mandatory for USRTP Initiation 
+    example: "GB"
+    type: string
+    pattern: ^[A-Z]{2}$
+    required: false
+  X-HSBC-Session-Correlation-Id:
+    description: An identifier that is connected to an authenticated session but cannot be used in itself to represent an authenticated session
+    example: "4038af76-2531-4a00-971c-faf1be6f5f92"
+    type: string
+    minLength: 1
+    required: true
+  X-HSBC-Request-Correlation-Id:
+    description: Request Correlation ID to correlate all messages from user for a given request
+    example: "2d933d80-be43-11e7-92e1-005056a61740"
+    type: string
+    minLength: 1
+    required: true
+  X-HSBC-Routing-Indicator-Id:
+    description: Payments Route Indicator (this will be deprecated soon)
+    example: "USRTP"
+    type: string
+    minLength: 1
+    maxLength: 255
+    required: true
+  X-HSBC-Chnl-Group-Member:
+    description: HSBC Group member
+    type: string
+    example: "HBAP"
+    required: false
+  User-Agent:
+    description: User Agent form user's machine/browser
+    example: "Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405"
+    required: false
+  X-HSBC-GBGF:
+    description: The Global Business or Global Function (GBGF) as defined by the Business.
+    type: string
+    example: "RBWM"
+    pattern: ^[A-Z]{1,4}$
+    required: false

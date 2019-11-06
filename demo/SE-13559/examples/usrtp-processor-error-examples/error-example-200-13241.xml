@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:pil:bespoke.response">
+	<ResponseHdr>  
+		<Status>NOTOK</Status> 	
+		<OrgnlMsgId>ORGNLMSGID001</OrgnlMsgId> <!--Mapped from received  payment instruction request. Xpath :  Document/CstmrCdtTrfInitn/GrpHdr/MsgId --> 
+		<Code>200</Code> 
+	</ResponseHdr>
+	<ResponseBody>  
+	<ResponseInfAndSts>
+		<RsnInf> 
+			<Status>ReqCreatedWithError</Status>
+			<RsnCd>MS001</RsnCd>   
+			<RsnCdDesc>Payment instruction Request created with Error</RsnCdDesc>
+		</RsnInf>
+		<ProcessorRsnInf>  
+			<ProcessorStatus>CANCELED</ProcessorStatus>  <!--Mapped from <P_MSG_STS> -->
+			<ProcessorRsnCd>13241</ProcessorRsnCd>   <!--Mapped from <F_MSGERR_CODE> -->     
+			<ProcessorRsnCdDesc>ABCD</ProcessorRsnCdDesc> <!--Mapped from <F_MSGERR_DESC> -->
+			<ProcessorAddtlInf>IABSJ093467X0H0R</ProcessorAddtlInf> <!-- mapped from <P_MID>-->
+		</ProcessorRsnInf>
+	</ResponseInfAndSts>
+	</ResponseBody>
+</Document>
