@@ -39,7 +39,7 @@ class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
 
   render() {
     return html`<style>${this.styles}</style>
-<prism-highlighter></prism-highlighter>
+    <prism-highlighter></prism-highlighter>
     ${this.aware ?
       html`<raml-aware @api-changed="${this._apiChanged}" .scope="${this.aware}"></raml-aware>` : undefined}
 
