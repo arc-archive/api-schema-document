@@ -31,14 +31,15 @@ import './api-schema-render.js';
  * @appliesMixin AmfHelperMixin
  */
 class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
-  static get styles() {
+  get styles() {
     return css`:host {
       display: block;
     }`;
   }
 
   render() {
-    return html`<prism-highlighter></prism-highlighter>
+    return html`<style>${this.styles}</style>
+    <prism-highlighter></prism-highlighter>
     ${this.aware ?
       html`<raml-aware @api-changed="${this._apiChanged}" .scope="${this.aware}"></raml-aware>` : undefined}
 
