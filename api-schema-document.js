@@ -41,11 +41,11 @@ class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
     return html`<style>${this.styles}</style>
     <prism-highlighter></prism-highlighter>
     ${this.aware ?
-      html`<raml-aware @api-changed="${this._apiChanged}" .scope="${this.aware}"></raml-aware>` : undefined}
+      html`<raml-aware @api-changed="${this._apiChanged}" .scope="${this.aware}"></raml-aware>` : ''}
 
-    ${this._schemaOnly ? this._schemaOnlyTemplate() : undefined}
-    ${this._exampleOnly ? this._exampleOnlyTemplate() : undefined}
-    ${this._schemaAndExample ? this._schemaAndExampleTemplate() : undefined}`;
+    ${this._schemaOnly ? this._schemaOnlyTemplate() : ''}
+    ${this._exampleOnly ? this._exampleOnlyTemplate() : ''}
+    ${this._schemaAndExample ? this._schemaAndExampleTemplate() : ''}`;
   }
 
   _exampleOnlyTemplate() {
