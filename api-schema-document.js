@@ -4,7 +4,7 @@ import '@polymer/prism-element/prism-highlighter.js';
 import '@anypoint-web-components/anypoint-tabs/anypoint-tabs.js';
 import '@anypoint-web-components/anypoint-tabs/anypoint-tab.js';
 import '@api-components/raml-aware/raml-aware.js';
-import '@api-components/api-example-generator/api-example-generator.js';
+import { ExampleGenerator } from '@api-components/api-example-generator';
 import './api-schema-render.js';
 
 /**
@@ -156,16 +156,6 @@ class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
     this._schemaChanged(value);
   }
 
-  /**
-   * @return {Element} Instance of `api-example-generator` element.
-   */
-  get _exampleGenerator() {
-    if (!this.__exampleGenerator) {
-      this.__exampleGenerator = document.createElement('api-example-generator');
-    }
-    return this.__exampleGenerator;
-  }
-
   get _mediaType() {
     const { mediaType } = this;
     if (typeof mediaType !== 'string') {
@@ -183,15 +173,6 @@ class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
   constructor() {
     super();
     this.selectedPage = 0;
-  }
-
-  disconnectedCallback() {
-    if (super.disconnectedCallback) {
-      super.disconnectedCallback();
-    }
-    if (this.__exampleGenerator) {
-      delete this.__exampleGenerator;
-    }
   }
 
   _apiChanged(e) {
@@ -273,8 +254,7 @@ class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
    * defined.
    */
   _computeModelExamples(model) {
-    const gen = this._exampleGenerator;
-    gen.amf = this.amf;
+    const gen = new ExampleGenerator(this.amf);
     const mt = this.mediaType || 'application/xml';
     return gen.computeExamples(model, mt, {
       // noAuto: true,
