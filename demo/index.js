@@ -1,29 +1,16 @@
 import { html } from 'lit-html';
-import { LitElement } from 'lit-element';
-import { ApiDemoPageBase } from '@advanced-rest-client/arc-demo-helper/ApiDemoPage.js';
-import '@api-components/raml-aware/raml-aware.js';
-import '@api-components/api-navigation/api-navigation.js';
-import '@polymer/paper-toggle-button/paper-toggle-button.js';
-import '@polymer/paper-toast/paper-toast.js';
+import { ApiDemoPage } from '@advanced-rest-client/arc-demo-helper';
 import '../api-schema-document.js';
 
-import { AmfHelperMixin } from '@api-components/amf-helper-mixin/amf-helper-mixin.js';
-class DemoElement extends AmfHelperMixin(LitElement) {}
-
-window.customElements.define('demo-element', DemoElement);
-class ApiDemo extends ApiDemoPageBase {
+class ApiDemo extends ApiDemoPage {
   constructor() {
     super();
     this.initObservableProperties([
-      'hasData', 'schemaModel', 'mediaType', 'partentTypeId'
+      'schemaModel', 'mediaType', 'partentTypeId'
     ]);
     this.endpointsOpened = false;
     this.typesOpened = true;
-    this.hasData = false;
-  }
-
-  get helper() {
-    return document.getElementById('helper');
+    this.componentName = 'api-schema-document';
   }
 
   _navChanged(e) {
@@ -39,23 +26,21 @@ class ApiDemo extends ApiDemoPageBase {
   }
 
   setData(id) {
-    const helper = this.helper;
-    const declares = helper._computeDeclares(this.amf);
+    const declares = this._computeDeclares(this.amf);
     const type = declares.find((item) => item['@id'] === id);
     this.schemaModel = type;
     this.hasData = true;
   }
 
   setMethodData(id) {
-    const helper = this.helper;
-    const webApi = helper._computeWebApi(this.amf);
-    const method = helper._computeMethodModel(webApi, id);
-    const expects = helper._computeExpects(method);
-    const payload = helper._computePayload(expects)[0];
+    const webApi = this._computeWebApi(this.amf);
+    const method = this._computeMethodModel(webApi, id);
+    const expects = this._computeExpects(method);
+    const payload = this._computePayload(expects)[0];
     this.partentTypeId = payload['@id'];
-    this.mediaType = helper._getValue(payload, helper.ns.aml.vocabularies.core.mediaType);
-    const schemaKey = helper._getAmfKey(helper.ns.aml.vocabularies.shapes.schema);
-    this.schemaModel = helper._ensureArray(payload[schemaKey])[0];
+    this.mediaType = this._getValue(payload, this.ns.aml.vocabularies.core.mediaType);
+    const schemaKey = this._getAmfKey(this.ns.aml.vocabularies.shapes.schema);
+    this.schemaModel = this._ensureArray(payload[schemaKey])[0];
     this.hasData = true;
   }
 
@@ -64,18 +49,33 @@ class ApiDemo extends ApiDemoPageBase {
       ['demo-api', 'ARC demo api'],
       ['payments-initiation', 'SE-13559'],
     ].map(([file, label]) => html`
-    <paper-item data-src="${file}-compact.json">${label} - compact model</paper-item>
-    <paper-item data-src="${file}.json">${label}</paper-item>
+    <anypoint-item data-src="${file}-compact.json">${label} - compact model</anypoint-item>
+    <anypoint-item data-src="${file}.json">${label}</anypoint-item>
     `);
   }
 
-  contentTemplate() {
+  _demoTemplate() {
+    if (!this.hasData) {
+      return html`<p>Select type in the navigation to see the demo.</p>`;
+    }
     const { amf, schemaModel, mediaType, partentTypeId } = this;
     return html`
-    <demo-element id="helper" .amf="${amf}"></demo-element>
-    ${this.hasData ?
-      html`<api-schema-document .amf="${amf}" .mediaType="${mediaType}" .partentTypeId="${partentTypeId}" .shape="${schemaModel}"></api-schema-document>` :
-      html`<p>Select type in the navigation to see the demo.</p>`}
+    <section class="documentation-section">
+      <h3>Interactive demo</h3>
+      <api-schema-document
+        .amf="${amf}"
+        .mediaType="${mediaType}"
+        .partentTypeId="${partentTypeId}"
+        .shape="${schemaModel}"
+      ></api-schema-document>
+    </section>
+    `;
+  }
+
+  contentTemplate() {
+    return html`
+    <h2 class="centered main">API schema document</h2>
+    ${this._demoTemplate()}
     `;
   }
 }
