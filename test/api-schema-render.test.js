@@ -1,5 +1,6 @@
 import { fixture, assert, nextFrame, aTimeout } from '@open-wc/testing';
-import { SafeHtmlUtils } from '../api-schema-render.js';
+import { SafeHtmlUtils } from '../src/ApiSchemaRender.js';
+import '../api-schema-render.js';
 
 describe('<api-schema-render>', function() {
   async function basicFixture() {
