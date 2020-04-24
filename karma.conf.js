@@ -14,12 +14,6 @@ module.exports = (config) => {
         {
           pattern: config.grep ? config.grep : 'test/**/*.test.js',
           type: 'module'
-        },
-        {
-          pattern: require.resolve('chai/chai.js')
-        },
-        {
-          pattern: require.resolve('axe-core/axe.min.js')
         }
       ],
 
