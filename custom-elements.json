@@ -1,0 +1,119 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "api-schema-document",
+      "path": "./api-schema-document.js",
+      "description": "`api-schema-document`\n\nA component to render XML schema with examples.\n\nNote, if AMF contains unresolved properties (reference-id without resolving\nthe value) this element will resolve it. `amf` must be set on this\nelement to resolve the references.",
+      "attributes": [
+        {
+          "name": "mediaType",
+          "description": "A media type of the schema. Currently only `application/json` and\n`application/xml` is supported.",
+          "type": "string"
+        },
+        {
+          "name": "parentTypeId",
+          "description": "A parent AMF shape ID, if available.\nThis is to be used when the view renders examples for method documentation\nand parent type is Payload definition.",
+          "type": "string"
+        },
+        {
+          "name": "selectedPage",
+          "description": "Currently selected tab.\nRelevant when the example contains both example and schema.",
+          "type": "number"
+        },
+        {
+          "name": "compatibility",
+          "description": "Enables compatibility with Anypoint components.",
+          "type": "boolean"
+        }
+      ],
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult"
+        },
+        {
+          "name": "shape",
+          "description": "AMF's shape object object.\nValues for sheba and examples are computed from this model."
+        },
+        {
+          "name": "mediaType",
+          "attribute": "mediaType",
+          "description": "A media type of the schema. Currently only `application/json` and\n`application/xml` is supported.",
+          "type": "string"
+        },
+        {
+          "name": "parentTypeId",
+          "attribute": "parentTypeId",
+          "description": "A parent AMF shape ID, if available.\nThis is to be used when the view renders examples for method documentation\nand parent type is Payload definition.",
+          "type": "string"
+        },
+        {
+          "name": "selectedPage",
+          "attribute": "selectedPage",
+          "description": "Currently selected tab.\nRelevant when the example contains both example and schema.",
+          "type": "number"
+        },
+        {
+          "name": "compatibility",
+          "attribute": "compatibility",
+          "description": "Enables compatibility with Anypoint components.",
+          "type": "boolean"
+        },
+        {
+          "name": "ns",
+          "description": "A namespace for AMF model.",
+          "type": "Namespace"
+        },
+        {
+          "name": "amf",
+          "description": "Generated AMF json/ld model form the API spec.\nThe element assumes the object of the first array item to be a\ntype of `\"http://raml.org/vocabularies/document#Document`\non AMF vocabulary.\n\nIt is only useful for the element to resolve references.",
+          "type": "object | object[] | undefined"
+        }
+      ]
+    },
+    {
+      "name": "api-schema-render",
+      "path": "./api-schema-render.js",
+      "attributes": [
+        {
+          "name": "code",
+          "description": "Data to render.",
+          "type": "string"
+        },
+        {
+          "name": "type",
+          "description": "A syntax highlighter type. One of PrismJs types.",
+          "type": "string"
+        }
+      ],
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult[]"
+        },
+        {
+          "name": "code",
+          "attribute": "code",
+          "description": "Data to render.",
+          "type": "string"
+        },
+        {
+          "name": "type",
+          "attribute": "type",
+          "description": "A syntax highlighter type. One of PrismJs types.",
+          "type": "string"
+        },
+        {
+          "name": "output",
+          "type": "HTMLElement"
+        }
+      ],
+      "events": [
+        {
+          "name": "syntax-highlight"
+        }
+      ]
+    }
+  ]
+}

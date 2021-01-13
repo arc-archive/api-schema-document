@@ -1,5 +1,8 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable no-param-reassign */
 import { LitElement, html, css } from 'lit-element';
 import prismStyles from '@advanced-rest-client/prism-highlight/prism-styles.js';
+
 /**
  * Transforms input into a content to be rendered in the code view.
  */
@@ -9,7 +12,7 @@ export const SafeHtmlUtils = {
   LT_RE: new RegExp(/</g),
   SQUOT_RE: new RegExp(/'/g),
   QUOT_RE: new RegExp(/"/g),
-  htmlEscape: function(s) {
+  htmlEscape(s) {
     if (typeof s !== 'string') {
       return s;
     }
@@ -32,9 +35,6 @@ export const SafeHtmlUtils = {
   }
 };
 
-/**
- * @extends LitElement
- */
 export class ApiSchemaRender extends LitElement {
   get styles() {
     const styles = css`:host {
@@ -50,8 +50,7 @@ export class ApiSchemaRender extends LitElement {
   }
 
   render() {
-    return html`<style>${this.styles}</style>
-<code id="output" part="markdown-html" class="markdown-html"></code>`;
+    return html`<style>${this.styles}</style><code id="output" part="markdown-html" class="markdown-html"></code>`;
   }
 
   static get properties() {
@@ -89,6 +88,9 @@ export class ApiSchemaRender extends LitElement {
     this._typeChanged(value);
   }
 
+  /**
+   * @returns {HTMLElement}
+   */
   get output() {
     return this.shadowRoot.querySelector('#output');
   }
@@ -102,6 +104,9 @@ export class ApiSchemaRender extends LitElement {
     }
   }
 
+  /**
+   * @param {string} code
+   */
   _detectType(code) {
     let isJson;
     try {
@@ -112,13 +117,14 @@ export class ApiSchemaRender extends LitElement {
     }
     this.type = isJson ? 'json' : 'xml';
   }
+
   /**
    * Handles highlighting when code changed.
    * Note that the operation is async.
-   * @param {String} code
+   * @param {string} code
    */
   _codeChanged(code) {
-    const output = this.output;
+    const {output} = this;
     if (!output) {
       return;
     }
@@ -126,14 +132,15 @@ export class ApiSchemaRender extends LitElement {
       output.innerHTML = '';
       return;
     }
-    code = String(code);
+    const value = String(code);
     if (!this.type) {
-      this._detectType(code);;
+      this._detectType(value);;
     }
     setTimeout(() => {
-      this.output.innerHTML = this.highlight(code);
+      this.output.innerHTML = this.highlight(value);
     });
   }
+
   /**
    * Dispatches `syntax-highlight` custom event
    * @param {String} code Code to highlight
@@ -158,17 +165,20 @@ export class ApiSchemaRender extends LitElement {
   }
 
   _clearTypeAttribute() {
-    const output = this.output;
-    const type = output.dataset.type;
+    const { output } = this;
+    const { type } = output.dataset;
     if (!type) {
       return;
     }
-    const attr = 'language-' + type;
+    const attr = `language-${type}`;
     output.removeAttribute(attr);
   }
 
+  /**
+   * @param {string} type
+   */
   _typeChanged(type) {
-    const output = this.output;
+    const { output } = this;
     if (!output) {
       return;
     }
@@ -176,7 +186,7 @@ export class ApiSchemaRender extends LitElement {
     if (!type) {
       return;
     }
-    const attr = 'language-' + type;
+    const attr = `language-${type}`;
     output.setAttribute(attr, 'true');
     output.dataset.type = type;
   }

@@ -1,11 +1,14 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable class-methods-use-this */
 import { LitElement, html, css } from 'lit-element';
-import { AmfHelperMixin } from '@api-components/amf-helper-mixin/amf-helper-mixin.js';
+import { AmfHelperMixin } from '@api-components/amf-helper-mixin';
 import '@polymer/prism-element/prism-highlighter.js';
 import '@anypoint-web-components/anypoint-tabs/anypoint-tabs.js';
 import '@anypoint-web-components/anypoint-tabs/anypoint-tab.js';
-import '@api-components/raml-aware/raml-aware.js';
 import { ExampleGenerator } from '@api-components/api-example-generator';
 import '../api-schema-render.js';
+
+/** @typedef {import('@advanced-rest-client/arc-types').FormTypes.Example} Example */
 
 /**
  * `api-schema-document`
@@ -15,20 +18,6 @@ import '../api-schema-render.js';
  * Note, if AMF contains unresolved properties (reference-id without resolving
  * the value) this element will resolve it. `amf` must be set on this
  * element to resolve the references.
- *
- * ## Styling
- *
- * `<api-schema-document>` provides the following custom properties and mixins for styling:
- *
- * Custom property | Description | Default
- * ----------------|-------------|----------
- * `--api-schema-document` | Mixin applied to this elment | `{}`
- * `api-schema-render` | Mixin applied to schema renderer element | `{}`
- *
- * @customElement
- * @demo demo/index.html
- * @mixes AmfHelperMixin
- * @extends LitElement
  */
 export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
   get styles() {
@@ -37,61 +26,10 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
     }`;
   }
 
-  render() {
-    return html`<style>${this.styles}</style>
-    <prism-highlighter></prism-highlighter>
-    ${this.aware ?
-      html`<raml-aware @api-changed="${this._apiChanged}" .scope="${this.aware}"></raml-aware>` : ''}
-
-    ${this._schemaOnly ? this._schemaOnlyTemplate() : ''}
-    ${this._exampleOnly ? this._exampleOnlyTemplate() : ''}
-    ${this._schemaAndExample ? this._schemaAndExampleTemplate() : ''}`;
-  }
-
-  _exampleOnlyTemplate() {
-    const items = this._examples;
-    if (!items || !items.length) {
-      return;
-    }
-    const type = this._mediaType;
-    return items.map((item) => html`<api-schema-render
-      .code="${item.value}"
-      .type="${type}"></api-schema-render>`);
-  }
-
-  _schemaAndExampleTemplate() {
-    return html`
-    <anypoint-tabs
-      class="schemas"
-      .selected="${this.selectedPage}"
-      ?compatibility="${this.compatibility}"
-      @selected-changed="${this._selectedPageChanged}">
-      <anypoint-tab>Schema</anypoint-tab>
-      <anypoint-tab>Examples</anypoint-tab>
-    </anypoint-tabs>
-    ${this._renderSelectedPage()}`;
-  }
-
-  _renderSelectedPage() {
-    switch (this.selectedPage) {
-      case 0: return this._schemaOnlyTemplate();
-      case 1: return this._exampleOnlyTemplate();
-      default: return '';
-    }
-  }
-
-  _schemaOnlyTemplate() {
-    return html`<api-schema-render
-      .code="${this._raw}"
-      .type="${this._mediaType}"></api-schema-render>`;
-  }
+  
 
   static get properties() {
     return {
-      /**
-       * `raml-aware` scope property to use.
-       */
-      aware: { type: String },
       /**
        * AMF's shape object object.
        * Values for sheba and examples are computed from this model.
@@ -103,11 +41,11 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
        */
       mediaType: { type: String },
       /**
-       * A parent AMF schape ID, if available.
+       * A parent AMF shape ID, if available.
        * This is to be used when the view renders examples for method documentation
-       * and partent type is Payload definition.
+       * and parent type is Payload definition.
        */
-      partentTypeId: { type: String },
+      parentTypeId: { type: String },
       /**
        * Computed `http://www.w3.org/ns/shacl#raw`
        */
@@ -134,10 +72,6 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
        * Relevant when the example contains both example and schema.
        */
       selectedPage: { type: Number },
-      /**
-       * @deprecated Use `compatibility` instead
-       */
-      legacy: { type: Boolean },
       /**
        * Enables compatibility with Anypoint components.
        */
@@ -173,17 +107,17 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
   constructor() {
     super();
     this.selectedPage = 0;
-  }
-
-  _apiChanged(e) {
-    this.amf = e.detail.value;
+    this.parentTypeId = undefined;
+    this.mediaType = undefined;
+    this.compatibility = false;
   }
 
   _selectedPageChanged(e) {
     this.selectedPage = e.detail.value;
   }
+
   /**
-   * Comnputes besic properties for the view.
+   * Computes basic properties for the view.
    * @param {Object} schema `shape` value
    */
   _schemaChanged(schema) {
@@ -214,12 +148,17 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
     this._raw = raw;
   }
 
+  /**
+   * @param {any} schema
+   * @return {string} 
+   */
   _computeRawValue(schema) {
-    let raw = this._getValue(schema, this.ns.aml.vocabularies.document.raw);
+    let raw = /** @type string */ (this._getValue(schema, this.ns.aml.vocabularies.document.raw));
     if (!raw) {
-      raw = this._getValue(schema, this.ns.w3.shacl.raw);
+      raw = /** @type string */ (this._getValue(schema, this.ns.w3.shacl.raw));
     }
     if (!raw) {
+      // @ts-ignore
       raw = this._computeSourceMapsSchema(schema);
     }
     return raw;
@@ -229,15 +168,15 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
     const sKey = this._getAmfKey(this.ns.aml.vocabularies.docSourceMaps.sources);
     let sources = this._ensureArray(schema[sKey]);
     if (!sources) {
-      return;
+      return undefined;
     }
-    sources = sources[0];
+    [sources] = sources;
     const jKey = this._getAmfKey(this.ns.aml.vocabularies.docSourceMaps.parsedJsonSchema);
     let jSchema = this._ensureArray(sources[jKey]);
     if (!jSchema) {
-      return;
+      return undefined;
     }
-    jSchema = jSchema[0];
+    [jSchema] = jSchema;
     const vKey = this._getAmfKey(this.ns.aml.vocabularies.docSourceMaps.value);
     let result = this._ensureArray(jSchema[vKey]);
     if (Array.isArray(result)) {
@@ -249,16 +188,62 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
   /**
    * Computes list of examples for the Property model.
    *
-   * @param {Object} model AMF property model
-   * @return {Array<Object>|undefined} List of examples or `undefined` if not
+   * @param {any} model AMF property model
+   * @return {Example[]|undefined} List of examples or `undefined` if not
    * defined.
    */
   _computeModelExamples(model) {
     const gen = new ExampleGenerator(this.amf);
     const mt = this.mediaType || 'application/xml';
-    return gen.computeExamples(model, mt, {
-      // noAuto: true,
-      typeId: this.partentTypeId
-    });
+    return /** @type Example[] */ (gen.computeExamples(model, mt, {
+      typeId: this.parentTypeId,
+    }));
+  }
+
+  render() {
+    return html`<style>${this.styles}</style>
+    <prism-highlighter></prism-highlighter>
+    ${this._schemaOnly ? this._schemaOnlyTemplate() : ''}
+    ${this._exampleOnly ? this._exampleOnlyTemplate() : ''}
+    ${this._schemaAndExample ? this._schemaAndExampleTemplate() : ''}`;
+  }
+
+  _exampleOnlyTemplate() {
+    const items = this._examples;
+    if (!items || !items.length) {
+      return '';
+    }
+    const type = this._mediaType;
+    return items.map((item) => html`<api-schema-render
+      .code="${/** @type string */ (item.value)}"
+      .type="${type}"></api-schema-render>`);
+  }
+
+  _schemaAndExampleTemplate() {
+    return html`
+    <anypoint-tabs
+      class="schemas"
+      .selected="${this.selectedPage}"
+      ?compatibility="${this.compatibility}"
+      @selected-changed="${this._selectedPageChanged}"
+    >
+      <anypoint-tab>Schema</anypoint-tab>
+      <anypoint-tab>Examples</anypoint-tab>
+    </anypoint-tabs>
+    ${this._renderSelectedPage()}`;
+  }
+
+  _renderSelectedPage() {
+    switch (this.selectedPage) {
+      case 0: return this._schemaOnlyTemplate();
+      case 1: return this._exampleOnlyTemplate();
+      default: return '';
+    }
+  }
+
+  _schemaOnlyTemplate() {
+    return html`<api-schema-render
+      .code="${this._raw}"
+      .type="${this._mediaType}"></api-schema-render>`;
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import { html } from 'lit-html';
 import { ApiDemoPage } from '@advanced-rest-client/arc-demo-helper';
 import '../api-schema-document.js';
@@ -6,7 +7,7 @@ class ApiDemo extends ApiDemoPage {
   constructor() {
     super();
     this.initObservableProperties([
-      'schemaModel', 'mediaType', 'partentTypeId'
+      'schemaModel', 'mediaType', 'parentTypeId'
     ]);
     this.endpointsOpened = false;
     this.typesOpened = true;
@@ -37,8 +38,8 @@ class ApiDemo extends ApiDemoPage {
     const method = this._computeMethodModel(webApi, id);
     const expects = this._computeExpects(method);
     const payload = this._computePayload(expects)[0];
-    this.partentTypeId = payload['@id'];
-    this.mediaType = this._getValue(payload, this.ns.aml.vocabularies.core.mediaType);
+    this.parentTypeId = payload['@id'];
+    this.mediaType = /** @type string */ (this._getValue(payload, this.ns.aml.vocabularies.core.mediaType));
     const schemaKey = this._getAmfKey(this.ns.aml.vocabularies.shapes.schema);
     this.schemaModel = this._ensureArray(payload[schemaKey])[0];
     this.hasData = true;
@@ -58,14 +59,14 @@ class ApiDemo extends ApiDemoPage {
     if (!this.hasData) {
       return html`<p>Select type in the navigation to see the demo.</p>`;
     }
-    const { amf, schemaModel, mediaType, partentTypeId } = this;
+    const { amf, schemaModel, mediaType, parentTypeId } = this;
     return html`
     <section class="documentation-section">
       <h3>Interactive demo</h3>
       <api-schema-document
         .amf="${amf}"
         .mediaType="${mediaType}"
-        .partentTypeId="${partentTypeId}"
+        .parentTypeId="${parentTypeId}"
         .shape="${schemaModel}"
       ></api-schema-document>
     </section>
