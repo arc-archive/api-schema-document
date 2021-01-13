@@ -357,3 +357,35 @@
  [da47300](https://github.com/advanced-rest-client/api-schema-document/commit/da47300e507f30c230e0afe5c8bb71d043b81fc0) by Pawel Psztyc
 
 
+<a name="4.2.0"></a>
+## [4.2.0](https://github.com/advanced-rest-client/api-schema-document/compare/4.0.3...4.2.0) (2021-01-13)
+
+### Build
+
+* bumping version [33fd1d1](https://github.com/advanced-rest-client/api-schema-document/commit/33fd1d1f36ca12d146bde2fb64e7214c284f540c) by Pawel
+
+
+### Continuous integration
+
+* fixing travis config [b95af88](https://github.com/advanced-rest-client/api-schema-document/commit/b95af888e18403c9cb700d3a11d4a7ca7a107759) by Pawel
+
+
+### Update
+
+* upgrading dependencies and types [337e7eb](https://github.com/advanced-rest-client/api-schema-document/commit/337e7eb666f9c1bf76b04f790f1014c99e0b90e7) by Pawel Psztyc
+* [ci skip] automated merge master->stage. syncing main branches [05a980d](https://github.com/advanced-rest-client/api-schema-document/commit/05a980d959ae75b5804321824529a48075abf8e3) by Ci agent
+* adding types configuration [6b03cd0](https://github.com/advanced-rest-client/api-schema-document/commit/6b03cd01b9ea431d700af69b8028a1b4e7e2cfd5) by Pawel
+* upgrading demo page [dfbf416](https://github.com/advanced-rest-client/api-schema-document/commit/dfbf416aaac53b1aa9359f0c822972add12b7f6a) by Pawel
+* upgrading examples generator [1b8d656](https://github.com/advanced-rest-client/api-schema-document/commit/1b8d656963968077a1c70d7bdebd2a34506ab247) by Pawel
+
+
+### Documentation
+
+* updating Travis badge [88a4ccd](https://github.com/advanced-rest-client/api-schema-document/commit/88a4ccd939f3fc7c15e1868ce18ba7b088a43773) by Pawel
+
+
+### Refactor
+
+* moving sources to src/ folder [7c1d3c9](https://github.com/advanced-rest-client/api-schema-document/commit/7c1d3c99fcc3f0f29634f0064fa56498187bebb8) by Pawel
+
+
