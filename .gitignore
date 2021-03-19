@@ -57,3 +57,8 @@ $RECYCLE.BIN/
 node_modules
 coverage
 dist/
+
+.idea
+
+demo/*.json
+!demo/apis.json

@@ -90,7 +90,7 @@
       "properties": [
         {
           "name": "styles",
-          "type": "CSSResult[]"
+          "type": "CSSResult"
         },
         {
           "name": "code",
@@ -105,8 +105,8 @@
           "type": "string"
         },
         {
-          "name": "output",
-          "type": "HTMLElement"
+          "name": "highlightType",
+          "type": "string"
         }
       ],
       "events": [

@@ -1,43 +1,11 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-param-reassign */
 import { LitElement, html, css } from 'lit-element';
-import prismStyles from '@advanced-rest-client/prism-highlight/prism-styles.js';
-
-/**
- * Transforms input into a content to be rendered in the code view.
- */
-export const SafeHtmlUtils = {
-  AMP_RE: new RegExp(/&/g),
-  GT_RE: new RegExp(/>/g),
-  LT_RE: new RegExp(/</g),
-  SQUOT_RE: new RegExp(/'/g),
-  QUOT_RE: new RegExp(/"/g),
-  htmlEscape(s) {
-    if (typeof s !== 'string') {
-      return s;
-    }
-    if (s.indexOf('&') !== -1) {
-      s = s.replace(SafeHtmlUtils.AMP_RE, '&amp;');
-    }
-    if (s.indexOf('<') !== -1) {
-      s = s.replace(SafeHtmlUtils.LT_RE, '&lt;');
-    }
-    if (s.indexOf('>') !== -1) {
-      s = s.replace(SafeHtmlUtils.GT_RE, '&gt;');
-    }
-    if (s.indexOf('"') !== -1) {
-      s = s.replace(SafeHtmlUtils.QUOT_RE, '&quot;');
-    }
-    if (s.indexOf("'") !== -1) {
-      s = s.replace(SafeHtmlUtils.SQUOT_RE, '&#39;');
-    }
-    return s;
-  }
-};
+import '@advanced-rest-client/prism-highlight/prism-highlight.js';
 
 export class ApiSchemaRender extends LitElement {
   get styles() {
-    const styles = css`:host {
+    return css`:host {
       display: block;
       background-color: var(--code-background-color, #f5f2f0);
     }
@@ -46,11 +14,12 @@ export class ApiSchemaRender extends LitElement {
       white-space: pre-wrap;
       font-family: var(--arc-font-code-family, initial);
     }`;
-    return [styles, prismStyles];
   }
 
   render() {
-    return html`<style>${this.styles}</style><code id="output" part="markdown-html" class="markdown-html"></code>`;
+    return html`
+      <style>${this.styles}</style>
+      <prism-highlight .code="${this._codeValue}" .lang="${this.highlightType}" ?raw="${this._ignoreType}"></prism-highlight>`;
   }
 
   static get properties() {
@@ -66,6 +35,10 @@ export class ApiSchemaRender extends LitElement {
     };
   }
 
+  get highlightType() {
+    return this.type || this._detectedType;
+  }
+
   get code() {
     return this._code;
   }
@@ -74,7 +47,7 @@ export class ApiSchemaRender extends LitElement {
     const old = this._code;
     this._code = value;
     this.requestUpdate('code', old);
-    this._codeChanged(value);
+    this._codeChanged();
   }
 
   get type() {
@@ -85,23 +58,7 @@ export class ApiSchemaRender extends LitElement {
     const old = this._type;
     this._type = value;
     this.requestUpdate('type', old);
-    this._typeChanged(value);
-  }
-
-  /**
-   * @returns {HTMLElement}
-   */
-  get output() {
-    return this.shadowRoot.querySelector('#output');
-  }
-
-  firstUpdated() {
-    if (this.code) {
-      this._codeChanged(this.code);
-    }
-    if (this.type) {
-      this._typeChanged(this.type);
-    }
+    this._codeChanged();
   }
 
   /**
@@ -115,79 +72,32 @@ export class ApiSchemaRender extends LitElement {
     } catch (_) {
       isJson = false;
     }
-    this.type = isJson ? 'json' : 'xml';
+    this._detectedType = isJson ? 'json' : 'xml';
   }
 
   /**
-   * Handles highlighting when code changed.
-   * Note that the operation is async.
-   * @param {string} code
+   * Computes values for rendering.
    */
-  _codeChanged(code) {
-    const {output} = this;
-    if (!output) {
-      return;
-    }
+  _codeChanged() {
+    this._codeValue = undefined;
+    this._ignoreType = false;
+    const { code } = this;
     if (!code) {
-      output.innerHTML = '';
+      this.requestUpdate();
       return;
     }
     const value = String(code);
     if (!this.type) {
-      this._detectType(value);;
+      this._detectType(value);
     }
-    setTimeout(() => {
-      this.output.innerHTML = this.highlight(value);
-    });
-  }
-
-  /**
-   * Dispatches `syntax-highlight` custom event
-   * @param {String} code Code to highlight
-   * @return {String} Highlighted code.
-   */
-  highlight(code) {
-    if (code.length > 10000) {
-      // schemas that are huge causes browser to choke or hang.
+    if (value.length > 10000) {
+      // examples that are huge causes browser to choke or hang.
       // This just sanitizes the schema and renders unprocessed data.
-      return SafeHtmlUtils.htmlEscape(code);
+      this._codeValue = value;
+      this._ignoreType = true;
+    } else {
+      this._codeValue = value
     }
-    const ev = new CustomEvent('syntax-highlight', {
-      bubbles: true,
-      composed: true,
-      detail: {
-        code,
-        lang: this.type || 'xml'
-      }
-    });
-    this.dispatchEvent(ev);
-    return ev.detail.code;
-  }
-
-  _clearTypeAttribute() {
-    const { output } = this;
-    const { type } = output.dataset;
-    if (!type) {
-      return;
-    }
-    const attr = `language-${type}`;
-    output.removeAttribute(attr);
-  }
-
-  /**
-   * @param {string} type
-   */
-  _typeChanged(type) {
-    const { output } = this;
-    if (!output) {
-      return;
-    }
-    this._clearTypeAttribute();
-    if (!type) {
-      return;
-    }
-    const attr = `language-${type}`;
-    output.setAttribute(attr, 'true');
-    output.dataset.type = type;
+    this.requestUpdate();
   }
 }
