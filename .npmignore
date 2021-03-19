@@ -1,10 +1,8 @@
 coverage/
 test/
 demo/
-CONTRIBUTING.md
-polymer.json
-karma.*
-.*
-demo/vendor.js
-custom-elements.json
 tsconfig.json
+web-test-runner.config.mjs
+.*
+*.config.*
+karma.conf.js

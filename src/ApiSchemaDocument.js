@@ -2,7 +2,6 @@
 /* eslint-disable class-methods-use-this */
 import { LitElement, html, css } from 'lit-element';
 import { AmfHelperMixin } from '@api-components/amf-helper-mixin';
-import '@polymer/prism-element/prism-highlighter.js';
 import '@anypoint-web-components/anypoint-tabs/anypoint-tabs.js';
 import '@anypoint-web-components/anypoint-tabs/anypoint-tab.js';
 import { ExampleGenerator } from '@api-components/api-example-generator';
@@ -202,7 +201,6 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
 
   render() {
     return html`<style>${this.styles}</style>
-    <prism-highlighter></prism-highlighter>
     ${this._schemaOnly ? this._schemaOnlyTemplate() : ''}
     ${this._exampleOnly ? this._exampleOnlyTemplate() : ''}
     ${this._schemaAndExample ? this._schemaAndExampleTemplate() : ''}`;

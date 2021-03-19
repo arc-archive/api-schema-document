@@ -1,6 +1,7 @@
 /* eslint-disable prefer-destructuring */
 import { html } from 'lit-html';
 import { ApiDemoPage } from '@advanced-rest-client/arc-demo-helper';
+import '@anypoint-web-components/anypoint-item/anypoint-item.js';
 import '../api-schema-document.js';
 
 class ApiDemo extends ApiDemoPage {
