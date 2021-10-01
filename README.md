@@ -1,4 +1,8 @@
-# api-schema-document
+# DEPRECATED
+
+This component is being deprecated. The code base has been moved to [api-documentation](https://github.com/advanced-rest-client/api-documentation) module. This module will be archived when [PR 37](https://github.com/advanced-rest-client/api-documentation/pull/37) is merged.
+
+-----
 
 A component to render XML/JSON schema with examples for an API model.
 
