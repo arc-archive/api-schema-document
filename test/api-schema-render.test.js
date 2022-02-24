@@ -1,4 +1,4 @@
-import { fixture, assert, aTimeout, html } from '@open-wc/testing'
+import { fixture, assert, aTimeout, html } from '@open-wc/testing';
 import '../api-schema-render.js';
 
 /** @typedef {import('..').ApiSchemaRender} ApiSchemaRender */
