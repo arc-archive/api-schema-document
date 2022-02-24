@@ -19,7 +19,7 @@ export class ApiSchemaRender extends LitElement {
   render() {
     return html`
       <style>${this.styles}</style>
-      <prism-highlight .code="${this._codeValue}" .lang="${this.highlightType}" ?raw="${this._ignoreType}"></prism-highlight>`;
+      <prism-highlight ?raw="${this._ignoreType}" .code="${this._codeValue}" .lang="${this.highlightType}"></prism-highlight>`;
   }
 
   static get properties() {
