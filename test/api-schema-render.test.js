@@ -1,4 +1,4 @@
-import { fixture, assert, aTimeout, html } from '@open-wc/testing';
+import { fixture, assert, aTimeout, html } from '@open-wc/testing'
 import '../api-schema-render.js';
 
 /** @typedef {import('..').ApiSchemaRender} ApiSchemaRender */
@@ -66,6 +66,15 @@ describe('ApiSchemaRender', () => {
       assert.isTrue(element._ignoreType);
       const prism = element.shadowRoot.querySelector('prism-highlight');
       assert.isTrue(prism.raw);
+    });
+
+    it('should not cause duplicated schema when content is too long', async () => {
+      element.code = getString();
+      element.type = 'xml';
+      await aTimeout(50);
+      const prism = element.shadowRoot.querySelector('prism-highlight');
+      // This is set to 11000 because the actual length is greater than 10001
+      assert.isTrue(prism.shadowRoot.querySelector('code#output').textContent.length < 11000);
     });
   });
 });
