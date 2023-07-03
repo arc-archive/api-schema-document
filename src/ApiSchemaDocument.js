@@ -25,7 +25,7 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
     }`;
   }
 
-  
+
 
   static get properties() {
     return {
@@ -149,7 +149,7 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
 
   /**
    * @param {any} schema
-   * @return {string} 
+   * @return {string}
    */
   _computeRawValue(schema) {
     let raw = /** @type string */ (this._getValue(schema, this.ns.aml.vocabularies.document.raw));
@@ -159,6 +159,13 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
     if (!raw) {
       // @ts-ignore
       raw = this._computeSourceMapsSchema(schema);
+    }
+    if (!raw) {
+      const referenceIdKey = this._getAmfKey(this.ns.aml.vocabularies.document.referenceId);
+      const referenceIdData = this._ensureArray(schema[referenceIdKey]);
+      if (Array.isArray(referenceIdData) && referenceIdData.length > 0) {
+        raw = (this._getValue(referenceIdData[0], this.ns.aml.vocabularies.document.raw));
+      }
     }
     return raw;
   }
