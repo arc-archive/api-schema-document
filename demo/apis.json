@@ -1,4 +1,6 @@
 {
   "demo-api/demo-api.raml": "RAML 1.0",
-  "SE-13559/payments-initiation.raml": "RAML 0.8"
+  "SE-13559/payments-initiation.raml": "RAML 0.8",
+  "W-12646073-json-schema/json-sample-schema.raml": "RAML 1.0",
+  "W-12646073-xsd-schema/xsd-sample-schema.raml": "RAML 1.0"
 }

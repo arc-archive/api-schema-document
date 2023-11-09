@@ -2,6 +2,7 @@
 /* eslint-disable no-param-reassign */
 import { LitElement, html, css } from 'lit-element';
 import '@advanced-rest-client/prism-highlight/prism-highlight.js';
+import '@advanced-rest-client/clipboard-copy/clipboard-copy.js';
 
 export class ApiSchemaRender extends LitElement {
   get styles() {
@@ -13,13 +14,88 @@ export class ApiSchemaRender extends LitElement {
     #output {
       white-space: pre-wrap;
       font-family: var(--arc-font-code-family, initial);
+    }
+
+    .code-wrapper {
+      padding: 0px;
+    }
+
+    .example-actions {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      flex: 1;
     }`;
   }
 
+  /**
+   * Resets button icon.
+   * @param {HTMLButtonElement} button Button to reset.
+   */
+  _resetCopyButtonState(button) {
+    button.innerText = 'Copy';
+    button.disabled = false;
+    if ('part' in button) {
+      // @ts-ignore
+      button.part.remove('content-action-button-disabled');
+      // @ts-ignore
+      button.part.remove('code-content-action-button-disabled');
+    }
+    button.focus();
+  }
+
+  /**
+   * Copies the current response text value to clipboard.
+   *
+   * @param {Event} e
+   */
+  _copyToClipboard(e) {
+    const button = /** @type HTMLButtonElement */ (e.target);
+    const copy = /** @type ClipboardCopyElement */ (this.shadowRoot.querySelector('clipboard-copy'));
+    if (copy.copy()) {
+      button.innerText = 'Done';
+    } else {
+      button.innerText = 'Error';
+    }
+    button.disabled = true;
+    if ('part' in button) {
+      // @ts-ignore
+      button.part.add('content-action-button-disabled');
+      // @ts-ignore
+      button.part.add('code-content-action-button-disabled');
+    }
+    setTimeout(() => this._resetCopyButtonState(button), 1000);
+  }
+
+  /**
+   * @returns {TemplateResult|string}
+   */
+  _headerTemplate() {
+    const { compatibility } = this;
+    return html`
+    <div class="example-actions">
+        <anypoint-button
+          part="content-action-button, code-content-action-button"
+          class="action-button"
+          data-action="copy"
+          @click="${this._copyToClipboard}"
+          ?compatibility="${compatibility}"
+          title="Copy example to clipboard"
+        >Copy</anypoint-button>
+    </div>`;
+  }
+
+
   render() {
     return html`
+    ${this._headerTemplate()}
       <style>${this.styles}</style>
-      <prism-highlight ?raw="${this._ignoreType}" .code="${this._codeValue}" .lang="${this.highlightType}"></prism-highlight>`;
+      <div class="code-wrapper" part="code-wrapper, example-code-wrapper">
+        <prism-highlight ?raw="${this._ignoreType}" .code="${this._codeValue}" .lang="${this.highlightType}"></prism-highlight>
+      </div>
+      <clipboard-copy .content="${/** @type string */ (this._codeValue)}"></clipboard-copy>`;
   }
 
   static get properties() {

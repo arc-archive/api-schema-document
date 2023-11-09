@@ -22,6 +22,99 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
   get styles() {
     return css`:host {
       display: block;
+    }
+
+    .item-container {
+      border-left: 3px var(--api-example-accent-color, #FF9800) solid;
+      border-radius: 2px;
+      background-color: var(--api-example-background-color, var(--code-background-color, #f5f7f9));
+      margin: 20px 0;
+    }
+
+    .example-title {
+      font-weight: var(--arc-font-body1-font-weight);
+      line-height: var(--arc-font-body1-line-height);
+      font-size: 1rem;
+      display: var(--api-example-title-display, block);
+      min-height: 36px;
+      padding: 0px 12px;
+      background-color: var(--api-example-title-background-color, #ff9800);
+      color: var(--api-example-title-color, #000);
+      border-radius: 0 2px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .expand-icon {
+      height: 25px;
+      width: 25px;
+      -moz-transform:none;
+      -webkit-transform:none;
+      -o-transform:none;
+      -ms-transform:none;
+      transform:none;
+      -webkit-transition: transform 0.2s 0.2s ease;
+      -moz-transition: transform 0.2s 0.2s ease;
+      -o-transition: transform 0.2s 0.2s ease;
+      transition: transform 0.2s 0.2s ease;
+    }
+
+    .expand-icon-wrapper {
+      height: 30px;
+      width: 30px;
+    }
+
+    .renderer {
+      padding: 8px 0;
+      display: flex;
+      max-height: var(--api-resource-example-document-max-height, 500px);
+      -webkit-transition: all 0.4s 0.1s ease-in-out;
+      -moz-transition: all 0.4s 0.1s ease-in-out;
+      -o-transition: all 0.4s 0.1s ease-in-out;
+      transition: all 0.4s 0.1s ease-in-out;
+    }
+
+    .collapse {
+      max-height: 0;
+      margin: 0;
+      overflow: hidden;
+      padding: 0;
+      -webkit-transition: all 0.4s 0.1s ease-in-out;
+      -moz-transition: all 0.4s 0.1s ease-in-out;
+      -o-transition: all 0.4s 0.1s ease-in-out;
+      transition: all 0.4s 0.1s ease-in-out;
+    }
+
+    .expand-icon-collapse {
+      -moz-transform: rotate(180deg);
+      -webkit-transform: rotate(180deg);
+      -o-transform: rotate(180deg);
+      -ms-transform: rotate(180deg);
+      transform: rotate(180deg);
+      -webkit-transition: transform 0.2s 0.2s ease;
+      -moz-transition: transform 0.2s 0.2s ease;
+      -o-transition: transform 0.2s 0.2s ease;
+      transition: transform 0.2s 0.2s ease;
+    }
+
+    api-schema-render {
+      flex: 1;
+      background-color: inherit;
+      overflow: auto;
+      max-width: 100%;
+    }
+
+    .example-description {
+      padding: 10px 12px;
+    }
+
+    .info-icon {
+      margin: 0 12px;
+      fill: var(--api-example-accent-color, #FF9800);
+      width: 24px;
+      height: 24px;
     }`;
   }
 
@@ -74,7 +167,11 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
       /**
        * Enables compatibility with Anypoint components.
        */
-      compatibility: { type: Boolean }
+      compatibility: { type: Boolean },
+      /**
+       * If enabled, the example panel would be closed
+       */
+      _collapseExamplePanel: { type: Boolean, reflect: true },
     };
   }
 
@@ -109,6 +206,7 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
     this.parentTypeId = undefined;
     this.mediaType = undefined;
     this.compatibility = false;
+    this._collapseExamplePanel = false;
   }
 
   _selectedPageChanged(e) {
@@ -213,15 +311,120 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
     ${this._schemaAndExample ? this._schemaAndExampleTemplate() : ''}`;
   }
 
+
+  get _collapseExamplePanel() {
+    return this.__collapseExamplePanel
+  }
+
+  set _collapseExamplePanel(value) {
+    const old = this.__collapseExamplePanel;
+    if (old === value) {
+      return;
+    }
+    this.__collapseExamplePanel = value;
+    this.requestUpdate('_collapseExamplePanel', old);
+  }
+
+  /**
+  * @param {Example} example
+  * @returns {string}
+  */
+  _computeExampleDescription(example) {
+    const { description } = example
+    return !description ? '' : description;
+  }
+
+  /**
+   * @param {Example} example
+   * @returns {TemplateResult|string}
+   */
+  _descriptionTemplate(example) {
+    if (example.isScalar) {
+      return '';
+    }
+    const description = this._computeExampleDescription(example)
+    if (!description) {
+      return '';
+    }
+    return html`<div class="example-description">${description}</div>`;
+  }
+
+
+  /**
+   * Collapse the current example panel
+   */
+  _handleCollapsePanel(example, index) {
+    const examplePanels = this.shadowRoot.querySelectorAll('.renderer')
+    const icons = this.shadowRoot.querySelectorAll('.expand-icon')
+    icons[index].classList.toggle('expand-icon-collapse')
+    examplePanels[index].classList.toggle('collapse')
+    example.opened = !example.opened
+  }
+
+  /**
+    * Determines whether an example's title is just a variation
+    * of the current media type + a number
+    * @param {Example} example
+    * @returns {Boolean}
+  */
+  _exampleTitleIsMediaType(example) {
+    const { mediaType } = this;
+    const { title } = example;
+    return Boolean(title.match(`^${mediaType}(\\d)+$`));
+  }
+
+  /**
+   * Returns title to render for example
+   * @param {Example} example
+   * @returns {String} 'Example' or the example's title
+   */
+  _computeExampleTitle(example) {
+    if (!example.title || this._exampleTitleIsMediaType(example)) {
+      return 'Example';
+    }
+    return example.title.trim();
+  }
+
+  _titleTemplate(example, index) {
+    const label = this._computeExampleTitle(example);
+    const iconType = example.opened ? 'expandMore' : 'expandLess';
+    return html`<div
+      class="example-title"
+      @click="${() => this._handleCollapsePanel(example, index)}"
+      @keyup="${() => this._handleCollapsePanel(example, index)}"
+    >
+      <span>${label}</span>
+      <anypoint-icon-button
+        class="expand-icon-wrapper"
+        data-action="collapse"
+        title="Collapse panel"
+        role="button"
+      ><arc-icon class="expand-icon" icon="${iconType}"></arc-icon></anypoint-icon-button>
+    </div>`;
+  }
+
   _exampleOnlyTemplate() {
-    const items = this._examples;
-    if (!items || !items.length) {
+    const examples = this._examples.map(e => {
+      e.opened = !!this._collapseExamplePanel
+      return e
+    });
+    if (!examples || !examples.length) {
       return '';
     }
     const type = this._mediaType;
-    return items.map((item) => html`<api-schema-render
-      .code="${/** @type string */ (item.value)}"
-      .type="${type}"></api-schema-render>`);
+
+    return examples.map((example, index) => (html`
+      <div class="item-container">
+        ${this._titleTemplate(example, index)}
+        ${this._descriptionTemplate(example)}
+        <div class="renderer ${example.opened ? 'collapse' : false}">
+          <arc-icon class="info-icon" icon="code"></arc-icon>
+            <api-schema-render
+            .code="${/** @type string */ (example.value)}"
+            .type="${type}"></api-schema-render>
+        </div>
+      </div>
+    `));
   }
 
   _schemaAndExampleTemplate() {
@@ -245,6 +448,7 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
       default: return '';
     }
   }
+
 
   _schemaOnlyTemplate() {
     return html`<api-schema-render

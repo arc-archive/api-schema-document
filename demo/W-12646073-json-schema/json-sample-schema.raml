@@ -1,0 +1,16 @@
+#%RAML 1.0
+title: TestExamplesDisplayName
+baseUri: http://localhost:8081/api
+
+types:
+  xmlSampleSchema: !include /schema/ramlSampleSchema.json
+
+/createTxn:
+  post:
+    body:
+      application/xml:
+        type: xmlSampleSchema
+        examples:
+          One: !include /examples/example1.xml
+          Two: !include /examples/example2.xml
+          Three: !include /examples/example3.xml
