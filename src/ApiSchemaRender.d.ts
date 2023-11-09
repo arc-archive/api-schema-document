@@ -32,4 +32,17 @@ export declare class ApiSchemaRender extends LitElement {
    * Note that the operation is async.
    */
   _codeChanged(): void;
+
+  /**
+     * Copies the current response text value to clipboard.
+     *
+     * @param {Event} e
+     */
+  _copyToClipboard(e: Event): void;
+
+  /**
+   * Resets button icon.
+   * @param button Button to reset.
+   */
+  _resetCopyButtonState(button: HTMLButtonElement): void;
 }

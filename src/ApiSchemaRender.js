@@ -15,11 +15,11 @@ export class ApiSchemaRender extends LitElement {
       white-space: pre-wrap;
       font-family: var(--arc-font-code-family, initial);
     }
-    
+
     .code-wrapper {
       padding: 0px;
     }
-    
+
     .example-actions {
       display: flex;
       align-items: center;
@@ -70,7 +70,7 @@ export class ApiSchemaRender extends LitElement {
   }
 
   /**
-   * @returns {TemplateResult|string} 
+   * @returns {TemplateResult|string}
    */
   _headerTemplate() {
     const { compatibility } = this;
@@ -91,8 +91,8 @@ export class ApiSchemaRender extends LitElement {
   render() {
     return html`
     ${this._headerTemplate()}
-      <style>${this.styles}</style> 
-      <div class="code-wrapper part="code-wrapper, example-code-wrapper">
+      <style>${this.styles}</style>
+      <div class="code-wrapper" part="code-wrapper, example-code-wrapper">
         <prism-highlight ?raw="${this._ignoreType}" .code="${this._codeValue}" .lang="${this.highlightType}"></prism-highlight>
       </div>
       <clipboard-copy .content="${/** @type string */ (this._codeValue)}"></clipboard-copy>`;
