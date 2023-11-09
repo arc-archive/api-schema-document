@@ -8,18 +8,17 @@ window.customElements.define('helper-element', HelperElement);
 
 const helper = new HelperElement();
 
-AmfLoader.load = async function(compact) {
-  const file = '/demo-api' + (compact ? '-compact' : '') + '.json';
-  const url = location.protocol + '//' + location.host + '/base/demo/' + file;
-  return new Promise((resolve) => {
-    const xhr = new XMLHttpRequest();
-    xhr.addEventListener('load', (e) => {
-      const data = JSON.parse(e.target.response);
-      resolve(data);
-    });
-    xhr.open('GET', url);
-    xhr.send();
-  });
+AmfLoader.load = async (config = {}) => {
+  const { compact=false, fileName='demo-api' } = config;
+  const suffix = compact ? '-compact' : '';
+  const file = `${fileName}${suffix}.json`;
+  const url = `${window.location.protocol}//${window.location.host}/base/demo/${file}`;
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Unable to download ${url}`);
+  }
+  const result = await response.json();
+  return Array.isArray(result) ? result[0] : result;
 };
 
 AmfLoader.lookupEndpoint = function(model, endpoint) {

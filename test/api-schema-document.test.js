@@ -8,7 +8,7 @@ import '../api-schema-document.js';
 describe('ApiSchemaDocument', () => {
   /**
    * @param {any} amf
-   * @return {Promise<ApiSchemaDocument>} 
+   * @return {Promise<ApiSchemaDocument>}
    */
   async function basicFixture(amf) {
     return (fixture(html`<api-schema-document .amf="${amf}"></api-schema-document>`));
@@ -19,7 +19,7 @@ describe('ApiSchemaDocument', () => {
    * @param {string} parentTypeId
    * @param {string} mediaType
    * @param {any} shape
-   * @return {Promise<ApiSchemaDocument>} 
+   * @return {Promise<ApiSchemaDocument>}
    */
   async function payloadFixture(amf, parentTypeId, mediaType, shape) {
     return (fixture(html`<api-schema-document
@@ -223,6 +223,119 @@ describe('ApiSchemaDocument', () => {
           assert.isUndefined(element._raw, '_raw is not set');
           assert.lengthOf(element._examples, 1, '_examples is set');
         });
+      });
+    });
+  });
+
+  [
+    ['xsd-sample-schema', true],
+    ['json-sample-schema', true]
+  ].forEach(([fileName, compact]) => {
+    describe('Render examples beauty for .xsd and JSON schema', () => {
+      let element;
+      let amfModel;
+      before(async () => {
+        amfModel = await AmfLoader.load({ compact, fileName});
+      });
+
+      beforeEach(async () => {
+        const [id, mediaType, model] = AmfLoader.lookupPayloadSchema(amfModel, '/createTxn', 'post');
+        element = await payloadFixture(amfModel, id, mediaType, model);
+        await nextFrame();
+      })
+
+      it('should have to examples', () => {
+        assert.lengthOf(element._examples, 3);
+      });
+
+      it('should render 3 example panels with title and content', async () => {
+        // GIVEN
+        const tabs = element.shadowRoot.querySelector('anypoint-tabs');
+
+        // WHEN
+        tabs.selected = 1;
+        await nextFrame();
+
+        // THEN
+        const examplePanels = element.shadowRoot.querySelectorAll('.item-container');
+        assert.lengthOf(examplePanels, 3);
+
+        const exampleTitles = element.shadowRoot.querySelectorAll('.example-title');
+        assert.lengthOf(exampleTitles, 3);
+        assert.equal(exampleTitles[0].innerText.trim(), 'One');
+        assert.equal(exampleTitles[1].innerText.trim(), 'Two');
+        assert.equal(exampleTitles[2].innerText.trim(), 'Three');
+
+        const exampleExpandIcons = element.shadowRoot.querySelectorAll('.expand-icon');
+        assert.lengthOf(exampleExpandIcons, 3);
+
+        const exampleContents = element.shadowRoot.querySelectorAll('.renderer');
+        assert.lengthOf(exampleContents, 3);
+      });
+
+      it('should render panels closed when _collapseExamplePanel is false', async () => {
+        // GIVEN
+        const tabs = element.shadowRoot.querySelector('anypoint-tabs');
+
+        // WHEN
+        tabs.selected = 1;
+        await nextFrame();
+
+        element._collapseExamplePanel = false;
+        await nextFrame();
+
+        // THEN
+        const collapsePanels = element.shadowRoot.querySelectorAll('.collapse');
+        assert.lengthOf(collapsePanels, 0);
+
+        const exampleTitles = element.shadowRoot.querySelectorAll('.expand-icon');
+        exampleTitles.forEach((item) => {
+          assert.match(item.getAttribute('icon'), /^expandLess/, 'Attribute "icon" should start with "expandLess"');
+        })
+      });
+
+      it('should render panels closed when _collapseExamplePanel is true', async () => {
+        // GIVEN
+        const tabs = element.shadowRoot.querySelector('anypoint-tabs');
+
+        // WHEN
+        tabs.selected = 1;
+        await nextFrame();
+
+        element._collapseExamplePanel = true;
+        await nextFrame();
+
+        // THEN
+        const collapsePanels = element.shadowRoot.querySelectorAll('.collapse');
+        assert.lengthOf(collapsePanels, 3);
+
+        const exampleTitles = element.shadowRoot.querySelectorAll('.expand-icon');
+        exampleTitles.forEach((item) => {
+          assert.match(item.getAttribute('icon'), /^expandMore/, 'Attribute "icon" should start with "expandMore"');
+        })
+      });
+
+      it('should add collapse class to example when click', async () => {
+        // GIVEN
+        const tabs = element.shadowRoot.querySelector('anypoint-tabs');
+
+        // WHEN
+        tabs.selected = 1;
+        await nextFrame();
+
+        // THEN
+        const exampleExpandIcons = element.shadowRoot.querySelectorAll('.example-title');
+        assert.lengthOf(exampleExpandIcons, 3);
+
+        // AND WHEN
+        exampleExpandIcons[1].click();
+        await nextFrame();
+
+        // THEN
+        const exampleContents = element.shadowRoot.querySelectorAll('.renderer');
+        assert.isTrue(exampleContents[1].classList.contains('collapse'));
+        const examplesCollapse = element.shadowRoot.querySelectorAll('.collapse');
+        assert.lengthOf(examplesCollapse, 1);
       });
     });
   });

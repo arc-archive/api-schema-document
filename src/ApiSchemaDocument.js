@@ -23,7 +23,7 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
     return css`:host {
       display: block;
     }
-    
+
     .item-container {
       border-left: 3px var(--api-example-accent-color, #FF9800) solid;
       border-radius: 2px;
@@ -105,7 +105,7 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
       overflow: auto;
       max-width: 100%;
     }
-      
+
     .example-description {
       padding: 10px 12px;
     }
@@ -206,6 +206,7 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
     this.parentTypeId = undefined;
     this.mediaType = undefined;
     this.compatibility = false;
+    this._collapseExamplePanel = false;
   }
 
   _selectedPageChanged(e) {
@@ -363,7 +364,7 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
   /**
     * Determines whether an example's title is just a variation
     * of the current media type + a number
-    * @param {Example} example 
+    * @param {Example} example
     * @returns {Boolean}
   */
   _exampleTitleIsMediaType(example) {
@@ -374,33 +375,31 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
 
   /**
    * Returns title to render for example
-   * @param {Example} example 
+   * @param {Example} example
    * @returns {String} 'Example' or the example's title
    */
   _computeExampleTitle(example) {
     if (!example.title || this._exampleTitleIsMediaType(example)) {
       return 'Example';
     }
-    return example.title;
+    return example.title.trim();
   }
 
   _titleTemplate(example, index) {
     const label = this._computeExampleTitle(example);
     const iconType = example.opened ? 'expandMore' : 'expandLess';
-    return html`<div 
+    return html`<div
       class="example-title"
       @click="${() => this._handleCollapsePanel(example, index)}"
       @keyup="${() => this._handleCollapsePanel(example, index)}"
     >
       <span>${label}</span>
-      <anypoint-icon-button 
-        class="expand-icon-wrapper" 
-        data-action="collapse" 
-        title="Collapse panel" 
+      <anypoint-icon-button
+        class="expand-icon-wrapper"
+        data-action="collapse"
+        title="Collapse panel"
         role="button"
-      >
-          <arc-icon class="expand-icon" icon="${iconType}"></arc-icon> 
-      </anypoint-icon-button>
+      ><arc-icon class="expand-icon" icon="${iconType}"></arc-icon></anypoint-icon-button>
     </div>`;
   }
 
@@ -414,22 +413,18 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
     }
     const type = this._mediaType;
 
-    return examples.map((example, index) => {
-
-      return html`
+    return examples.map((example, index) => (html`
       <div class="item-container">
         ${this._titleTemplate(example, index)}
         ${this._descriptionTemplate(example)}
-        <div class="renderer">
+        <div class="renderer ${example.opened ? 'collapse' : false}">
           <arc-icon class="info-icon" icon="code"></arc-icon>
             <api-schema-render
             .code="${/** @type string */ (example.value)}"
             .type="${type}"></api-schema-render>
         </div>
       </div>
-    
-     `
-    });
+    `));
   }
 
   _schemaAndExampleTemplate() {
@@ -452,63 +447,6 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
       case 1: return this._exampleOnlyTemplate();
       default: return '';
     }
-  }
-
-  /**
-   * Resets button icon.
-   * @param {HTMLButtonElement} button Button to reset.
-   */
-  _resetCopyButtonState(button) {
-    button.innerText = 'Copy';
-    button.disabled = false;
-    if ('part' in button) {
-      // @ts-ignore
-      button.part.remove('content-action-button-disabled');
-      // @ts-ignore
-      button.part.remove('code-content-action-button-disabled');
-    }
-    button.focus();
-  }
-
-  /**
-   * Copies the current response text value to clipboard.
-   *
-   * @param {Event} e
-   */
-  _copyToClipboard(e) {
-    const button = /** @type HTMLButtonElement */ (e.target);
-    const copy = /** @type ClipboardCopyElement */ (this.shadowRoot.querySelector('clipboard-copy'));
-    if (copy.copy()) {
-      button.innerText = 'Done';
-    } else {
-      button.innerText = 'Error';
-    }
-    button.disabled = true;
-    if ('part' in button) {
-      // @ts-ignore
-      button.part.add('content-action-button-disabled');
-      // @ts-ignore
-      button.part.add('code-content-action-button-disabled');
-    }
-    setTimeout(() => this._resetCopyButtonState(button), 1000);
-  }
-
-  /**
-   * @returns {TemplateResult|string} 
-   */
-  _headerTemplate() {
-    const { compatibility } = this;
-    return html`
-    <div class="example-actions">
-      <anypoint-button
-        part="content-action-button, code-content-action-button"
-        class="action-button"
-        data-action="copy"
-        @click="${this._copyToClipboard}"
-        ?compatibility="${compatibility}"
-        title="Copy example to clipboard"
-      >Copy</anypoint-button>
-    </div>`;
   }
 
 

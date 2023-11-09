@@ -50,6 +50,8 @@ class ApiDemo extends ApiDemoPage {
     return [
       ['demo-api', 'ARC demo api'],
       ['payments-initiation', 'SE-13559'],
+      ['json-sample-schema', 'W-12646073-json-schema'],
+      ['xsd-sample-schema', 'W-12646073-xsd-schema'],
     ].map(([file, label]) => html`
     <anypoint-item data-src="${file}-compact.json">${label} - compact model</anypoint-item>
     <anypoint-item data-src="${file}.json">${label}</anypoint-item>
