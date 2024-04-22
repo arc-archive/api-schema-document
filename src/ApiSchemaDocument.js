@@ -339,7 +339,8 @@ export class ApiSchemaDocument extends AmfHelperMixin(LitElement) {
    * @returns {TemplateResult|string}
    */
   _descriptionTemplate(example) {
-    if (example.isScalar) {
+    const isAsync = this._isAsyncAPI(this.amf)
+    if (example.isScalar && !isAsync) {
       return '';
     }
     const description = this._computeExampleDescription(example)

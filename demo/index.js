@@ -35,9 +35,13 @@ class ApiDemo extends ApiDemoPage {
   }
 
   setMethodData(id) {
-    const webApi = this._computeWebApi(this.amf);
+    const webApi = this._computeApi(this.amf);
+    
     const method = this._computeMethodModel(webApi, id);
-    const expects = this._computeExpects(method);
+    let expects = this._computeExpects(method);
+    if(!expects){
+      expects = this._computeReturns(method)[0];
+    }
     const payload = this._computePayload(expects)[0];
     this.parentTypeId = payload['@id'];
     this.mediaType = /** @type string */ (this._getValue(payload, this.ns.aml.vocabularies.core.mediaType));
@@ -49,6 +53,7 @@ class ApiDemo extends ApiDemoPage {
   _apiListTemplate() {
     return [
       ['demo-api', 'ARC demo api'],
+      ['jldAsync26', 'Async API'],
       ['payments-initiation', 'SE-13559'],
       ['json-sample-schema', 'W-12646073-json-schema'],
       ['xsd-sample-schema', 'W-12646073-xsd-schema'],
